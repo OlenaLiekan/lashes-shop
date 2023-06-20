@@ -1,0 +1,75 @@
+
+[
+ {
+  "id": 0,
+  "imageUrl": "/images/catalog/01.jpg",
+  "title": "Pestanas",
+  "path": "pestanas"
+ },
+ {
+  "id": 1,
+  "imageUrl": "/images/catalog/02.jpg",
+  "title": "Colas",
+  "path": "colas"
+ },
+ {
+  "id": 2,
+  "imageUrl": "/images/catalog/03.jpg",
+  "title": "Líquidos e preparação",
+  "path": "liquidosEPreparacao"
+ },
+ {
+  "id": 3,
+  "imageUrl": "/images/catalog/04.png",
+  "title": "Pinças",
+  "path": "pincas"
+ },
+ {
+  "id": 4,
+  "imageUrl": "/images/catalog/05.jpg",
+  "title": "Passos para lift",
+  "path": "passosParaLift"
+ },
+ {
+  "id": 5,
+  "imageUrl": "/images/catalog/06.jpg",
+  "title": "Líquidos e hydratação",
+  "path": "liquidosEHydratacao"
+ },
+ {
+  "id": 6,
+  "imageUrl": "/images/catalog/07.jpg",
+  "title": "Moldes",
+  "path": "moldes"
+ },
+ {
+  "id": 7,
+  "imageUrl": "/images/catalog/08.jpg",
+  "title": "Passos para brow lift",
+  "path": "passosParaBrowLift"
+ },
+ {
+  "id": 8,
+  "imageUrl": "/images/catalog/09.jpg",
+  "title": "Hydratação",
+  "path": "hydratacao"
+ },
+ {
+  "id": 9,
+  "imageUrl": "/images/catalog/10.jpg",
+  "title": "Coloração",
+  "path": "coloracao"
+ },
+ {
+  "id": 10,
+  "imageUrl": "/images/catalog/11.jpg",
+  "title": "Acessórios",
+  "path": "acessorios"
+ },
+ {
+  "id": 11,
+  "imageUrl": "/images/catalog/12.jpg",
+  "title": "Luz",
+  "path": "luz"
+ }
+]
