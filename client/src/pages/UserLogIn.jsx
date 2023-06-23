@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context';
+import { AuthContext } from '../context/index.js';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { login } from '../http/userAPI.js';
@@ -15,15 +15,15 @@ const UserLogIn = () => {
     const [emailValue, setEmailValue] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [passValue, setPassValue] = React.useState('');
-    const { user} = React.useContext(AuthContext);
+    const { isAuth, setIsAuth, setAdminMode} = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState();
 
-    const logIn = async () => {
-        let data;
-        data = await login();
-        user.setUser(user);
-        user.setIsAuth(true);
-        navigate('/auth');
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        await login(email, password);
+        localStorage.setItem('auth', 'true');
+        setIsAuth(true);
+        navigate('/auth');            
     }
 
     const updateEmailValue = React.useCallback(
@@ -92,7 +92,7 @@ const UserLogIn = () => {
         <div className="main__login login-main">
             <div className="login-main__container">
                 <div className="login-main__content">
-                    <form onSubmit={logIn} className="login-main__form form-login">
+                    <form onSubmit={handleFormSubmit} className="login-main__form form-login">
                         <h2 className="form-login__title">
                             Faça login na sua conta pessoal.
                         </h2>

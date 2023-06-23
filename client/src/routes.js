@@ -1,4 +1,4 @@
-import AdminPage from "./pages/AdminPage"
+/*import AdminPage from "./pages/AdminPage"
 import Cart from "./pages/Cart"
 import Catalog from "./pages/Catalog"
 import Auth from "./pages/Auth"
@@ -38,4 +38,4 @@ export const publicRoutes = [
         path: CART_ROUTE,
         Component: Cart
     }
-]
+]*/

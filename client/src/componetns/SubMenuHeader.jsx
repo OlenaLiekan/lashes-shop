@@ -5,7 +5,7 @@ import { menuInit } from "../js/script";
 
 const SubMenuHeader = ({ menuItems }) => {
     
-function camelize(str) {
+/*function camelize(str) {
     return str
     .toLowerCase()
     .split(' ')
@@ -17,19 +17,19 @@ function camelize(str) {
         .replace('ã', 'a')
         .replace('ó', 'o')
         .replace('í', 'i');
-}
+}*/
 
     return ( 
         <>
             <div className="bottom-header__sub-menu sub-menu-bottom-header sub-menu">
                 <nav className="sub-menu__body">
                     <ul className="sub-menu__list list-sub-menu">
-                        {menuItems.map((item) => 
-                            <li key={item} value={item} className="sub-menu__item item-sub-menu">
-                                <Link to={`/${camelize(item)}`} className="item-sub-menu__link" >
-                                    {item}
+                        {menuItems.map((type) => 
+                            <li key={type.id} value={type.name} className="sub-menu__item item-sub-menu">
+                                <Link to={`/${type.name}/product`} className="item-sub-menu__link" >
+                                    {type.name}
                                 </Link>
-                            </li>                            
+                            </li>  
                         )}
                     </ul>
                     <div className="list-sub-menu__back back">

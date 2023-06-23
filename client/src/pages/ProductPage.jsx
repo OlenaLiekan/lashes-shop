@@ -16,7 +16,7 @@ import Skeleton from "../componetns/Skeleton";
 import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import NotFoundProduct from '../componetns/NotFoundProduct';
 
-const ProductPage = ({arrItem}) => {
+const ProductPage = ({type}) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -49,36 +49,37 @@ const ProductPage = ({arrItem}) => {
                 `https://localhost:3001/api/product`,
             )
             .then((res) => {
-                setItems(res.data);
+                setItems(res.data.rows);
                 setIsLoading(false); 
             });      
         window.scrollTo(0, 0);
-    }, [arrItem, categoryId, sort, searchValue, currentPage]);
+        console.log(type);
+    }, []);
 
-    React.useEffect(() => {
+    /*React.useEffect(() => {
         const queryString = qs.stringify({
             sortProperty: sort.sortProperty,
             categoryId,
             currentPage
         });
         navigate(`?${queryString}`);
-    }, [categoryId, currentPage, sort.sortProperty]);
+    }, [categoryId, currentPage, sort.sortProperty]);*/
 
     
-    const products = items.map((item) => <Link key={item.code} to={arrItem !== 'pestanas' ? `/${arrItem}/${item.id}` : `/${item.path}/0`}><ProductBlock {...item} /></Link>);
+    const products = items.map((item) => <Link key={item.id} to={`/${item.id}`}><ProductBlock {...item} /></Link>);
     const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 
     return (
         <div className="main__product product-main">
             <div className="product-main__container">
                 <div className="product-main__content">
-                    <Categories arrItem={arrItem} categoryId={categoryId} onChangeCategory={onChangeCategory}/>
-                    <Sort arrItem={arrItem} />
+                    <Categories arrItem={type} categoryId={categoryId} onChangeCategory={onChangeCategory}/>
+                    <Sort arrItem={type} />
                     <div className="product-main__items">
                         {isLoading ? skeletons : products}
                     </div>
                     {items.length < 1 && !isLoading ? <NotFoundProduct /> : ''}
-                    <Pagination arrItem={arrItem} onChangePage = {onChangePage} />
+                    <Pagination arrItem={type} onChangePage = {onChangePage} />
                 </div>
             </div>
         </div>

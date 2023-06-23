@@ -9,12 +9,16 @@ import logoImg from '../assets/img/logo.jpg';
 import { popupAuth } from '../js/script';
 
 const Header = () => {
-  const adminMode = false;
-  const { user} = React.useContext(AuthContext);
+  const { isAuth, setIsAuth, adminMode, setAdminMode} = React.useContext(AuthContext);
   const navigate = useNavigate();
   const logout = () => {
-    user.setUser({});
-    user.setIsAuth(false);    
+    if (adminMode) {
+      setAdminMode(false);
+    } else {
+      localStorage.removeItem('user');
+    }
+    setIsAuth(false);    
+    localStorage.removeItem('auth');
     navigate("/login");
   }
 
@@ -29,7 +33,7 @@ const Header = () => {
             <div className="header-logo__image">
               <img src={logoImg} />
             </div>
-            <h3 className="body-header__text">Lashes Shop <sup>pt</sup></h3>
+            <h3 className="body-header__text">Best Buy Beauty</h3>
           </Link>
           <Search />
           <div className="body-header__actions">
@@ -38,7 +42,7 @@ const Header = () => {
               <span>{totalCount}</span>
             </Link>
             {
-              user.isAuth
+              isAuth
                 ?
                 <div className="actions-header__user _icon-user">
                   <svg onClick={popupAuth} className='_icon-user_auth' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>
@@ -53,7 +57,7 @@ const Header = () => {
             <div className="popup-header__content">
               <ul className="popup-header__list">
                 <li className="popup-header__item">
-                  <Link to={adminMode ? '/admin' : '/account'} className="popup-header__link">                    
+                  <Link to={'/auth'} className="popup-header__link">                    
                     Meu perfil
                   </Link>                    
                 </li>                  

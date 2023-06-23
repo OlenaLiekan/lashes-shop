@@ -13,11 +13,12 @@ const BestSellersBlock = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:3001/api/product`)
+    axios.get(`http://localhost:3001/api/product?rating=5`)
       .then((res) => {
         setItems(res.data.rows);
       });
     setIsLoading(false);
+    window.scrollTo(0, 0);
   }, []);
   
   /*React.useEffect(() => {
@@ -37,10 +38,10 @@ const BestSellersBlock = () => {
         setItems(res);
       }));
     setIsLoading(false);
-    window.scrollTo(0, 0);
+
   }, []);*/
       
-  const products = items.map((item) => <Link key={item.id} to={`/api/product/` + item.id}><ProductBlock {...item} /></Link>);
+  const products = items.map((item) => <Link key={item.id} to={`/product/` + item.id}><ProductBlock {...item} /></Link>);
   const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 
     return (

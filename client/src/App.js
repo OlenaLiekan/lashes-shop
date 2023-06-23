@@ -1,26 +1,34 @@
 import React from 'react';
-import "./scss/app.scss";
-import "./scss/style.scss";
+import './scss/app.scss';
+import './scss/style.scss';
 import AppRoutes from './componetns/AppRoutes';
-import { AuthContext } from "./context";
-import UserStore from './store/UserStore';
-import ProductStore from './store/ProductStore';
+import { AuthContext } from './context';
 export const SearchContext = React.createContext();
-
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
-  /*const [isAuth, setIsAuth] = React.useState(false);
+  const [isAuth, setIsAuth] = React.useState(false);
   const [adminMode, setAdminMode] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(true);
 
-*/  
- 
+  React.useEffect(() => {
+    if (localStorage.getItem('auth', 'true')) {
+      setIsAuth(true);
+    }
+    setLoading(false);
+  }, []);
+
   return (
     <>
-      <AuthContext.Provider value={{
-        user: new UserStore(),
-        product: new ProductStore()
-      }}>
+      <AuthContext.Provider
+        value={{
+          isAuth,
+          setIsAuth,
+          adminMode,
+          setAdminMode,
+          isLoading,
+        }}
+      >
         <SearchContext.Provider value={{ searchValue, setSearchValue }}>
           <AppRoutes />
         </SearchContext.Provider>

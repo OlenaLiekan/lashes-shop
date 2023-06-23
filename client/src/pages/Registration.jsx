@@ -23,8 +23,9 @@ const CreateAccount = () => {
     const [checkPass, setCheckPass] = React.useState('');
     const [checkPassValue, setCheckPassValue] = React.useState('');
     const [creating, setCreating] = React.useState(true);
+
     const createAccount = async () => {
-        const response = await registration(email);
+        const response = await registration(email, pass);
         console.log(response);
     }
 
