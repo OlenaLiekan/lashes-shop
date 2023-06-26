@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 
 
-const ProductBlock = ({name, subtitle, price, brandId, img, thickness, lengthP, volume, imageSlides}) => {
+const ProductBlock = ({name, typeId, subtitle, price, brandId, img, thickness, lengthP, volume, imageSlides}) => {
 
     const [brands, setBrands] = React.useState([]);
 

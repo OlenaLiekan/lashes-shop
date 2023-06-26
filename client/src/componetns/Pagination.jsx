@@ -19,7 +19,7 @@ const Pagination = ({arrItem, onChangePage }) => {
         const search = searchValue ? `&search=${searchValue}` : '';
     axios
       .get(
-          `https://localhost:3001/api/product`,
+          `http://localhost:3001/api/product`,
       )
       .then((res) => {
         setItems(res.data);

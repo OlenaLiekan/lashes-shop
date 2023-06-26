@@ -31,7 +31,7 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    const { brandId, typeId, limit = 9, page = 1, rating } = req.query;
+    const { brandId, typeId, limit = 12, page = 1, rating } = req.query;
     const offset = page * limit - limit;
 
     let options = {
@@ -61,7 +61,6 @@ class ProductController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
-      include: [{ model: ProductInfo, as: 'info' }],
     });
     return res.json(product);
   }

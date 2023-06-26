@@ -56,7 +56,7 @@ const Cart = () => {
                         <div className="body-cart__items">
                             {
                                 items.map((item) => (
-                                    <CartItem key={item.code} {...item} />
+                                    <CartItem key={item.id} {...item} />
                                 ))
                             }
                         </div>

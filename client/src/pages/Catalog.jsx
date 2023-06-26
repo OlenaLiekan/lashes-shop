@@ -5,6 +5,7 @@ import axios from 'axios';
 import { SearchContext } from '../App';
 import Loader from '../componetns/Loader';
 import NotFoundProduct from '../componetns/NotFoundProduct';
+import { camelize } from '../js/script';
 
 const Catalog = () => { 
 
@@ -39,7 +40,7 @@ const Catalog = () => {
                 });
             window.scrollTo(0, 0);
         }, []);
-    
+
     return (
         <div className="main__catalog catalog">
             <div className="catalog__container">
@@ -47,13 +48,15 @@ const Catalog = () => {
                     {isLoading ? <Loader /> : 
                         <div className="catalog__items">     
                             { catalogItems.map((catalogItem) => 
-                                <Link to={`/${catalogItem.name}/product`} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
+                                <Link to={`/${camelize(catalogItem.name)}`} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
                                     <div className="item-catalog__content">
-                                        <h3 className="item-catalog__category">
-                                            {
-                                                catalogItem.categoryId
-                                            }
-                                        </h3>                                            
+                                        <h3 className="item-catalog__category">                                        
+                                        {categories.map((category) => 
+                                            <span key={category.id} value={category.name}>
+                                                { category.id === catalogItem.categoryId ? category.name : ""} 
+                                            </span>
+                                        )}  
+                                        </h3> 
                                         <div className="item-catalog__image">
                                             <img src={catalogItem.img} alt="category" />
                                         </div>                        

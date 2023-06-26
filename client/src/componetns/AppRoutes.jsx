@@ -18,22 +18,26 @@ import Registration from '../pages/Registration';
 import { AuthContext } from '../context';
 import AuthPage from '../pages/AuthPage';
 import axios from 'axios';
+import { camelize } from '../js/script';
 
 const AppRoutes = () => {
-    const { isAuth, isLoading, adminMode } = React.useContext(AuthContext);
+    const { isAuth, adminMode } = React.useContext(AuthContext);
     const [types, setTypes] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     React.useEffect(() => {
+        setIsLoading(true);
         axios.get(`http://localhost:3001/api/type`)
             .then((res) => {
                 setTypes(res.data);
             });
+        setIsLoading(false);
     }, []);
 
     return (
         <Routes>
             <Route path="/" element={<MainLayout />}>
-                <Route path="" element={<Home />} />
+                <Route path="" element={<Home types={types} />} />
                 {isAuth
                     ?
                     <Route path="auth" element={<AuthPage />} />  
@@ -43,11 +47,11 @@ const AppRoutes = () => {
                 <Route path="registration" element={<Registration />} />   
                 <Route path="catalog" element={<Catalog />} />
                 {types.map((type) => 
-                    <Route key={type.id} value={type} path={`${type}/product`} element={<ProductPage type={type} />} />                   
+                    <Route key={type.id} value={type} path={`${camelize(type.name)}`} element={<ProductPage type={type} />} />                   
                 )}  
 
                 {types.map((type) =>   
-                    <Route key={type} value={type} path={`product/:id`} element={<ProductCard obj={type} />} />                                                    
+                    <Route key={type.id} value={type} path={`${camelize(type.name)}/:id`} element={<ProductCard type={type} />} />                                                    
                 )}  
                 
                 <Route path="cart" element={<Cart arr={types} />} />

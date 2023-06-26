@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { camelize } from '../js/script';
 import qs from 'qs';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -23,9 +24,10 @@ const ProductPage = ({type}) => {
     const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
 
     const { searchValue } = React.useContext(SearchContext);
+
+
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
-
 
 
     const onChangeCategory = (id) => {
@@ -38,23 +40,16 @@ const ProductPage = ({type}) => {
     };
 
 
+
     React.useEffect(() => {
         setIsLoading(true);
-        const sortBy = sort.sortProperty.replace('-', '');        
-        const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
-        const category = categoryId > 0 ? `category=${categoryId}` : '';
-        const search = searchValue ? `&search=${searchValue}` : '';
-            axios
-            .get(
-                `https://localhost:3001/api/product`,
-            )
-            .then((res) => {
-                setItems(res.data.rows);
-                setIsLoading(false); 
-            });      
+        axios.get(`http://localhost:3001/api/product?typeId=${type.id}&limit=12`)
+        .then((res) => {
+            setItems(res.data.rows);
+        });
+        setIsLoading(false);
         window.scrollTo(0, 0);
-        console.log(type);
-    }, []);
+    }, [type]);
 
     /*React.useEffect(() => {
         const queryString = qs.stringify({
@@ -64,9 +59,8 @@ const ProductPage = ({type}) => {
         });
         navigate(`?${queryString}`);
     }, [categoryId, currentPage, sort.sortProperty]);*/
-
     
-    const products = items.map((item) => <Link key={item.id} to={`/${item.id}`}><ProductBlock {...item} /></Link>);
+    const products = items.map((item) => <Link key={item.id} to={`/${camelize(type.name)}/${item.id}`}><ProductBlock {...item} /></Link>);
     const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 
     return (

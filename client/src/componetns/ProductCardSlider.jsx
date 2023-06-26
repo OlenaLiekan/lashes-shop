@@ -5,7 +5,7 @@ import { Thumbs } from "swiper";
 
 import "../scss/navigation.scss";
 
-const ProductCardSlider = ({ imageUrl, imageSlides }) => {
+const ProductCardSlider = ({ img, imageSlides }) => {
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     return (
         <>
@@ -21,7 +21,7 @@ const ProductCardSlider = ({ imageUrl, imageSlides }) => {
                         <SwiperSlide>
                             <div className="thumbs-images__slide slide-thumbs">
                                 <div className="slide-thumbs__media">
-                                    <img src={imageUrl} alt="slide"/>                                    
+                                    <img src={'http://localhost:3001/' + img} alt="slide"/>                                  
                                 </div>
                             </div>          
                         </SwiperSlide>
@@ -90,7 +90,7 @@ const ProductCardSlider = ({ imageUrl, imageSlides }) => {
                         <SwiperSlide>
                             <div className="images-product__slide slide-product">
                                 <div className="slide-product__media">
-                                    <img src={imageUrl} alt="slide"/>                                    
+                                    <img src={'http://localhost:3001/' + img} alt="slide"/>                                    
                                 </div>
                             </div>                        
                         </SwiperSlide>

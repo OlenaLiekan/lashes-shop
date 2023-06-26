@@ -2,35 +2,36 @@ import React from "react";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { scrollTop } from "../js/script";
+import { scrollTop, camelize } from "../js/script";
 import ProductBlock from "./ProductBlock";
 import Skeleton from "./Skeleton";
 
-const BestSellersBlock = () => { 
+const BestSellersBlock = ({ types }) => {
 
   const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true); 
+  const [typeNames, setTypeNames] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:3001/api/product?rating=5`)
       .then((res) => {
         setItems(res.data.rows);
+        setIsLoading(false);
       });
-    setIsLoading(false);
-    window.scrollTo(0, 0);
+    scrollTop();
   }, []);
-  
+
   /*React.useEffect(() => {
     setIsLoading(true);
     axios.all([
-      axios.get(`https://643037ddc26d69edc88d8266.mockapi.io/pestanas?rating=5`
+      axios.get(`http://localhost:3001/api/product?typeId=1&rating=5`
       ),
-      axios.get(`https://643037ddc26d69edc88d8266.mockapi.io/colas?rating=5`
+      axios.get(`http://localhost:3001/api/product?typeId=2&rating=5`
       ),
-      axios.get(`https://643037ddc26d69edc88d8266.mockapi.io/liquidosEPreparacao?rating=5`
+      axios.get(`http://localhost:3001/api/product?typeId=3&rating=5`
       ),      
-      axios.get(`https://643037ddc26d69edc88d8266.mockapi.io/pincas?rating=5`
+      axios.get(`http://localhost:3001/api/product?typeId=4&rating=5`
       ),
     ])
       .then(axios.spread((firstRes, secondRes, thirdRes, fourthRes) => {
@@ -40,8 +41,16 @@ const BestSellersBlock = () => {
     setIsLoading(false);
 
   }, []);*/
+
       
-  const products = items.map((item) => <Link key={item.id} to={`/product/` + item.id}><ProductBlock {...item} /></Link>);
+  const products = items.map((item) =>
+    <Link key={item.id} to={`/${item.id}`}>
+      <ProductBlock {...item} />
+    </Link>
+  );
+
+  
+
   const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 
     return (

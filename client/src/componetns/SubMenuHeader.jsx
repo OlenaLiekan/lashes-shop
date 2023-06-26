@@ -1,23 +1,9 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-import { menuInit } from "../js/script";
+import { menuInit, camelize } from "../js/script";
 
 const SubMenuHeader = ({ menuItems }) => {
-    
-/*function camelize(str) {
-    return str
-    .toLowerCase()
-    .split(' ')
-    .map(
-      (word, index) => index === 0 ? word : word[0].toUpperCase() + word.slice(1)
-    )
-    .join('')
-        .replace('ç', 'c')
-        .replace('ã', 'a')
-        .replace('ó', 'o')
-        .replace('í', 'i');
-}*/
 
     return ( 
         <>
@@ -26,7 +12,7 @@ const SubMenuHeader = ({ menuItems }) => {
                     <ul className="sub-menu__list list-sub-menu">
                         {menuItems.map((type) => 
                             <li key={type.id} value={type.name} className="sub-menu__item item-sub-menu">
-                                <Link to={`/${type.name}/product`} className="item-sub-menu__link" >
+                                <Link to={`/${camelize(type.name)}`} onClick={menuInit} className="item-sub-menu__link" >
                                     {type.name}
                                 </Link>
                             </li>  

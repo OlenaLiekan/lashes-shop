@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../componetns/Loader';
 
 
-const ProductCard = ({obj}) => {
+const ProductCard = ({type}) => {
     const [item, setItem] = React.useState({});
     const [isLoading, setIsLoading] = React.useState(true); 
 
@@ -18,7 +18,7 @@ const ProductCard = ({obj}) => {
                 try {
                     const { data } = await axios
                         .get(
-                            `https://localhost:3001/api/product/` + id,
+                            `http://localhost:3001/api/product/`+ id,
                         );
                     setItem(data);
                     setIsLoading(false);
@@ -28,13 +28,13 @@ const ProductCard = ({obj}) => {
                 }
             }
             window.scrollTo(0, 0);
-            fetchProduct();
-    }, [obj, id]);     
+        fetchProduct();
+    }, [id]);     
 
     return (
         <div className="main__product-card product-card">
             <div className="product-card__container">
-                {isLoading ? <Loader /> : <ProductItem obj={obj} key={item.code} {...item} />}
+                {isLoading ? <Loader /> : <ProductItem obj={item} key={item.id} {...item} />}
             </div>
         </div>
     );

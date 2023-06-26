@@ -4,12 +4,12 @@ import BestSellersBlock from '../componetns/BestSellersBlock';
 import BrandsBlock from '../componetns/BrandsBlock';
 import MainSliderBlock from '../componetns/MainSliderBlock';
 
-const Home = () => { 
+const Home = ({types}) => { 
     return (
       <div className="main__content">
         <MainSliderBlock />
         <BrandsBlock />
-        <BestSellersBlock />
+        <BestSellersBlock types={types} />
       </div>
     );
 };

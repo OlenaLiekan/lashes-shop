@@ -5,24 +5,23 @@ import axios from 'axios';
 function Categories({ arrItem, categoryId, onChangeCategory }) {
 
   const [items, setItems] = React.useState([]);
-  const [categories, setCategories] = React.useState([]);
+  const [brands, setBrands] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     setIsLoading(true);
     axios
       .get(
-        `https://6418aa9675be53f451e4d45a.mockapi.io/categories`,
+        `http://localhost:3001/api/brand`,
       )
       .then((res) => {
-        setItems(res.data);
+        setBrands(res.data);
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-
   }, []);
   
-React.useEffect(() => {
+/*React.useEffect(() => {
     items.map((obj) => {
       for (let key of Object.keys(obj)) {
         if (key === arrItem) {
@@ -33,15 +32,20 @@ React.useEffect(() => {
       }            
     })    
     onChangeCategory(0);  
-}, [items, arrItem, isLoading]);
+}, [items, arrItem, isLoading]);*/
   
   return (
     <>
       <ul className="product-main__categories">
-        { categories.map((categoryName, i) => (
-           <li key={categoryName} onClick={() => onChangeCategory(i)} className={categoryId === i ? "active" : ""} >
+        <li onClick={() => onChangeCategory(0)} className={categoryId === 0 ? "active" : ""}>
+          <button className={styles.categoryProducts}>
+            Todos
+          </button>
+        </li>
+        { brands.map((brandName) => (
+           <li key={brandName.id} onClick={() => onChangeCategory(brandName.id)} className={categoryId === brandName.id ? "active" : ""} >
             <button className={styles.categoryProducts}>
-              {categoryName}
+              {brandName.name}
             </button>
             </li>
         ))

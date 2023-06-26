@@ -44,7 +44,7 @@ const Search = () => {
             setIsLoading(true);
                 axios
                 .get(
-                    `https://localhost:3001/api/product?name=${searchValue}`,
+                    `http://localhost:3001/api/product?name=${searchValue}`,
                 )
                 .then((res) => {
                     if (res.data.length > 0) {

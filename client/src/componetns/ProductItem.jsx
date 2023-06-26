@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem, minusItem } from '../redux/slices/cartSlice';
 import axios from 'axios';
 
-const ProductItem = ({ obj, id, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, imageUrl, imageSlides, description }) => {
+const ProductItem = ({ obj, id, typeId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,13 +28,13 @@ const ProductItem = ({ obj, id, pestanasCurl, pestanasThickness, pestanasLength,
 
     }, [obj]);*/
     
-const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => product.curl === pestanasCurl[activeCurl] && product.thickness === pestanasThickness[activeThickness] && product.lengthP === Number(pestanasLength[activeLength]))) : '';    
+/*const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => product.curl === pestanasCurl[activeCurl] && product.thickness === pestanasThickness[activeThickness] && product.lengthP === Number(pestanasLength[activeLength]))) : '';    
 
     React.useEffect(() => {
         if (pestanasProduct) {
             navigate(`/${obj}/${pestanasProduct.id}`); 
         } 
-    }, [activeCurl, activeLength, activeThickness]);
+    }, [activeCurl, activeLength, activeThickness]);*/
 
     const showCart = () => {
         if (addedCount) {
@@ -43,7 +43,7 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
         }
     };
 
-    const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.code === code));
+    const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
 
     const addedCount = cartItem ? cartItem.count : 0;
 
@@ -53,15 +53,12 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
        
         const item = {
             id,
-            title,
+            name,
             subtitle,
             code,
             price,
             brand,
-            imageUrl,
-            curl,
-            thickness,
-            lengthP,
+            img,
             volume,
             obj
         };
@@ -70,7 +67,7 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
 
     const onClickMinus = () => { 
         dispatch(
-            minusItem(code)
+            minusItem(id)
         );
     };
 
@@ -88,13 +85,13 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
             <div className="product-card__body">
                 <div className="images-product__wrapper">
                     <div className="product-card__images images-product">
-                        <ProductCardSlider imageUrl={imageUrl} imageSlides={imageSlides} />                                
+                        <ProductCardSlider img={img} imageSlides={imageSlides} />                                
                     </div>
                     <div className="product-card__aside">
                         <div className="product-card__info info-product">
                             <div className="info-product__titles">
                                 <h1 className="info-product__title">
-                                    {title} 
+                                    {name} 
                                 </h1>   
                                 {
                                     subtitle ?
@@ -174,9 +171,7 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
                                 </div>
                             </div>
                         </div> 
-                        {
-                            !activeCurl && !activeLength && !activeThickness || pestanasProduct
-                                ?
+
                                 <div className="product-card__actions">
                                     <div className="product-card__quantity quantity">
                                         <button onClick={onClickMinus} className="quantity__minus">-</button>
@@ -190,11 +185,7 @@ const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => p
                                         </svg>
                                     </button>
                                 </div>                                  
-                                :
-                                <div className='product-card__error'>
-                                    Produto não encontrado. Tente alterar os parâmetros.
-                                </div>    
-                        }
+
       
                     </div>
                 </div>

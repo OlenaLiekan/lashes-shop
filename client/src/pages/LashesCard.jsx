@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import ProductItem from '../componetns/ProductItem';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ const LashesCard = ({obj}) => {
                 try {
                     const { data } = await axios
                         .get(
-                            `https://localhost:3001/api/product/` + id,
+                            `http://localhost:3001/api/product/` + id,
                         );
                     setItem(data);
                     setIsLoading(false);
@@ -48,10 +48,11 @@ const LashesCard = ({obj}) => {
     return (
         <div className="main__product-card product-card">
             <div className="product-card__container">
-                {isLoading ? <Loader /> : <ProductItem pestanasCurl={pestanasItem.curl} pestanasThickness={pestanasItem.thickness} pestanasLength={pestanasItem.lengthP} obj={obj} key={item.code} {...item} />}
+                {isLoading ? <Loader /> : <ProductItem pestanasCurl={pestanasItem.curl} pestanasThickness={pestanasItem.thickness} pestanasLength={pestanasItem.lengthP} obj={obj} key={item.id} {...item} />}
             </div>
         </div>
     );
 };
 
 export default LashesCard;
+*/
