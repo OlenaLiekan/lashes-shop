@@ -6,7 +6,7 @@ const ApiError = require('../error/ApiError');
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, price, brandId, typeId, info } = req.body;
+      let { name, code, price, brandId, typeId, info } = req.body;
       const { img } = req.files;
       let fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
@@ -22,7 +22,7 @@ class ProductController {
         );
       }
 
-      const product = await Product.create({ name, price, brandId, typeId, img: fileName });
+      const product = await Product.create({ name, code, price, brandId, typeId, img: fileName });
 
       return res.json(product);
     } catch (e) {
@@ -31,13 +31,14 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    const { brandId, typeId, limit = 12, page = 1, rating } = req.query;
+    const { brandId, typeId, limit = 12, page = 1, rating, name } = req.query;
     const offset = page * limit - limit;
 
     let options = {
       limit,
       offset,
       where: {},
+      include: [{ model: ProductInfo, as: 'info' }],
     };
 
     if (brandId) {
@@ -53,7 +54,7 @@ class ProductController {
     }
 
     const products = await Product.findAndCountAll(options);
-
+    products.sort = req.query.sort;
     return res.json(products);
   }
 
@@ -61,6 +62,7 @@ class ProductController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
+      include: [{ model: ProductInfo, as: 'info' }],
     });
     return res.json(product);
   }

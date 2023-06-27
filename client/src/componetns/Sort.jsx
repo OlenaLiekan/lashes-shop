@@ -16,8 +16,8 @@ function Sort({arrItem}) {
     { name: 'popularity', sortProperty: 'rating' },
     { name: 'highest price', sortProperty: 'price' },
     { name: 'lower price', sortProperty: '-price' },
-    { name: 'name A - Z', sortProperty: '-title' }, 
-    { name: 'name Z - A', sortProperty: 'title' },   
+    { name: 'name A - Z', sortProperty: '-name' }, 
+    { name: 'name Z - A', sortProperty: 'name' },   
   ];
   const onClickListItem = (obj) => {
     dispatch(setSort(obj));

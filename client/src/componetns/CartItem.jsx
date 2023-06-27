@@ -3,33 +3,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
-import axios from 'axios';
-import { camelize } from '../js/script';
 
-const CartItem = ({ obj, typeId, name, img, id, title, subtitle, code, price, brand, imageUrl, lengthP, thickness, curl, volume, count }) => { 
+const CartItem = ({ obj, typeId, path, info, name, img, id, title, subtitle, code, price, company, imageUrl, lengthP, thickness, curl, volume, count }) => { 
 
     const navigate = useNavigate();
 
-    const [types, setTypes] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(true);
-
-        React.useEffect(() => {
-        setIsLoading(true);
-            axios
-                .get(
-                    `http://localhost:3001/api/type`,
-                )
-                .then((res) => {
-                    setTypes(res.data);
-                    setIsLoading(false);
-                });
-            window.scrollTo(0, 0);
-        }, []);
-
-    const path = types.find((type) => type.id === typeId ? type : '*');
-
     const handleClick = () => {
-        navigate(`/${camelize(path.name)}/${id}`);
+        navigate(`/${path}/${id}`);
         window.scrollTo(0, 0);            
     }
 
@@ -75,38 +55,22 @@ const CartItem = ({ obj, typeId, name, img, id, title, subtitle, code, price, br
                         </div>
                         <div className='info-cart__line'>
                             <span>Marca: </span>
-                            {brand}
+                            {company}
                         </div>
-                        {curl ?
-                            <div className='info-cart__line'>
-                                <span>Curvatura: </span>
-                                {curl}
-                            </div>    
-                            : ''
-                        }
-                        {thickness ?
-                            <div className='info-cart__line'>
-                                <span>Grossura: </span>
-                                {thickness} mm
-                            </div>    
-                            : ''
-                        }
-                        {lengthP ? 
-                            <div className='info-cart__line'>
-                                <span>Tamanho: </span>
-                                {lengthP} mm
-                            </div>      
-                            : ''
-                        }
                         {
-                            volume ?
-                            <div className='info-cart__line'>
-                                <span>Volume: </span>
-                                {volume} ml
-                            </div>      
-                            : '' 
+                            info
+                            ?
+                            info.map((obj) => 
+                                <div key={obj} className='info-cart__line'>
+                                    <span>
+                                        {obj.title}: 
+                                    </span>
+                                    {obj.description}                                     
+                                </div>                                    
+                            )
+                            :
+                            ''
                         }
-
                     </div>                                         
                 </div>
                 <div className="item-cart__actions">

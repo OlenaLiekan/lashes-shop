@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 
 
-const ProductBlock = ({name, typeId, subtitle, price, brandId, img, thickness, lengthP, volume, imageSlides}) => {
+const ProductBlock = ({info, name, typeId, subtitle, price, brandId, img, thickness, lengthP, volume, imageSlides}) => {
 
     const [brands, setBrands] = React.useState([]);
 
@@ -13,6 +13,9 @@ const ProductBlock = ({name, typeId, subtitle, price, brandId, img, thickness, l
             });
     }, []);
 
+    const companyNames = brands.map((brand) => brand.name);
+    const company = companyNames.find((companyName, i) => i + 1 === brandId);
+
     return (
         <div className="product-main__item item-product">
             <div className="item-product__body">
@@ -21,6 +24,7 @@ const ProductBlock = ({name, typeId, subtitle, price, brandId, img, thickness, l
                 </div>  
                 <div className="item-product__info">
                     <div className="item-product__top">
+
                         <div className="item-product__titles">
                             <h2 className="item-product__title">
                                 {name} 
@@ -35,22 +39,27 @@ const ProductBlock = ({name, typeId, subtitle, price, brandId, img, thickness, l
                             }
                         </div>
                         <div className="item-product__brand">
-                            {
-                        }</div>
+                            {company}
+                        </div>                                    
                     </div>
                     <div className='item-product__bottom'>
                         <div className="item-product__sizes">
-                            {volume ? 
-                                <div className='item-product__length'>
-                                    <span className="label-bold">Volume:</span>    
+                            {info.length ? info.map((obj) => 
+                                <div key={obj} className='item-product__length'>
+                                    <span className="label-bold">
+                                        {obj.title}:
+                                    </span>
                                     <div className="item-product__value">
-                                        {volume} ml                                       
-                                    </div>
-                                </div>    
-                                : ''
+                                        {obj.description}
+                                    </div>                                      
+                                </div>                                    
+                            ) :
+                                ''
                             }
+
                         </div>    
-                            
+
+
                         <div className="item-product__price">{price} €</div>                   
                     </div>                    
                 </div>

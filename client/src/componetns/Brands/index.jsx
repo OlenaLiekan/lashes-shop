@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from "./Categories.module.scss";
+import styles from "./Brands.module.scss";
 import axios from 'axios';
 
-function Categories({ arrItem, categoryId, onChangeCategory }) {
+function Brands({ type, brandId, onChangeBrand }) {
 
   const [items, setItems] = React.useState([]);
   const [brands, setBrands] = React.useState([]);
@@ -10,6 +10,7 @@ function Categories({ arrItem, categoryId, onChangeCategory }) {
 
   React.useEffect(() => {
     setIsLoading(true);
+    onChangeBrand(0);  
     axios
       .get(
         `http://localhost:3001/api/brand`,
@@ -19,7 +20,7 @@ function Categories({ arrItem, categoryId, onChangeCategory }) {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, []);
+  }, [type]);
   
 /*React.useEffect(() => {
     items.map((obj) => {
@@ -37,14 +38,14 @@ function Categories({ arrItem, categoryId, onChangeCategory }) {
   return (
     <>
       <ul className="product-main__categories">
-        <li onClick={() => onChangeCategory(0)} className={categoryId === 0 ? "active" : ""}>
-          <button className={styles.categoryProducts}>
+        <li onClick={() => onChangeBrand(0)} className={brandId === 0 ? "active" : ""}>
+          <button className={styles.brandProducts}>
             Todos
           </button>
         </li>
         { brands.map((brandName) => (
-           <li key={brandName.id} onClick={() => onChangeCategory(brandName.id)} className={categoryId === brandName.id ? "active" : ""} >
-            <button className={styles.categoryProducts}>
+           <li key={brandName.id} onClick={() => onChangeBrand(brandName.id)} className={brandId === brandName.id ? "active" : ""} >
+            <button className={styles.brandProducts}>
               {brandName.name}
             </button>
             </li>
@@ -55,4 +56,4 @@ function Categories({ arrItem, categoryId, onChangeCategory }) {
   );
 }
 
-export default Categories;
+export default Brands;
