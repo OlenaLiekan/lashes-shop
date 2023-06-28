@@ -21,7 +21,7 @@ const PopupSubmitForm = ({totalCount}) => {
 
     React.useEffect(() => {
         if (user) {
-            setUsername(user.name);
+            setUsername(user.firstName);
             setSurname(user.lastName);
             setPhone(user.phone);
             setEmail(user.email);

@@ -1,19 +1,27 @@
 import React from 'react';
 import { AuthContext } from '../context';
+import AdminPanel from '../componetns/AdminPanel';
+import UserPanel from '../componetns/UserPanel';
 
 const AuthPage = () => {
 
-    const { isAuth, setIsAuth, adminMode} = React.useContext(AuthContext);
+    const {adminMode, setAdminMode} = React.useContext(AuthContext);
 
-    const data = localStorage.getItem('user');
+    const data = localStorage.getItem("user");
     const user = JSON.parse(data);
     
+    React.useEffect(() => {
+        if (user.role === "ADMIN") {
+            setAdminMode(true);
+        }
+    }, []);
+
     return (
         <div className="main__account account-main">
             <div className="account-main__container">
                 <div className="account-main__content">
                     <h1 className="account-main__title">
-                        Ola!
+                        Ola, {adminMode ? 'administrador' : ''} <span>{user.firstName ? user.firstName : "User"}</span> !
                     </h1>
                     <h2 className="account-main__subtitle">
                         Fico feliz em vê-lo novamente
@@ -23,13 +31,12 @@ const AuthPage = () => {
                     </h2>
                     <div className="account-main__body body-account">
                         {
-                            !adminMode 
+                            !adminMode
                                 ?
-                                <>панель юзера</>
+                                <UserPanel />
                                 :
-                                <>admin panel</>
+                                <AdminPanel />
                         }
-
                     </div>
                 </div>
             </div>

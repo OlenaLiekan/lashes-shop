@@ -14,9 +14,8 @@ const Header = () => {
   const logout = () => {
     if (adminMode) {
       setAdminMode(false);
-    } else {
-      localStorage.removeItem('user');
     }
+    localStorage.removeItem('user');
     setIsAuth(false);    
     localStorage.removeItem('auth');
     navigate("/login");

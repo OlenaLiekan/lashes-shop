@@ -1,0 +1,64 @@
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formTitle {
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #252525;
+}
+
+.formBody {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.buttonCreate,
+.buttonUpdate,
+.buttonDelete {
+    padding: 20px;
+    font-weight: 600;
+    background-color: #fff;
+    color: #252525;
+    border-radius: 20px;
+    transition: all 0.3s ease 0s;
+}
+
+.buttonCreate {
+    border: 2px solid #48d1c1;
+
+    &:hover {
+        color: #fff;
+        background-color: #48d1c1;
+    }
+}
+
+.buttonUpdate {
+    border: 2px dashed #48d1c1;
+
+    &:hover {
+        color: #fff;
+        background-color: #48d1c1;
+    }
+}
+
+.buttonDelete {
+    border: 2px solid #252525;
+
+    &:hover {
+    background-color: #252525;
+    color: #fff;  
+    }
+}
+
+

@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 import { registration } from '../http/userAPI.js';
 import { AuthContext } from '../context';
 
-const CreateAccount = () => {
+const Registration = () => {
 
     const inputRef = React.useRef();
     const navigate = useNavigate();
@@ -19,14 +19,21 @@ const CreateAccount = () => {
     const [phoneValue, setPhoneValue] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [emailValue, setEmailValue] = React.useState('');
-    const [pass, setPass] = React.useState('');
+    const [password, setPass] = React.useState('');
     const [checkPass, setCheckPass] = React.useState('');
     const [checkPassValue, setCheckPassValue] = React.useState('');
-    const [creating, setCreating] = React.useState(true);
 
-    const createAccount = async () => {
-        const response = await registration(email, pass);
-        console.log(response);
+    const createAccount = async (e) => {
+        e.preventDefault();
+        try {
+            await registration(email, password); 
+            navigate('/login');
+            window.scrollTo(0, 0);
+            alert('Parabéns! Sua conta foi criada com sucesso.');
+        } catch (error) {
+            alert('error');
+        }
+
     }
 
 
@@ -172,7 +179,7 @@ const CreateAccount = () => {
                             <label htmlFor="userPassword" className="form-login__label">Senha <span>*</span></label>
                             <input required id="userPassword" type="password" name='password' tabIndex="5" placeholder="Criar uma senha" className="form-login__input" 
                                 ref={inputRef}
-                                value={pass}
+                                value={password}
                                 onChange={onChangePass}/> 
                         </div>
                         <div className="form-login__line">
@@ -208,4 +215,4 @@ const CreateAccount = () => {
     );
 };
 
-export default CreateAccount;
+export default Registration;

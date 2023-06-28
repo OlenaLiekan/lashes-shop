@@ -865,6 +865,9 @@
         font-weight: 500;
         margin-bottom: 10px;
         text-align: center;
+        span {
+            color: #AD912B;
+        }
         @media (max-width: 767.98px) {
             font-size: 20px;
         }
@@ -876,7 +879,7 @@
         font-size: 20px;
         justify-content: center;
         color: #484848;
-        margin-bottom: 60px;
+        margin-bottom: 100px;
         @media (max-width: 767.98px) {
             font-size: 18px;
             margin-bottom: 40px;
