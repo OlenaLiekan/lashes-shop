@@ -1,17 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import brand1 from "../assets/img/companies/logos/mia_logo.png";
-import brand3 from "../assets/img/companies/logos/sculptor_logo.png";
-import brand2 from "../assets/img/companies/logos/lami_logo.png";
-import brand4 from "../assets/img/companies/logos/maxi_logo.png";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import "swiper/scss";
+import axios from "axios";
 
 
 const BrandsBlock = () => {
+
+  const [brands, setBrands] = React.useState([]);
+
+  React.useEffect(() => {
+    axios.get(`http://localhost:3001/api/brand`)
+      .then((res) => {
+        setBrands(res.data);
+      });
+    console.log(brands);
+  }, []);
+
     return (
         <section className="companies__block block-companies">
           <div className="block-companies__container">
@@ -26,43 +33,20 @@ const BrandsBlock = () => {
                     spaceBetween={20}
                     slidesPerView={1}
                     speed={3000}
-                  >
-                    <SwiperSlide>
+                  >                        {
+                  brands.map((brand) => 
+                    <SwiperSlide key={brand.id}>
                       <div className="block-companies__slide slide-companies-block">
                         <div className="slide-companies-block__content">
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand1}  alt="brand"/>
-                          </Link>
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand2}  alt="brand"/>
-                          </Link>
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand3}  alt="brand"/>
-                          </Link>
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand4}  alt="brand"/>
-                          </Link>                        
+                            <Link to="" className="slide-companies-block__image">
+                              <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
+                            </Link>   
                         </div>
                       </div>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <div className="block-companies__slide slide-companies-block">
-                        <div className="slide-companies-block__content">
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand1}  alt="brand"/>
-                          </Link>
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand2}  alt="brand"/>
-                          </Link> 
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand3}  alt="brand"/>
-                          </Link> 
-                          <Link to="" className="slide-companies-block__image">
-                            <img src={brand4}  alt="brand"/>
-                          </Link>                        
-                        </div>
-                      </div>                    
-                    </SwiperSlide>
+                    </SwiperSlide>                       
+                          )
+                          }
+
                   </Swiper>
                 </div>
               </div>

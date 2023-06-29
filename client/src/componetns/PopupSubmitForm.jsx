@@ -50,11 +50,11 @@ const PopupSubmitForm = ({totalCount}) => {
     const { items, totalPrice } = useSelector((state) => state.cart);
 
     const order = items.map((item, index) => (
-        (index > 0 ? '\n\n' : '') + (index + 1) + '. ' + item.title
+        (index > 0 ? '\n\n' : '') + (index + 1) + '. ' + item.name
         +
         (item.subtitle ? ' ' + item.subtitle : '')
         +
-        '\nMarca: ' + item.brand
+        '\nMarca: ' + item.company
         +
         '\nCódigo: ' + item.code + '\n'
         +
