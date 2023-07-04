@@ -5,7 +5,7 @@ import { Thumbs } from "swiper";
 
 import "../scss/navigation.scss";
 
-const ProductCardSlider = ({ img, imageSlides }) => {
+const ProductCardSlider = ({ img, slides }) => {
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     return (
         <>
@@ -25,12 +25,12 @@ const ProductCardSlider = ({ img, imageSlides }) => {
                                 </div>
                             </div>          
                         </SwiperSlide>
-                        { imageSlides ?
-                            imageSlides.map((slide, i) =>
-                                <SwiperSlide key={i} value={slide}>
+                        { slides ?
+                            slides.map((slideImg, i) =>
+                                <SwiperSlide key={i} value={slideImg}>
                                     <div className="thumbs-images__slide slide-thumbs">
                                         <div className="slide-thumbs__media">
-                                            <img src={slide} alt="slide"/>                                    
+                                            <img src={'http://localhost:3001/' + slideImg.img} alt="slide"/>                                    
                                         </div>
                                     </div>          
                                 </SwiperSlide>                            
@@ -94,12 +94,12 @@ const ProductCardSlider = ({ img, imageSlides }) => {
                                 </div>
                             </div>                        
                         </SwiperSlide>
-                        { imageSlides ?
-                            imageSlides.map((slide, index) => 
-                                <SwiperSlide key={index} value={slide}>
+                        { slides ?
+                            slides.map((slideImg, index) => 
+                                <SwiperSlide key={index} value={slideImg}>
                                     <div className="images-product__slide slide-product">
                                         <div className="slide-product__media">
-                                            <img src={slide} alt="slide"/>                                    
+                                            <img src={'http://localhost:3001/' + slideImg.img} alt="slide"/>                                    
                                         </div>
                                     </div>                        
                                 </SwiperSlide>                            

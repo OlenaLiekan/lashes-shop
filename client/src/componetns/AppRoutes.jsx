@@ -48,7 +48,8 @@ const AppRoutes = () => {
                 <Route path="catalog" element={<Catalog />} />
                 {types.map((type) => 
                     <Route key={type.id} value={type} path={`${camelize(type.name)}`} element={<ProductPage type={type} />} />                   
-                )}  
+                )
+            }  
 
                 {types.map((type) =>   
                     <Route key={type.id} value={type} path={`${camelize(type.name)}/:id`} element={<ProductCard type={type} />} />                                                    

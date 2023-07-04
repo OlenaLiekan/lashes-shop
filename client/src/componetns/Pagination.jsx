@@ -4,28 +4,29 @@ import axios from 'axios';
 import { SearchContext } from '../App';
 import { useSelector } from 'react-redux';
 
-const Pagination = ({arrItem, onChangePage }) => {
+const Pagination = ({type, onChangePage }) => {
   const { searchValue } = React.useContext(SearchContext);
-  const { categoryId, currentPage } = useSelector((state) => state.filter);
-  const [items, setItems] = React.useState([]);
-  const totalContent = items.length;
+  const { brandId, currentPage } = useSelector((state) => state.filter);
+  const [itemsCount, setItemsCount] = React.useState(0);
+  const totalContent = itemsCount;
   const contentPerPage = 12;
   const totalPages = totalContent ? Math.ceil(totalContent / contentPerPage) : 1;
   const forcePage = currentPage - 1;
 
 
   React.useEffect(() => {
-        const category = categoryId > 0 ? `category=${categoryId}` : '';
-        const search = searchValue ? `&search=${searchValue}` : '';
+    const company = brandId > 0 ? `brandId=${brandId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
+    const typeId = type.id ? `&typeId=${type.id}` : '';
     axios
       .get(
-          `http://localhost:3001/api/product`,
+          `http://localhost:3001/api/product?${company}${typeId}`,
       )
       .then((res) => {
-        setItems(res.data);
+        setItemsCount(res.data.count);          
     });
     window.scrollTo(0, 0);
-  }, [ arrItem, categoryId, searchValue]);
+  }, [ type, brandId, searchValue ]);
 
   return (
 

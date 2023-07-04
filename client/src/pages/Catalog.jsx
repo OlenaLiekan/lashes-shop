@@ -47,24 +47,28 @@ const Catalog = () => {
                 <div className="catalog__content">
                     {isLoading ? <Loader /> : 
                         <div className="catalog__items">     
-                            { catalogItems.map((catalogItem) => 
-                                <Link to={`/${camelize(catalogItem.name)}`} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
-                                    <div className="item-catalog__content">
-                                        <h3 className="item-catalog__category">                                        
-                                        {categories.map((category) => 
-                                            <span key={category.id} value={category.name}>
-                                                { category.id === catalogItem.categoryId ? category.name : ""} 
-                                            </span>
-                                        )}  
-                                        </h3> 
-                                        <div className="item-catalog__image">
-                                            <img src={catalogItem.img} alt="category" />
-                                        </div>                        
-                                    </div>
-                                    <h2 className="item-catalog__title">
-                                        {catalogItem.name}
-                                    </h2>
-                                </Link>
+                            {catalogItems.map((catalogItem) => 
+                                catalogItem.id > 0
+                                    ?
+                                    <Link to={`/${camelize(catalogItem.name)}`} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
+                                        <div className="item-catalog__content">
+                                            <h3 className="item-catalog__category">                                        
+                                            {categories.map((category) => 
+                                                <span key={category.id} value={category.name}>
+                                                    { category.id === catalogItem.categoryId ? category.name : ""} 
+                                                </span>
+                                            )}  
+                                            </h3> 
+                                            <div className="item-catalog__image">
+                                                <img src={'http://localhost:3001/' + catalogItem.img} alt="category" />
+                                            </div>                        
+                                        </div>
+                                        <h2 className="item-catalog__title">
+                                            {catalogItem.name}
+                                        </h2>
+                                    </Link>
+                                    :
+                                    ""
                             )      
                             }    
                         </div>                                 

@@ -7,7 +7,7 @@ import { addItem, minusItem } from '../redux/slices/cartSlice';
 import { camelize } from '../js/script';
 import axios from 'axios';
 
-const ProductItem = ({ obj, id, info, typeId, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
+const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -110,7 +110,7 @@ const ProductItem = ({ obj, id, info, typeId, brandId, name, pestanasCurl, pesta
             <div className="product-card__body">
                 <div className="images-product__wrapper">
                     <div className="product-card__images images-product">
-                        <ProductCardSlider img={img} imageSlides={imageSlides} />                                
+                        <ProductCardSlider img={img} slides={slide} />                                
                     </div>
                     <div className="product-card__aside">
                         <div className="product-card__info info-product">

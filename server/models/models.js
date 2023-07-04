@@ -29,6 +29,11 @@ const Product = sequelize.define('product', {
   img: { type: DataTypes.STRING, allowNull: false },
 });
 
+const ProductSlide = sequelize.define('product_slide', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  img: { type: DataTypes.STRING, allowNull: false },
+});
+
 const Category = sequelize.define('category', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
@@ -38,6 +43,7 @@ const Type = sequelize.define('type', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   categoryId: { type: DataTypes.INTEGER, allowNull: false },
+  img: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Brand = sequelize.define('brand', {
@@ -59,6 +65,11 @@ const ProductInfo = sequelize.define('product_info', {
 
 const TypeBrand = sequelize.define('type_brand', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+});
+
+const Slide = sequelize.define('slide', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  img: { type: DataTypes.STRING, allowNull: false },
 });
 
 User.hasOne(Basket);
@@ -88,6 +99,9 @@ BasketProduct.belongsTo(Product);
 Product.hasMany(ProductInfo, { as: 'info' });
 ProductInfo.belongsTo(Product);
 
+Product.hasMany(ProductSlide, { as: 'slide' });
+ProductSlide.belongsTo(Product);
+
 Type.belongsToMany(Brand, { through: TypeBrand });
 Brand.belongsToMany(Type, { through: TypeBrand });
 
@@ -102,4 +116,6 @@ module.exports = {
   Rating,
   TypeBrand,
   ProductInfo,
+  ProductSlide,
+  Slide,
 };

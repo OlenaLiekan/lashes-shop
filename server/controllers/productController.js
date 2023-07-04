@@ -1,12 +1,12 @@
 const uuid = require('uuid');
 const path = require('path');
-const { Product, ProductInfo } = require('../models/models');
+const { Product, ProductInfo, ProductSlide } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, code, price, brandId, typeId, info } = req.body;
+      let { name, code, price, brandId, typeId, info, slide } = req.body;
       const { img } = req.files;
       let fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
@@ -22,7 +22,24 @@ class ProductController {
         );
       }
 
-      const product = await Product.create({ name, code, price, brandId, typeId, img: fileName });
+      if (slide) {
+        slide.forEach(i =>
+          ProductSlide.create({
+            img: i.fileName,
+            productId: product.id,
+          })
+        );
+      }
+
+      const product = await Product.create({
+        name,
+        code,
+        price,
+        brandId,
+        typeId,
+        img: fileName,
+        slide,
+      });
 
       return res.json(product);
     } catch (e) {
@@ -38,7 +55,10 @@ class ProductController {
       limit,
       offset,
       where: {},
-      include: [{ model: ProductInfo, as: 'info' }],
+      include: [
+        { model: ProductInfo, as: 'info' },
+        { model: ProductSlide, as: 'slide' },
+      ],
     };
 
     if (brandId) {
@@ -62,7 +82,10 @@ class ProductController {
     const { id } = req.params;
     const product = await Product.findOne({
       where: { id },
-      include: [{ model: ProductInfo, as: 'info' }],
+      include: [
+        { model: ProductInfo, as: 'info' },
+        { model: ProductSlide, as: 'slide' },
+      ],
     });
     return res.json(product);
   }

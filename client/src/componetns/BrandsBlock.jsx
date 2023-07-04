@@ -1,22 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import "swiper/scss";
 import axios from "axios";
-
+import { setBrandId } from '../redux/slices/filterSlice';
 
 const BrandsBlock = () => {
 
-  const [brands, setBrands] = React.useState([]);
+
+  const [brands, setBrands] = React.useState([]);  /*const dispatch = useDispatch();
+  const { brandId } = useSelector((state) => state.filter);
+
+  const onChangeBrand = (id) => {
+    dispatch(setBrandId(id));
+  };  */
 
   React.useEffect(() => {
     axios.get(`http://localhost:3001/api/brand`)
       .then((res) => {
         setBrands(res.data);
       });
-    console.log(brands);
   }, []);
 
     return (
@@ -33,19 +39,40 @@ const BrandsBlock = () => {
                     spaceBetween={20}
                     slidesPerView={1}
                     speed={3000}
-                  >                        {
-                  brands.map((brand) => 
-                    <SwiperSlide key={brand.id}>
-                      <div className="block-companies__slide slide-companies-block">
+                  >
+                  
+                    <SwiperSlide>                 
+                      <div  className="block-companies__slide slide-companies-block">
                         <div className="slide-companies-block__content">
-                            <Link to="" className="slide-companies-block__image">
+                          {brands.map((brand) => 
+                            brand.id < 5
+                            ?
+                            <Link key={brand.name} to={`/todos`} className="slide-companies-block__image">
                               <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
-                            </Link>   
-                        </div>
-                      </div>
-                    </SwiperSlide>                       
+                            </Link>                          
+                            :
+                            ''
                           )
                           }
+                        </div>
+                      </div>                  
+                    </SwiperSlide>   
+                    <SwiperSlide>                 
+                      <div  className="block-companies__slide slide-companies-block">
+                        <div className="slide-companies-block__content">
+                          {brands.map((brand) => 
+                            brand.id > 4
+                            ?
+                            <Link key={brand.name} to={`/todos`} className="slide-companies-block__image">
+                              <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
+                            </Link>                          
+                            :
+                            ''
+                          )
+                          }
+                        </div>
+                      </div>                  
+                    </SwiperSlide> 
 
                   </Swiper>
                 </div>
