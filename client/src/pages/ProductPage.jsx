@@ -73,13 +73,13 @@ const ProductPage = ({type}) => {
         <div className="main__product product-main">
             <div className="product-main__container">
                 <div className="product-main__content">
-                    <Brands type={type} brandId={brandId} onChangeBrand={onChangeBrand}/>
+                    <Brands type={type} brandId={brandId} products={items} onChangeBrand={onChangeBrand}/>
                     <Sort arrItem={type} />
                     <div className="product-main__items">
                         {isLoading ? skeletons : products}
                     </div>
                     {items.length < 1 && !isLoading ? <NotFoundProduct /> : ''}
-                    <Pagination arrItem={type} onChangePage = {onChangePage} />
+                    <Pagination type={type} onChangePage = {onChangePage} />
                 </div>
             </div>
         </div>
