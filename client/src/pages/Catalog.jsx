@@ -6,13 +6,20 @@ import { SearchContext } from '../App';
 import Loader from '../componetns/Loader';
 import NotFoundProduct from '../componetns/NotFoundProduct';
 import { camelize } from '../js/script';
+import { useDispatch } from 'react-redux';
+import { setBrandId } from '../redux/slices/filterSlice';
 
 const Catalog = () => { 
 
+    const dispatch = useDispatch();
     const { searchValue } = React.useContext(SearchContext);
     const [catalogItems, setCatalogItems] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
+
+    const onChangeBrand = (id) => {
+        dispatch(setBrandId(id));
+    }
 
         React.useEffect(() => {
         setIsLoading(true);
@@ -50,7 +57,7 @@ const Catalog = () => {
                             {catalogItems.map((catalogItem) => 
                                 catalogItem.id > 0
                                     ?
-                                    <Link to={`/${camelize(catalogItem.name)}`} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
+                                    <Link to={`/${camelize(catalogItem.name)}`} onClick={() => onChangeBrand(0)} key={catalogItem.id} value={catalogItem.name} className="catalog__item item-catalog">
                                         <div className="item-catalog__content">
                                             <h3 className="item-catalog__category">                                        
                                             {categories.map((category) => 

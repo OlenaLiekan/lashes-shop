@@ -4,6 +4,9 @@ import { menuInit } from "../../js/script";
 import SubMenuHeader from "../SubMenuHeader";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { camelize } from "../../js/script";
+import { setBrandId } from "../../redux/slices/filterSlice";
+import { useDispatch } from "react-redux";
 
 const MenuHeader = () => {
 
@@ -11,6 +14,11 @@ const MenuHeader = () => {
     const [menuItems, setMenuItems] = React.useState([]);
     const [activeItem, setActiveItem] = React.useState(0);
 
+    const dispatch = useDispatch();
+
+    const onChangeBrand = (id) => {
+        dispatch(setBrandId(id));
+    };
 
     React.useEffect(() => {
         axios.get(`http://localhost:3001/api/category`)
@@ -53,7 +61,7 @@ const MenuHeader = () => {
                                     </div> 
                                         :
                                     <div className="item-menu__link">
-                                        <Link to={`${item.name}/product`} className="item-menu__button menu-link">
+                                        <Link to={`/${camelize(item.name)}`} onClick={() => onChangeBrand(0)} className="item-menu__button menu-link">
                                             {item.name}
                                         </Link>
                                     </div>

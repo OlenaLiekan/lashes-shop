@@ -2,8 +2,16 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { menuInit, camelize } from "../js/script";
+import { setBrandId } from "../redux/slices/filterSlice";
+import { useDispatch } from "react-redux";
 
 const SubMenuHeader = ({ menuItems }) => {
+
+    const dispatch = useDispatch();
+
+    const onChangeBrand = (id) => {
+        dispatch(setBrandId(id));
+    }
 
     return ( 
         <>
@@ -11,8 +19,8 @@ const SubMenuHeader = ({ menuItems }) => {
                 <nav className="sub-menu__body">
                     <ul className="sub-menu__list list-sub-menu">
                         {menuItems.map((type) => 
-                            <li key={type.id} value={type.name} className="sub-menu__item item-sub-menu">
-                                <Link to={`/${camelize(type.name)}`} onClick={menuInit} className="item-sub-menu__link" >
+                            <li key={type.id} value={type.name} onClick={menuInit} className="sub-menu__item item-sub-menu">
+                                <Link to={`/${camelize(type.name)}`} onClick={() => onChangeBrand(0)} className="item-sub-menu__link" >
                                     {type.name}
                                 </Link>
                             </li>  

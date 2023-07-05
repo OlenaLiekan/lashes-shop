@@ -2,14 +2,13 @@ import React from 'react'
 import styles from "./Brands.module.scss";
 import axios from 'axios';
 
-function Brands({ type, brandId, onChangeBrand, products }) {
+function Brands({ type, brandId, onChangeBrand }) {
 
   const [brands, setBrands] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    setIsLoading(true);
-    onChangeBrand(0);  
+    setIsLoading(true); 
     axios
       .get(
         `http://localhost:3001/api/brand`,
@@ -20,12 +19,6 @@ function Brands({ type, brandId, onChangeBrand, products }) {
       });
     window.scrollTo(0, 0);
   }, [type]);
-
-  const visibleBrands = products.map((product) => product.brandId);
-   
-  React.useEffect(() => {
-    console.log(visibleBrands);
-  }, []);
   
   return (
     <>

@@ -11,12 +11,8 @@ import { setBrandId } from '../redux/slices/filterSlice';
 const BrandsBlock = () => {
 
 
-  const [brands, setBrands] = React.useState([]);  /*const dispatch = useDispatch();
-  const { brandId } = useSelector((state) => state.filter);
-
-  const onChangeBrand = (id) => {
-    dispatch(setBrandId(id));
-  };  */
+  const [brands, setBrands] = React.useState([]);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     axios.get(`http://localhost:3001/api/brand`)
@@ -24,6 +20,10 @@ const BrandsBlock = () => {
         setBrands(res.data);
       });
   }, []);
+
+  const onChangeBrand = (id) => {
+    dispatch(setBrandId(id));
+  }
 
     return (
         <section className="companies__block block-companies">
@@ -47,7 +47,7 @@ const BrandsBlock = () => {
                           {brands.map((brand) => 
                             brand.id < 5
                             ?
-                            <Link key={brand.name} to={`/todos`} className="slide-companies-block__image">
+                            <Link key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
                               <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
                             </Link>                          
                             :
@@ -63,7 +63,7 @@ const BrandsBlock = () => {
                           {brands.map((brand) => 
                             brand.id > 4
                             ?
-                            <Link key={brand.name} to={`/todos`} className="slide-companies-block__image">
+                            <Link key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
                               <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
                             </Link>                          
                             :

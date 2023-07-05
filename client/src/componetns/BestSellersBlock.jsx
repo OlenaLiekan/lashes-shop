@@ -1,7 +1,7 @@
 import React from "react";
 
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { scrollTop, camelize } from "../js/script";
 import ProductBlock from "./ProductBlock";
 import Skeleton from "./Skeleton";
@@ -12,6 +12,8 @@ const BestSellersBlock = ({ types }) => {
   const [typeNames, setTypeNames] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
+  const navigate = useNavigate();
+
   React.useEffect(() => {
     setIsLoading(true);
     axios.get(`http://localhost:3001/api/product?rating=5`)
@@ -21,6 +23,11 @@ const BestSellersBlock = ({ types }) => {
       });
     scrollTop();
   }, []);
+
+  const showProduct = (typeId, id) => {
+    const path = types.find((type) => type.id === typeId);
+    navigate(`/${camelize(path.name)}/${id}`);
+  }
 
   /*React.useEffect(() => {
     setIsLoading(true);
@@ -42,11 +49,15 @@ const BestSellersBlock = ({ types }) => {
 
   }, []);*/
 
+
       
   const products = items.map((item) =>
-    <Link key={item.id} to={`/${item.id}`}>
+    <div key={item.id}
+      onClick={() => showProduct(item.typeId, item.id)}
+      className="block-best__item product-main__item"
+    >
       <ProductBlock {...item} />
-    </Link>
+    </div>
   );
 
   

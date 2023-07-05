@@ -39,8 +39,6 @@ const ProductPage = ({type}) => {
         dispatch(setCurrentPage(number));            
     };
 
-
-
     React.useEffect(() => {
         setIsLoading(true);
         const sortBy = sort.sortProperty.replace('-', '');        

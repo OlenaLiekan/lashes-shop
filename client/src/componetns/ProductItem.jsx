@@ -38,7 +38,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
     }, []);
 
     const typeNames = types.map((type) => camelize(type.name));
-    const path = typeNames.find((typeName, i) => i + 1 === typeId);
+    const path = typeNames.find((typeName, i) => i === typeId);
 
     /*React.useEffect(() => {
         if (pestanasCurl) {

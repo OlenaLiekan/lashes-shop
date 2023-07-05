@@ -48,7 +48,7 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    const { brandId, typeId, limit = 12, page = 1, rating, name } = req.query;
+    const { brandId, typeId, limit = 12, page = 1, rating } = req.query;
     const offset = page * limit - limit;
 
     let options = {
