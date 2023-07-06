@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const uuid = require('uuid');
 const path = require('path');
 const { Product, ProductInfo, ProductSlide } = require('../models/models');
@@ -48,12 +50,13 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    const { brandId, typeId, limit = 12, page = 1, rating } = req.query;
+    const { brandId, typeId, limit = 12, page = 1, rating, name } = req.query;
     const offset = page * limit - limit;
 
     let options = {
       limit,
       offset,
+      distinct: true,
       where: {},
       include: [
         { model: ProductInfo, as: 'info' },
@@ -71,6 +74,13 @@ class ProductController {
 
     if (rating) {
       options.where = { ...options.where, rating };
+    }
+
+    if (name) {
+      options.where = {
+        ...options.where,
+        name: { [Op.iLike]: `%${name}%` },
+      };
     }
 
     const products = await Product.findAndCountAll(options);

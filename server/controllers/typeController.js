@@ -17,6 +17,7 @@ class TypeController {
     const { categoryId } = req.query;
     let options = {
       where: {},
+      order: [['id', 'ASC']],
     };
     if (categoryId) {
       options.where = { ...options.where, categoryId };

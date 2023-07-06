@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { SearchContext } from '../App';
 import Loader from '../componetns/Loader';
 import NotFoundProduct from '../componetns/NotFoundProduct';
 import { camelize } from '../js/script';
@@ -12,7 +11,6 @@ import { setBrandId } from '../redux/slices/filterSlice';
 const Catalog = () => { 
 
     const dispatch = useDispatch();
-    const { searchValue } = React.useContext(SearchContext);
     const [catalogItems, setCatalogItems] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
@@ -23,7 +21,6 @@ const Catalog = () => {
 
         React.useEffect(() => {
         setIsLoading(true);
-        const search = searchValue ? `search=${searchValue}` : '';
             axios
                 .get(
                     `http://localhost:3001/api/type`,

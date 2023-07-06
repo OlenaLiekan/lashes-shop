@@ -9,7 +9,6 @@ import Skeleton from "./Skeleton";
 const BestSellersBlock = ({ types }) => {
 
   const [items, setItems] = React.useState([]);
-  const [typeNames, setTypeNames] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const navigate = useNavigate();

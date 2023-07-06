@@ -8,7 +8,9 @@ class CategoryController {
   }
 
   async getAll(req, res) {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({
+      order: [['id', 'ASC']],
+    });
     return res.json(categories);
   }
 }

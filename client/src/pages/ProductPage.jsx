@@ -46,8 +46,8 @@ const ProductPage = ({type}) => {
         const brandCategory = brandId === 0 ? '' : `&brandId=${brandId}`;
         const typeId = type.id ? `&typeId=${type.id}` : '';
 
-        const search = searchValue ? `&search=${searchValue}` : '';
-        axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sort=${sortBy}&order=${order}${search}`)
+        const search = searchValue ? `&name=${searchValue}` : '';
+        axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sortBy=${sortBy}&order=${order}${search}`)
         .then((res) => {
             setItems(res.data.rows);
         });
@@ -59,7 +59,7 @@ const ProductPage = ({type}) => {
         const queryString = qs.stringify({
             sortProperty: sort.sortProperty,
             brandId,
-            currentPage
+            currentPage,
         });
         navigate(`?${queryString}`);
     }, [brandId, currentPage, sort.sortProperty]);

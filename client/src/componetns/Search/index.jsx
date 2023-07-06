@@ -1,23 +1,26 @@
 import React from "react";
 
 import styles from "./Search.module.scss";
-
 import debounce from 'lodash.debounce';
-
 import axios from "axios";
+import { camelize } from "../../js/script";
 
 import { SearchContext } from '../../App';
 import { setSearch } from "../../redux/slices/filterSlice";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Search = () => { 
     const [items, setItems] = React.useState([]);
+    const [types, setTypes] = React.useState([]);
     const [value, setValue] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(true); 
     const { searchValue, setSearchValue } = React.useContext(SearchContext);
+
     const inputRef = React.useRef();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const onClickClear = () => {
         setSearchValue('');
@@ -47,18 +50,33 @@ const Search = () => {
                     `http://localhost:3001/api/product?name=${searchValue}`,
                 )
                 .then((res) => {
-                    if (res.data.length > 0) {
-                        setItems(res.data);
+                    if (res.data.count > 0) {
+                        setItems(res.data.rows);
                     }
                 });
             setIsLoading(false);            
-            console.log(items);
             window.scrollTo(0, 0);            
         }
         setItems([]);
     }, [searchValue]);
 
+    React.useEffect(() => {
+        setIsLoading(true);
+        axios
+            .get(
+                `http://localhost:3001/api/type`,
+            )
+            .then((res) => {
+                setTypes(res.data);
+                setIsLoading(false);
+            });
+        window.scrollTo(0, 0);
+    }, []);
 
+    const showProduct = (typeId, id) => {
+        const path = types.find((type) => type.id === typeId);
+        navigate(`/${camelize(path.name)}/${id}`);
+    }
 
     return (
         <div className="body-header__search search-header">
@@ -106,11 +124,11 @@ const Search = () => {
                         <div className="search-header__body">
                             <ul className="search-header__list search-list">
                                 {isLoading ? '' : items.map((item) =>
-                                    <Link to={`/${item.storage}/${item.id}`} key={item.code} value={item.title} onClick={onClickClear} >
-                                        <li className="search-list__item">
-                                            {item.title} {item.subtitle ? item.subtitle : ''}
+                                    <div key={item.code} value={item.name} onClick={onClickClear} >
+                                        <li onClick={() => showProduct(item.typeId, item.id)} className="search-list__item">
+                                            {item.name}
                                         </li>                                        
-                                    </Link>
+                                    </div>
                                 )
                                 }
                                 {!items.length ? <li className="search-list__item_none">Produto não encontrado</li> : '' }

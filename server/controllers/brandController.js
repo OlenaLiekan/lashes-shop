@@ -14,7 +14,9 @@ class BrandController {
   }
 
   async getAll(req, res) {
-    const brands = await Brand.findAll();
+    const brands = await Brand.findAll({
+      order: [['id', 'ASC']],
+    });
     return res.json(brands);
   }
   async getOne(req, res) {
