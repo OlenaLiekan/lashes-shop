@@ -4,7 +4,7 @@ const initialState = {
   brandId: 0,
   currentPage: 1,
   sort: {
-    name: 'popularity',
+    name: 'popularidade',
     sortProperty: 'rating',
   },
 };

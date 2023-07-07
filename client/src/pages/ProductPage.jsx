@@ -42,12 +42,12 @@ const ProductPage = ({type}) => {
     React.useEffect(() => {
         setIsLoading(true);
         const sortBy = sort.sortProperty.replace('-', '');        
-        const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+        const order = sort.sortProperty.includes('-') ? 'ASC' : 'DESC';
         const brandCategory = brandId === 0 ? '' : `&brandId=${brandId}`;
         const typeId = type.id ? `&typeId=${type.id}` : '';
 
         const search = searchValue ? `&name=${searchValue}` : '';
-        axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sortBy=${sortBy}&order=${order}${search}`)
+        axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sort=${sortBy}&order=${order}${search}`)
         .then((res) => {
             setItems(res.data.rows);
         });

@@ -50,12 +50,16 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    const { brandId, typeId, limit = 12, page = 1, rating, name } = req.query;
+    const { brandId, typeId, limit = 12, page = 1, rating, name, price } = req.query;
     const offset = page * limit - limit;
+
+    let sort = req.query.sort ? req.query.sort : 'rating';
+    let order = req.query.order ? req.query.order : 'ASC';
 
     let options = {
       limit,
       offset,
+      order: [[sort, order]],
       distinct: true,
       where: {},
       include: [
@@ -81,6 +85,10 @@ class ProductController {
         ...options.where,
         name: { [Op.iLike]: `%${name}%` },
       };
+    }
+
+    if (price) {
+      options.where = { ...options.where, price };
     }
 
     const products = await Product.findAndCountAll(options);

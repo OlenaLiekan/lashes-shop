@@ -13,11 +13,11 @@ function Sort({arrItem}) {
 
   const [open, setOpen] = React.useState(false);
   const list = [
-    { name: 'popularity', sortProperty: 'rating' },
-    { name: 'highest price', sortProperty: 'price' },
-    { name: 'lower price', sortProperty: '-price' },
-    { name: 'name A - Z', sortProperty: '-name' }, 
-    { name: 'name Z - A', sortProperty: 'name' },   
+    { name: 'popularidade', sortProperty: 'rating' },
+    { name: 'preço mais alto', sortProperty: 'price' },
+    { name: 'preço mais baixo', sortProperty: '-price' },
+    { name: 'nome A - Z', sortProperty: '-name' }, 
+    { name: 'nome Z - A', sortProperty: 'name' },   
   ];
   const onClickListItem = (obj) => {
     dispatch(setSort(obj));
@@ -37,7 +37,7 @@ function Sort({arrItem}) {
 return (
     <div ref={sortRef} className="product-main__sort sort-product">
         <div className="sort-product__body">
-            Sort by:
+            Classificar por:
             <div className="sort-product__popup popup-sort">
                 <span className="popup-sort__label" onClick={() => setOpen(!open)}>{sort.name}
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
