@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styles from './AdminPanel.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const AdminPanel = () => {
 
     const [showPopup, setShowPopup] = React.useState(false);
-    const arr = ['Category', 'Product', 'Brand', 'Slide'];
+    const arr = [{ name: 'Category', path: 'catalog' }, { name: 'Product', path: 'produtos'}, { name: 'Brand', path: ''}, { name: 'Slide', path: ''}];
+    const [path, setPath] = useState('');
+    const navigate = useNavigate();
 
-    const showOptions = () => {
-        setShowPopup(true);
-        window.scrollTo(0, 0);
-    }
-
+    React.useEffect(() => {
+        if (path) {
+            navigate(`/${path}`);
+            window.scrollTo(0, 0);
+        }
+    }, [path]);
+ 
     const hideOptions = () => {
         setShowPopup(false);
         window.scrollTo(0, 0);
@@ -57,8 +62,8 @@ const AdminPanel = () => {
                         </h3>
                         <div className={styles.formBody}>
                             {arr.map((item, i) => 
-                                <button key={item} onClick={showOptions} className={styles.button}>
-                                    {item}
+                                <button key={item.name} value={item.path} onClick={() => setPath(item.path)} className={styles.button}>
+                                    {item.name}
                                 </button>
                             )}
                         </div>

@@ -55,6 +55,10 @@ export function menuInit() {
         bodyLockToggle();
         document.documentElement.classList.toggle('menu-open');
       }
+      if (bodyLockStatus && e.target.closest('.icon-menu__text_show')) {
+        document.documentElement.classList.remove('menu-open');
+        bodyLockToggle();
+      }
     });
   }
 
@@ -80,9 +84,6 @@ export function menuInit() {
         subMenu.classList.remove('sub-menu-open');
         document.documentElement.classList.remove('menu-open');
         bodyLockToggle();
-      } else if (e.target.closest('.icon-menu__text_show')) {
-        bodyLockToggle();
-        document.documentElement.classList.remove('menu-open');
       }
     });
   }
