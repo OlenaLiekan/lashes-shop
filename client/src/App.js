@@ -9,6 +9,7 @@ function App() {
   const [searchValue, setSearchValue] = React.useState('');
   const [isAuth, setIsAuth] = React.useState(false);
   const [adminMode, setAdminMode] = React.useState(false);
+  const [createMode, setCreateMode] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -27,6 +28,8 @@ function App() {
           adminMode,
           setAdminMode,
           isLoading,
+          createMode,
+          setCreateMode,
         }}
       >
         <SearchContext.Provider value={{ searchValue, setSearchValue }}>

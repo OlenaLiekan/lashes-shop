@@ -6,7 +6,12 @@ import { useNavigate } from 'react-router-dom';
 const AdminPanel = () => {
 
     const [showPopup, setShowPopup] = React.useState(false);
-    const arr = [{ name: 'Category', path: 'catalog' }, { name: 'Product', path: 'produtos'}, { name: 'Brand', path: ''}, { name: 'Slide', path: ''}];
+    const arr = [
+        { name: 'Category', path: 'catalog' },
+        { name: 'Product', path: 'produtos' },
+        { name: 'Brand', path: ' ' },
+        { name: 'Slide', path: ' ' }
+    ];
     const [path, setPath] = useState('');
     const navigate = useNavigate();
 
@@ -30,7 +35,6 @@ const AdminPanel = () => {
                     <div className={styles.popup}>
                         <div className={styles.popupBody}>
                             <form className={styles.form}>
-              
                                 <h3 className={styles.formTitle}>
                                     What do you want to do ?
                                 </h3>
@@ -55,7 +59,6 @@ const AdminPanel = () => {
                         </div>
                     </div>
                     :
-                    
                     <form className={styles.form}>
                         <h3 className={styles.formTitle}>
                             Where would you like to make changes?
