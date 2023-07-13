@@ -8,6 +8,7 @@ import { camelize } from '../js/script';
 import { useDispatch } from 'react-redux';
 import { setBrandId } from '../redux/slices/filterSlice';
 import { AuthContext } from '../context';
+import CreateType from '../componetns/CreateType/CreateType';
 
 const Catalog = () => { 
 
@@ -15,7 +16,7 @@ const Catalog = () => {
     const [catalogItems, setCatalogItems] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
-    const { isAuth, adminMode } = React.useContext(AuthContext);
+    const { isAuth, adminMode, createMode, setCreateMode } = React.useContext(AuthContext);
 
     const onChangeBrand = (id) => {
         dispatch(setBrandId(id));
@@ -51,11 +52,12 @@ const Catalog = () => {
         <div className="main__catalog catalog">
             <div className="catalog__container">
                 <div className="catalog__content">
+                    { isAuth && adminMode && createMode ? <CreateType /> : ''}                    
                     {isLoading ? <Loader /> : 
                         <div className="catalog__items">  
-                            <div className={isAuth && adminMode ? "catalog__item item-catalog" : 'item-catalog_hidden'}>
+                            <div className={isAuth && adminMode && !createMode ? "catalog__item item-catalog" : 'item-catalog_hidden'}>
                                 <div className="item-catalog__content">
-                                    <div className='item-catalog__add'>
+                                    <div className='item-catalog__add' onClick={() => setCreateMode(true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                                             <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z" />
                                         </svg>                                        

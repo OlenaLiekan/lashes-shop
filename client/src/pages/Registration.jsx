@@ -13,8 +13,8 @@ const Registration = () => {
     const { user } = useContext(AuthContext);
     const [exEmail, setExEmail] = React.useState({});
     const [exPhone, setExPhone] = React.useState({});
-    const [username, setUsername] = React.useState('');
-    const [surname, setSurname] = React.useState('');    
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');    
     const [phone, setPhone] = React.useState('');
     const [phoneValue, setPhoneValue] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -26,7 +26,7 @@ const Registration = () => {
     const createAccount = async (e) => {
         e.preventDefault();
         try {
-            await registration(email, password); 
+            await registration(email, password, firstName, lastName, phone); 
             navigate('/login');
             window.scrollTo(0, 0);
             alert('Parabéns! Sua conta foi criada com sucesso.');
@@ -59,11 +59,11 @@ const Registration = () => {
     );
 
     const onChangeUsername = (event) => { 
-        setUsername(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');
+        setFirstName(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');
     };
 
     const onChangeSurname = (event) => { 
-        setSurname(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');
+        setLastName(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');
     };
 
     const onChangePhone = (event) => { 
@@ -145,14 +145,14 @@ const Registration = () => {
                             <label htmlFor="userName" className="form-login__label">Nome <span>*</span></label>
                             <input required id="userName" type="text" tabIndex="1" name='name' placeholder="Nome" className="form-login__input"
                                 ref={inputRef}
-                                value={username}
+                                value={firstName}
                                 onChange={onChangeUsername}/>                            
                         </div>
                         <div className="form-login__line">
                             <label htmlFor="userSurname" className="form-login__label">Sobrenome</label>
                             <input required id="userSurname" type="text" tabIndex="2" name='surname' placeholder="Sobrenome" className="form-login__input"
                                 ref={inputRef}
-                                value={surname}
+                                value={lastName}
                                 onChange={onChangeSurname}/>                            
                         </div>
                         <div className="form-login__line">

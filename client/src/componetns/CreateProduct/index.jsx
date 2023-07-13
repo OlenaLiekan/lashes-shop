@@ -8,6 +8,24 @@ const CreateProduct = () => {
     const [brands, setBrands] = React.useState([]);
     const [types, setTypes] = React.useState([]);
     const { createMode, setCreateMode } = React.useContext(AuthContext);
+    const [info, setInfo] = React.useState([]);
+    const [slide, setSlide] = React.useState([]);
+
+    const addInfo = () => {
+        setInfo([...info, { title: "", description: "", number: Date.now() }]);
+    }
+
+    const removeInfo = (number) => {
+        setInfo(info.filter(i => i.number !== number));
+    }
+
+    const addSlide = () => {
+        setSlide([...slide, { img: "", number: Date.now() }]);
+    }
+
+    const removeSlide = (number) => {
+        setSlide(slide.filter(i => i.number !== number));
+    }
 
     const closeCreatePopup = () => {
         setCreateMode(false);
@@ -40,14 +58,14 @@ const CreateProduct = () => {
             </svg>
             <form className={styles.formProduct}>
                 <div className={styles.line}>
-                    <label htmlFor="product-name" className={styles.label}>Name:</label>
+                    <label htmlFor="product-name" className={styles.label} placeholder='Name'>Name:</label>
                     <input id="product-name" required tabIndex="1" type='text' className={styles.formInput}></input>                    
                 </div>
                 <div className={styles.line}>
                     <label htmlFor="product-code" className={styles.label}>Code:</label>
                     <input id="product-code" required tabIndex="2" type='text' className={styles.formInputSmall}></input> 
                     <label htmlFor="product-price" className={styles.label}>Price:</label>                    
-                    <input id="product-price" required tabIndex="3" type='text' className={styles.formInputSmall}></input>
+                    <input id="product-price" required tabIndex="3" type='number' className={styles.formInputSmall}></input>
                 </div>
                 <div className={styles.line}>
                     <label htmlFor="product-brand" className={styles.label}>Brand:</label>
@@ -67,29 +85,35 @@ const CreateProduct = () => {
                     <label htmlFor="product-file" className={styles.label}>Photo:</label>
                     <input id="product-file" required tabIndex="6" type='file' className={styles.formFile}></input>                    
                 </div>
-                <div className={styles.line}>
-                    <label htmlFor="info-product_title" className={styles.label}>Info title:</label>
-                    <input id="info-product_title" tabIndex="7" type='text' className={styles.formInputSmall}></input>  
-                    <label htmlFor="info-product_description" className={styles.label}>Info description:</label>
-                    <input id="info-product_description" tabIndex="8" type='text' className={styles.formInputSmall}></input>
-                    <button type='button' tabIndex='9' className='info-product__add'>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                            <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                        </svg>                                      
-                    </button>
-                </div>
-                <div className={styles.line}>
-                    <label htmlFor="product-slide" className={styles.label}>Slide:</label>
-                    <input id="product-slide" tabIndex="10" type='file' className={styles.formFile}></input>
-                    <button type='button' tabIndex='11' className='slide-product__add'>
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                            <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
-                        </svg>                                       
-                    </button>
-                </div>
+                <button type='button' className={styles.infoButton} tabIndex="7" onClick={addInfo}>Add new info</button>
+                {info.map((i) => 
+                    <div className={styles.line} key={i.number}>
+                        <label htmlFor="info-product_title" className={styles.label}>Info title:</label>
+                        <input id="info-product_title" tabIndex="8" type='text' className={styles.formInputSmall}></input>  
+                        <label htmlFor="info-product_description" className={styles.label}>Info description:</label>
+                        <input id="info-product_description" tabIndex="9" type='text' className={styles.formInputSmall}></input>
+                        <button type='button' tabIndex='10' className='info-product__remove' onClick={() => removeInfo(i.number)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                            </svg>                                     
+                        </button>
+                    </div>                    
+                )}
+                <button type='button' className={styles.slideButton} tabIndex="11" onClick={addSlide}>Add new slide</button>
+                {slide.map((i) => 
+                    <div className={styles.line} key={i.number}>
+                        <label htmlFor="product-slide" className={styles.label}>Slide:</label>
+                        <input id="product-slide" tabIndex="12" type='file' className={styles.formFile}></input>
+                        <button type='button' tabIndex='13' className='slide-product__remove' onClick={() => removeSlide(i.number)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
+                            </svg>                                     
+                        </button>
+                    </div>                
+                )}
                 <label htmlFor="product-about" className={styles.label}>Description:</label>
-                <textarea id="product-about" tabIndex='12' className={styles.textarea}></textarea>
-                <button type='submit' onSubmit={pushProduct} tabIndex='13' className={styles.button}>Create product</button>
+                <textarea id="product-about" tabIndex='14' className={styles.textarea}></textarea>
+                <button type='submit' onSubmit={pushProduct} tabIndex='15' className={styles.button}>Create product</button>
             </form>            
         </div>
     );
