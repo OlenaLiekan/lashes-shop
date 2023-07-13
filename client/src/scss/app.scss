@@ -967,6 +967,20 @@
     &__body {    
         margin: 0 0 20px 0;
     }
+    &__create {
+        width: 200px;
+        padding: 15px 20px;
+        border-radius: 20px;
+        border: 2px solid #252525;
+        color: #252525;
+        font-weight: 600;
+        margin-bottom: 20px;
+        transition: all 0.6s ease 0s;
+        &:hover {
+            color: #fff;
+            background-color: #252525;
+        }
+    }
     &__swiper {
         display: flex;
         overflow: hidden;    
@@ -974,6 +988,12 @@
 }
 
 .slide-main-block {  
+    &__actions {
+        display: flex;
+        &_hidden {
+            display: none;
+        }
+    }
     &__image {
         display: block;
         max-width: 1200px;
@@ -1027,6 +1047,22 @@
             padding: 10px 0;
         }
     }
+    &__create {
+        padding: 15px 20px;
+        border-radius: 20px;
+        border: 2px solid #252525;
+        font-weight: 600;
+        color: #252525;
+        background-color: #fff;
+        margin-bottom: 20px;
+        box-shadow: 3px 3px 3px #25252525;
+        outline: none;
+        transition: all 0.6s ease 0s;
+        &:hover {
+            color: #fff;
+            background-color: #252525;
+        }
+    }
     &__swiper {
         display: flex;
         overflow: hidden;
@@ -1067,24 +1103,26 @@
             object-fit: contain;
         }
     }
-    &__add {
+    &__actions {
+        position: absolute;
+        top: 0;
+        left: 0;
         display: flex;
+        gap: 20px;
+        z-index: 2;
+        background-color: #25252563;
+        border-radius: 20px;
+        padding: 10px;
         svg {
-            margin-top: 30%;
-            align-self: center;
-            fill: #b4b4b4;
-            font-size: 5.5rem;
-            cursor: pointer;
-            transition: all 0.6s ease 0s;
-            &:hover {
-                transform: rotate(-90deg) scale(1.2);
-                fill: #48d1c1;
+            fill: #fff;
+        }
+        @media (max-width: 479.98px) {
+            svg {
+                font-size: 0.8rem;
             }
         }
-        @media(max-width: 767.98px) {
-            svg {
-                font-size: 2.5rem;
-            }
+        &_hidden {
+            display: none;
         }
     }
 }

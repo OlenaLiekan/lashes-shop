@@ -8,7 +8,7 @@ import { camelize } from '../js/script';
 import { useDispatch } from 'react-redux';
 import { setBrandId } from '../redux/slices/filterSlice';
 import { AuthContext } from '../context';
-import CreateType from '../componetns/CreateType/CreateType';
+import CreateType from '../componetns/CreateType';
 
 const Catalog = () => { 
 
