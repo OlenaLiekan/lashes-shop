@@ -989,9 +989,21 @@
 
 .slide-main-block {  
     &__actions {
+        position: absolute;
+        top: 20px;
+        left: 20px;
         display: flex;
+        gap: 20px;
+        z-index: 2;
+        background-color: #25252563;
+        border-radius: 20px;
+        padding: 20px;
         &_hidden {
             display: none;
+        }
+        svg {
+            fill: #fff;
+            font-size: 1.2rem;
         }
     }
     &__image {
@@ -1113,16 +1125,14 @@
         background-color: #25252563;
         border-radius: 20px;
         padding: 10px;
-        svg {
-            fill: #fff;
-        }
-        @media (max-width: 479.98px) {
-            svg {
-                font-size: 0.8rem;
-            }
-        }
         &_hidden {
             display: none;
+        }
+        svg {
+            fill: #fff;
+            @media (max-width: 479.98px) {
+                font-size: 0.8rem;
+            }
         }
     }
 }

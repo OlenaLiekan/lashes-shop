@@ -51,8 +51,8 @@ const BrandsBlock = () => {
                       <div  className="block-companies__slide slide-companies-block">
                         <div className="slide-companies-block__content">
                           {brands.slice(0, 3).map((brand) => 
-                            <Link key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
-                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies__actions_hidden'}>
+                            <div key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
+                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies-block__actions_hidden'}>
                                   <svg className='delete-brand' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                       <path d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" />
                                   </svg>
@@ -61,7 +61,7 @@ const BrandsBlock = () => {
                                   </svg>                                                
                               </div>
                               <img src={'http://localhost:3001/' + brand.img}  alt="brand"/>
-                            </Link>                          
+                            </div>                          
                           )}
                         </div>
                       </div>                  
@@ -71,7 +71,7 @@ const BrandsBlock = () => {
                         <div className="slide-companies-block__content">
                           {brands.slice(3, 6).map((brand) => 
                             <Link key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
-                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies__actions_hidden'}>
+                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies-block__actions_hidden'}>
                                   <svg className='delete-brand' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                       <path d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" />
                                   </svg>
@@ -91,7 +91,7 @@ const BrandsBlock = () => {
                         <div className="slide-companies-block__content">
                           {brands.slice(6).map((brand) => 
                             <Link key={brand.name} to={`/produtos`} onClick={() => onChangeBrand(brand.id)} className="slide-companies-block__image">
-                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies__actions_hidden'}>
+                              <div className={isAuth && adminMode ? 'slide-companies-block__actions' : 'slide-companies-block__actions_hidden'}>
                                   <svg className='delete-brand' xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                       <path d="M32 464a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128H32zm272-256a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zm-96 0a16 16 0 0 1 32 0v224a16 16 0 0 1-32 0zM432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16z" />
                                   </svg>

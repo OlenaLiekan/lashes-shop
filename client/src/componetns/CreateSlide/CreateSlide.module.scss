@@ -4,7 +4,7 @@
     max-width: 400px;
     border: 2px solid #7f766a;
     border-radius: 20px;
-    padding: 20px;
+    padding: 40px 20px 20px 20px;
     box-shadow: 5px 5px 5px #7f766a52;
     margin-bottom: 100px;
 
@@ -25,11 +25,7 @@
 .formSlide {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-
-    @media(max-width: 371.98px) {
-        gap: 15px;
-    }
+    gap: 40px;
 }
 
 .formFile {
