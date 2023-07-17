@@ -20,7 +20,7 @@ export const login = async (email, password) => {
   return jwt_decode(data.token);
 };
 
-export const check = async () => {
+export const refreshToken = async () => {
   const { data } = await $authHost.get('api/user/auth');
   localStorage.setItem('token', data.token);
   return jwt_decode(data.token);

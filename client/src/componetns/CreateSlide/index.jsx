@@ -1,14 +1,17 @@
 import React from 'react';
 import styles from './CreateSlide.module.scss';
 import { AuthContext } from '../../context';
+import { createSlide } from '../../http/productAPI';
+import { useNavigate } from 'react-router-dom';
 
 const CreateSlide = () => {
 
+    const navigate = useNavigate();
     const { setCreateMode } = React.useContext(AuthContext);
-    const [file, setFile] = React.useState(null);
+    const [img, setImg] = React.useState(null);
 
     const selectFile = (event) => {
-        setFile(event.target.files[0]);
+        setImg(event.target.files[0]);
     }
 
     const closeCreatePopup = () => {
@@ -17,24 +20,13 @@ const CreateSlide = () => {
 
     const pushSlide = (e) => {
         e.preventDefault();
-        if (file) {
-            const slide = { img: file.name };
-            try {
-            fetch('http://localhost:3001/api/slide', {
-                    method: 'POST',
-                    headers: { 'content-type': 'application/json'},
-                    body: JSON.stringify(slide)
-                }).then(res => {
-                    return res.json();
-                });
-                alert('Успешно добавлен слайд.');               
-            } catch (error) {
-                alert('Error');
-            }
- 
-
-            setCreateMode(false);            
-        }
+        const formData = new FormData();
+        formData.append('img', img);
+        createSlide(formData);
+        alert('Novo slide adicionado com sucesso!');
+        setCreateMode(false);  
+        navigate('/auth');
+        window.scrollTo(0, 0);
     }
 
     return (

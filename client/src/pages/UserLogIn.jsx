@@ -88,7 +88,7 @@ const UserLogIn = () => {
                         </h2>
                         <div className="form-login__line">
                             <label htmlFor="userEmail" className="form-login__label">E-mail</label>
-                            <input required id="userEmail" type="email" name='email' autoComplete='off' tabIndex="1" className="form-login__input"
+                            <input required id="userEmail" type="email" name='email' autoComplete='off' tabIndex="1" className="form-login__input form-login__input_access"
                                 ref={inputRef}
                                 value={email}
                                 onChange={onChangeInputEmail} />                            
@@ -98,7 +98,7 @@ const UserLogIn = () => {
                         </div>
                         <div className="form-login__line">
                             <label htmlFor="userPassword" className="form-login__label">Senha</label>
-                            <input required id="userPassword" type="password" name='password' autoComplete='off' tabIndex="2" className="form-login__input"
+                            <input required id="userPassword" type="password" name='password' autoComplete='off' tabIndex="2" className="form-login__input form-login__input_access"
                                 ref={inputRef}
                                 value={password}
                                 onChange={onChangeInputPass}/>                            

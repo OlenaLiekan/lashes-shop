@@ -1,18 +1,14 @@
-import React, { useCallback, useContext } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { checkedCheckbox } from '../js/script';
 import axios from 'axios';
 import debounce from 'lodash.debounce';
 import { registration } from '../http/userAPI.js';
-import { AuthContext } from '../context';
 
 const Registration = () => {
 
     const inputRef = React.useRef();
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
-    const [exEmail, setExEmail] = React.useState({});
-    const [exPhone, setExPhone] = React.useState({});
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');    
     const [phone, setPhone] = React.useState('');
@@ -22,6 +18,25 @@ const Registration = () => {
     const [password, setPass] = React.useState('');
     const [checkPass, setCheckPass] = React.useState('');
     const [checkPassValue, setCheckPassValue] = React.useState('');
+    const [currentUser, setUser] = React.useState({});
+    
+    React.useEffect(() => {
+        async function fetchUser() {
+            try {
+                const { data } = await axios
+                    .get(
+                        `http://localhost:3001/api/user?email=${emailValue}`,
+                );
+                if (data) {
+                    setUser(data);
+                }
+            } catch (error) {
+
+            }
+        }
+        window.scrollTo(0, 0);
+        fetchUser();
+    }, [emailValue]); 
 
     const createAccount = async (e) => {
         e.preventDefault();
@@ -33,7 +48,6 @@ const Registration = () => {
         } catch (error) {
             alert('error');
         }
-
     }
 
 
@@ -85,51 +99,6 @@ const Registration = () => {
         updateCheckPassValue(event.target.value);
     };
 
-
-    /*React.useEffect(() => {
-        if (emailValue) {
-            axios
-                .get(`https://63f3d329de3a0b242b49f97f.mockapi.io/users?search=${emailValue}`)
-                .then((res) => {
-                    setExEmail(...res.data);                       
-                });            
-        }
-    }, [emailValue]);
-
-        React.useEffect(() => {
-        if (phoneValue) {
-            axios
-                .get(`https://63f3d329de3a0b242b49f97f.mockapi.io/users?search=${phoneValue.substring(1)}`)
-                .then((res) => {
-                    setExPhone(...res.data);                       
-                });            
-        }
-        }, [phoneValue]);
-    
-    const samePasswords = pass === checkPass ? true : false;
-
-    const createAccount = (event) => {
-        event.preventDefault();
-        const newUser = { name: username, lastName: surname, role: 'user', email: email, phone: phone, password: pass, agree: 'true', avatar: 'none' };
-        if (!exEmail && !exPhone && samePasswords) {
-            fetch('https://63f3d329de3a0b242b49f97f.mockapi.io/users', {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                // Send your data in the request body as JSON
-                body: JSON.stringify(newUser)
-            }).then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-                setCreating(false);
-            });   
-            navigate('/login');
-            window.scrollTo(0, 0);
-            alert('Parabéns! Sua conta foi criada com sucesso.');
-        }
-    }*/
-   
-
     const scroll = () => {
         window.scrollTo(0, 0);
     }
@@ -162,7 +131,7 @@ const Registration = () => {
                                 value={email}
                                 onChange={onChangeEmail}/> 
                         </div>
-                        <div className={emailValue && exEmail ? "form-login__line form-login__line_error _error" : "form-login__line form-login__line_error"}>
+                        <div className={emailValue && currentUser.email === emailValue ? "form-login__line form-login__line_error _error" : "form-login__line form-login__line_error"}>
                             Este e-mail já existe.
                         </div>
                         <div className="form-login__line">
@@ -171,9 +140,6 @@ const Registration = () => {
                                 ref={inputRef}
                                 value={phone}
                                 onChange={onChangePhone}/> 
-                        </div>
-                        <div className={phoneValue.length === 13 && exPhone ? "form-login__line form-login__line_err _error" : "form-login__line form-login__line_error"}>
-                            Este número de telefone já existe.
                         </div>
                         <div className="form-login__line">
                             <label htmlFor="userPassword" className="form-login__label">Senha <span>*</span></label>

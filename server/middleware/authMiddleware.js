@@ -13,6 +13,6 @@ module.exports = function (req, res, next) {
     req.user = decoded;
     next();
   } catch (e) {
-    res.status(401).json({ message: 'User not authorized' });
+    return res.status(401).json({ message: 'User not authorized' });
   }
 };

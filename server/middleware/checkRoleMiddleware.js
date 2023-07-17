@@ -12,12 +12,12 @@ module.exports = function (role) {
       }
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       if (decoded.role !== role) {
-        res.status(403).json({ message: 'No access' });
+        return res.status(403).json({ message: 'No access' });
       }
       req.user = decoded;
       next();
     } catch (e) {
-      res.status(401).json({ message: 'User not authorized' });
+      return res.status(401).json({ message: 'User not authorized' });
     }
   };
 };

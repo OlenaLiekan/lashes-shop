@@ -727,7 +727,6 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 2px solid #d9d9d9a4;
         gap: 10px;
         &:not(:last-child) {
             margin-bottom: 30px;
@@ -762,7 +761,7 @@
         }
     }
     &__label {
-        font-size: 18px;
+        font-size: 14px;
         line-height: 1.2;
         font-weight: 500;
         span {
@@ -774,7 +773,14 @@
         height: 30px;
         padding: 10px;
         outline: none;
-        width: 70%;
+        width: 55%;
+        border-bottom: 2px solid #d9d9d9a4;
+        &_access {
+            width: 70%;
+        }
+        @media(max-width: 479.98px) {
+            width: 100%;
+        }
     }
     &__text {
         font-size: 14px;
@@ -790,7 +796,7 @@
         right: 15px;
     }
     &__button {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
         letter-spacing: 1.5px;
         align-self: center;
@@ -1240,7 +1246,7 @@
     &__actions {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         position: absolute;
         top: 0;
         left: 0;
@@ -1526,7 +1532,7 @@
     &__actions {
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
         position: absolute;
         top: 0;
         left: 0;
@@ -1563,7 +1569,7 @@
            height: 160px;
         }
         @media (max-width: 371.98px) {
-            align-self: start;
+            align-self: flex-start;
             height: 125px;
         }
         img {
