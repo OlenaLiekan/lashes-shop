@@ -57,6 +57,10 @@
 .formSelect {
     width: 200px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 3;
 }
 
 .formFile { 
@@ -145,5 +149,62 @@
     &:hover {
         color: #fff;
         background-color: #7f766a;
+    }
+}
+
+.typeOptions {
+    position: absolute;
+    width: 200px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-left: 2px solid #f4f4f4;
+    border-right: 2px solid #f4f4f4;
+    border-bottom: 2px solid #f4f4f4;
+    box-shadow: 3px 3px 3px #f4f4f4a8;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    z-index: 2;
+    top: 140px;
+    right: 35px;
+
+    @media(max-width: 579.98px) {
+        left: 0;
+        top: 40px;
+    }
+}
+
+.brandOptions {
+    position: absolute;
+    width: 200px;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-left: 2px solid #f4f4f4;
+    border-right: 2px solid #f4f4f4;
+    border-bottom: 2px solid #f4f4f4;
+    box-shadow: 3px 3px 3px #f4f4f4a8;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    z-index: 2;
+    top: 140px;
+    left: 77px;
+
+    @media(max-width: 579.98px) {
+        left: 0;
+        top: 40px;
+    }
+}
+
+.option {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+
+    &:hover {
+        background-color: #f4f4f4;
+        color: #AD912B;
     }
 }

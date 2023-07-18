@@ -49,7 +49,7 @@ const MenuHeader = () => {
                         {menuList.map((item) => 
                             <li key={item.id} value={item.name} onClick={() => setActiveItem(item.id)} className="menu__item item-menu">
                                 {
-                                    item.id < 4
+                                    item.subMenu
                                     ?                                
                                     <div className="item-menu__link">
                                         <button className="item-menu__button menu-button">

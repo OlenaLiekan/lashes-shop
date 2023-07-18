@@ -29,3 +29,13 @@ export const fetchSlides = async () => {
   const { data } = await $host.get('api/slide');
   return data;
 };
+
+export const createProduct = async product => {
+  const { data } = await $authHost.post('api/product', product);
+  return data;
+};
+
+export const fetchProducts = async () => {
+  const { data } = await $host.get('api/product');
+  return data;
+};

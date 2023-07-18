@@ -5,11 +5,19 @@ const path = require('path');
 
 class TypeController {
   async create(req, res) {
-    const { name, categoryId } = req.body;
+    let { name, categoryId } = req.body;
     const { img } = req.files;
     let fileName = uuid.v4() + '.jpg';
     img.mv(path.resolve(__dirname, '..', 'static', fileName));
     const type = await Type.create({ name, categoryId, img: fileName });
+    return res.json(type);
+  }
+
+  async destroy(req, res) {
+    const { id } = req.query;
+    const type = await Type.destroy({
+      where: { id },
+    });
     return res.json(type);
   }
 

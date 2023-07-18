@@ -7,7 +7,7 @@ const AdminPanel = () => {
 
     const [showPopup, setShowPopup] = React.useState(false);
     const arr = [
-        { name: 'Category', path: 'catalog' },
+        { name: 'Type', path: 'catalog' },
         { name: 'Product', path: 'produtos' },
         { name: 'Brand', path: ' ' },
         { name: 'Slide', path: ' ' }

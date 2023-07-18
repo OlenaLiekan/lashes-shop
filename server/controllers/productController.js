@@ -49,6 +49,14 @@ class ProductController {
     }
   }
 
+  async destroy(req, res) {
+    const { id } = req.query;
+    const product = await Product.destroy({
+      where: { id },
+    });
+    return res.json(product);
+  }
+
   async getAll(req, res) {
     const { brandId, typeId, limit = 12, page = 1, rating, name, price } = req.query;
     const offset = page * limit - limit;
