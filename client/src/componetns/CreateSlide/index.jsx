@@ -10,6 +10,13 @@ const CreateSlide = () => {
     const { setCreateMode } = React.useContext(AuthContext);
     const [img, setImg] = React.useState(null);
 
+    const success = () => {
+        alert('Novo slide adicionado com sucesso!');
+        setCreateMode(false);  
+        navigate('/auth');
+        window.scrollTo(0, 0);
+    }
+
     const selectFile = (event) => {
         setImg(event.target.files[0]);
     }
@@ -22,11 +29,7 @@ const CreateSlide = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('img', img);
-        createSlide(formData);
-        alert('Novo slide adicionado com sucesso!');
-        setCreateMode(false);  
-        navigate('/auth');
-        window.scrollTo(0, 0);
+        createSlide(formData).then(data => success());
     }
 
     return (

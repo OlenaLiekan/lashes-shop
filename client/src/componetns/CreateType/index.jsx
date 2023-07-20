@@ -17,6 +17,13 @@ const CreateType = () => {
     const [categoryName, setCategoryName] = React.useState('Select category');
     const [img, setImg] = React.useState(null);
 
+    const success = () => {
+        alert('Novo categoria adicionado com sucesso!');
+        setCreateMode(false);  
+        navigate('/auth');
+        window.scrollTo(0, 0);        
+    }
+
     const closePopup = () => {
         setCreateMode(false);            
     }
@@ -58,11 +65,7 @@ const CreateType = () => {
         formData.append('name', name);
         formData.append('img', img);
         formData.append('categoryId', categoryId);
-        createType(formData);
-        alert('Novo categoria adicionado com sucesso!');
-        setCreateMode(false);  
-        navigate('/auth');
-        window.scrollTo(0, 0);
+        createType(formData).then(data => success());
     }
 
     return (

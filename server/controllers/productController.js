@@ -13,6 +13,15 @@ class ProductController {
       let fileName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
 
+      const product = await Product.create({
+        name,
+        code,
+        price,
+        brandId,
+        typeId,
+        img: fileName,
+      });
+
       if (info) {
         info = JSON.parse(info);
         info.forEach(i =>
@@ -25,23 +34,16 @@ class ProductController {
       }
 
       if (slide) {
-        slide.forEach(i =>
+        slide = JSON.parse(slide);
+        slide.forEach(i => {
+          const { img } = req.files;
+          img.mv(path.resolve(__dirname, '..', 'static', fileName));
           ProductSlide.create({
             img: i.fileName,
             productId: product.id,
-          })
-        );
+          });
+        });
       }
-
-      const product = await Product.create({
-        name,
-        code,
-        price,
-        brandId,
-        typeId,
-        img: fileName,
-        slide,
-      });
 
       return res.json(product);
     } catch (e) {
@@ -51,6 +53,7 @@ class ProductController {
 
   async destroy(req, res) {
     const { id } = req.query;
+
     const product = await Product.destroy({
       where: { id },
     });

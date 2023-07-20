@@ -2153,12 +2153,15 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        font-size: 30px;
+        font-size: 28px;
         font-weight: 500;
         color: #252525;
         svg {
             fill: #252525;
             width: 28px;
+        }
+        @media(max-width: 479.98px) {
+            font-size: 20px;
         }
     }
     &__clear {
@@ -2171,6 +2174,13 @@
         svg {
             width: 18px;
             fill: #AD902B;
+        }
+        @media(max-width: 479.98px) {
+            font-size: 14px;
+            gap: 8px;
+            svg {
+                width: 16px;
+            }
         }
     }
 }

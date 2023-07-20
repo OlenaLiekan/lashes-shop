@@ -30,7 +30,8 @@
 
 .formInput, 
 .formInputSmall,
-.formSelect {
+.formSelectBrands,
+.formSelectTypes {
     font-size: 13px;
     height: 32px;
     border: 2px solid #dcdcdc;
@@ -54,13 +55,21 @@
     max-width: 150px;
 }
 
-.formSelect {
+.formSelectTypes,
+.formSelectBrands {
     width: 200px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 3;
+}
+
+.formSelectBrands {
+    z-index: 4;
+}
+
+.formSelectTypes {
+    z-index: 2;
 }
 
 .formFile { 
@@ -165,13 +174,13 @@
     box-shadow: 3px 3px 3px #f4f4f4a8;
     border-radius: 0 0 20px 20px;
     overflow: hidden;
-    z-index: 2;
+    z-index: 1;
     top: 140px;
     right: 35px;
 
     @media(max-width: 579.98px) {
-        left: 0;
-        top: 40px;
+        left: 20px;
+        top: 320px;
     }
 }
 
@@ -188,13 +197,13 @@
     box-shadow: 3px 3px 3px #f4f4f4a8;
     border-radius: 0 0 20px 20px;
     overflow: hidden;
-    z-index: 2;
+    z-index: 3;
     top: 140px;
     left: 77px;
 
     @media(max-width: 579.98px) {
-        left: 0;
-        top: 40px;
+        left: 20px;
+        top: 260px;
     }
 }
 
@@ -202,9 +211,13 @@
     cursor: pointer;
     padding: 10px;
     font-size: 14px;
-
+    background-color: #fff;
     &:hover {
         background-color: #f4f4f4;
         color: #AD912B;
+    }
+    @media (max-width: 579.98px) {
+        font-size: 12px;
+
     }
 }

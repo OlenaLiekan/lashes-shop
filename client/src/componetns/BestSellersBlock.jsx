@@ -1,7 +1,7 @@
 import React from "react";
 
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { scrollTop, camelize } from "../js/script";
 import ProductBlock from "./ProductBlock";
 import Skeleton from "./Skeleton";
@@ -10,8 +10,7 @@ const BestSellersBlock = ({ types }) => {
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  const navigate = useNavigate();
+  const [path, setPath] = React.useState('produtos');
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -23,43 +22,19 @@ const BestSellersBlock = ({ types }) => {
     scrollTop();
   }, []);
 
-  const showProduct = (typeId, id) => {
-    const path = types.find((type) => type.id === typeId);
-    navigate(`/${camelize(path.name)}/${id}`);
+  const showProduct = (typeId) => {
+    const result = types.find((type) => type.id === typeId);
+    setPath(camelize(result.name));
   }
-
-  /*React.useEffect(() => {
-    setIsLoading(true);
-    axios.all([
-      axios.get(`http://localhost:3001/api/product?typeId=1&rating=5`
-      ),
-      axios.get(`http://localhost:3001/api/product?typeId=2&rating=5`
-      ),
-      axios.get(`http://localhost:3001/api/product?typeId=3&rating=5`
-      ),      
-      axios.get(`http://localhost:3001/api/product?typeId=4&rating=5`
-      ),
-    ])
-      .then(axios.spread((firstRes, secondRes, thirdRes, fourthRes) => {
-        const res = [firstRes.data[0], secondRes.data[0], thirdRes.data[0], fourthRes.data[0]];
-        setItems(res);
-      }));
-    setIsLoading(false);
-
-  }, []);*/
-
-
       
   const products = items.map((item) =>
     <div key={item.id}
-      onClick={() => showProduct(item.typeId, item.id)}
+      onClick={() => showProduct(item.typeId)}
       className="block-best__item product-main__item"
     >
-      <ProductBlock {...item} />
+      <ProductBlock path={`/${path}/${item.id}`} {...item} />
     </div>
   );
-
-  
 
   const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 

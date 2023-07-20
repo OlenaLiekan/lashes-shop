@@ -13,6 +13,13 @@ const CreateBrand = () => {
     const [img, setImg] = React.useState(null);
     const [name, setName] = React.useState('');
 
+    const success = () => {
+        alert('Novo marca adicionado com sucesso!');
+        setCreateMode(false);  
+        navigate('/auth');
+        window.scrollTo(0, 0);
+    }
+
     const selectFile = (event) => {
         setImg(event.target.files[0]);
     }
@@ -30,11 +37,7 @@ const CreateBrand = () => {
         const formData = new FormData();
         formData.append('name', name);
         formData.append('img', img);
-        createBrand(formData);
-        alert('Novo marca adicionado com sucesso!');
-        setCreateMode(false);  
-        navigate('/auth');
-        window.scrollTo(0, 0);
+        createBrand(formData).then(data => success());
     }
 
     return (
