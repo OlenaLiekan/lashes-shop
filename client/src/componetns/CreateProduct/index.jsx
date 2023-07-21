@@ -25,6 +25,7 @@ const CreateProduct = () => {
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
+    const [slideImg, setSlideImg] = React.useState([]);
 
     const success = () => {
         alert('Novo produtos adicionado com sucesso!');
@@ -35,6 +36,7 @@ const CreateProduct = () => {
 
     const selectFile = (event) => {
         setImg(event.target.files[0]);
+        console.log(img);
     }
 
     const onChangeName = (e) => {
@@ -62,7 +64,7 @@ const CreateProduct = () => {
     }
 
     const addSlide = () => {
-        setSlide([...slide, { img: "", number: Date.now() }]);
+        setSlide([...slide, { slideImg: "", number: Date.now() }]);
     }
 
     const removeSlide = (number) => {
@@ -72,6 +74,14 @@ const CreateProduct = () => {
     const changeSlide = (key, value, number) => {
         setSlide(slide.map(i => i.number === number ? { ...i, [key]: value } : i));
     }
+
+    React.useEffect(() => {
+        let slideFiles = Object.entries(slide).map(([key, value]) => value);
+        slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
+        slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
+        setSlideImg(slideFiles.map((slideFile) => slideFile[0]));
+        console.log(slideImg);
+    }, [slide]);
 
     const closeCreatePopup = () => {
         setCreateMode(false);
@@ -131,7 +141,9 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
-        formData.append('slide', JSON.stringify(slide));
+        slideImg.forEach((image) => {
+            formData.append('slide', image);             
+        })
         createProduct(formData).then(data => success());      
     }
 
@@ -225,7 +237,7 @@ const CreateProduct = () => {
                     <div className={styles.line} key={i.number}>
                         <label htmlFor="product-slide" className={styles.label}>Slide:</label>
                         <input id="product-slide" tabIndex="11" type='file' className={styles.formFile}
-                            onChange={(e) => changeSlide('img', e.target.files[0], i.number)}
+                            onChange={(e) => changeSlide('slideImg', e.target.files[0], i.number)}
                         />
                         <button type='button' tabIndex='12' className='slide-product__remove' onClick={() => removeSlide(i.number)}>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
