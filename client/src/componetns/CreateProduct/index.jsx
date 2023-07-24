@@ -25,7 +25,7 @@ const CreateProduct = () => {
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
-    const [slideImg, setSlideImg] = React.useState([]);
+    const [images, setImages] = React.useState([]);
 
     const success = () => {
         alert('Novo produtos adicionado com sucesso!');
@@ -79,7 +79,7 @@ const CreateProduct = () => {
         let slideFiles = Object.entries(slide).map(([key, value]) => value);
         slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
         slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
-        setSlideImg(slideFiles.map((slideFile) => slideFile[0]));
+        setImages(slideFiles.map((slideFile) => slideFile[0]));
         console.log(slideImg);
     }, [slide]);
 
@@ -141,8 +141,8 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
-        slideImg.forEach((image) => {
-            formData.append('slide', image);             
+        images.forEach((slideImg) => {
+            formData.append('slide', slideImg);             
         })
         createProduct(formData).then(data => success());      
     }

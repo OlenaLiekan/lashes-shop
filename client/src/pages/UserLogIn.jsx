@@ -43,7 +43,7 @@ const UserLogIn = () => {
             setIsAuth(true);
             const userData = JSON.stringify(currentUser);   
             localStorage.setItem("user", userData); 
-            navigate('/auth');            
+            navigate('/auth'); 
         } catch (error) {
             setError(true);
         }

@@ -8,10 +8,12 @@ const ApiError = require('../error/ApiError');
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, code, price, brandId, typeId, info, slide } = req.body;
-      const { img } = req.files;
+      let { name, code, price, brandId, typeId, info } = req.body;
+      const { img, slide } = req.files;
       let fileName = uuid.v4() + '.jpg';
+      let slideName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
+      slide.mv(path.resolve(__dirname, '..', 'static', slideName));
 
       const product = await Product.create({
         name,
@@ -33,17 +35,10 @@ class ProductController {
         );
       }
 
-      if (slide) {
-        slide = JSON.parse(slide);
-        slide.forEach(i => {
-          const { img } = req.files;
-          img.mv(path.resolve(__dirname, '..', 'static', fileName));
-          ProductSlide.create({
-            img: i.fileName,
-            productId: product.id,
-          });
-        });
-      }
+      ProductSlide.create({
+        slideImg: slideName,
+        productId: product.id,
+      });
 
       return res.json(product);
     } catch (e) {

@@ -2,17 +2,32 @@ import React from 'react';
 import { AuthContext } from '../context';
 import AdminPanel from '../componetns/AdminPanel';
 import UserPanel from '../componetns/UserPanel';
+import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
 
-    const {adminMode, setAdminMode} = React.useContext(AuthContext);
+    const {isAuth, setIsAuth, adminMode, setAdminMode} = React.useContext(AuthContext);
 
+    const navigate = useNavigate();
     const data = localStorage.getItem("user");
     const user = JSON.parse(data);
+
+    const initLogout = () => {
+        if (adminMode) {
+            setAdminMode(false);
+        }
+        localStorage.removeItem('user');
+        setIsAuth(false);    
+        localStorage.removeItem('auth');
+        navigate("/login");
+    }
     
     React.useEffect(() => {
         if (user.role === "ADMIN") {
             setAdminMode(true);
+        }
+        if (isAuth) {
+            setTimeout(initLogout, 86400000);
         }
     }, []);
 

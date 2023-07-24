@@ -31,7 +31,7 @@ const Product = sequelize.define('product', {
 
 const ProductSlide = sequelize.define('product_slide', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  img: { type: DataTypes.STRING, allowNull: false },
+  slideImg: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Category = sequelize.define('category', {
