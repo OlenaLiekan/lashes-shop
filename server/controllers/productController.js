@@ -9,11 +9,12 @@ class ProductController {
   async create(req, res, next) {
     try {
       let { name, code, price, brandId, typeId, info } = req.body;
-      const { img, slide } = req.files;
+      const { img } = req.files;
+      const { slide } = req.files;
       let fileName = uuid.v4() + '.jpg';
       let slideName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
-      slide.mv(path.resolve(__dirname, '..', 'static', slideName));
+      slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
 
       const product = await Product.create({
         name,
@@ -35,9 +36,11 @@ class ProductController {
         );
       }
 
-      ProductSlide.create({
-        slideImg: slideName,
-        productId: product.id,
+      slide.forEach((img, i) => {
+        ProductSlide.create({
+          slideImg: i + slideName,
+          productId: product.id,
+        });
       });
 
       return res.json(product);

@@ -80,7 +80,6 @@ const CreateProduct = () => {
         slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
         slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
         setImages(slideFiles.map((slideFile) => slideFile[0]));
-        console.log(slideImg);
     }, [slide]);
 
     const closeCreatePopup = () => {
@@ -141,8 +140,8 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
-        images.forEach((slideImg) => {
-            formData.append('slide', slideImg);             
+        images.forEach((slide) => {
+            formData.append('slide', slide);             
         })
         createProduct(formData).then(data => success());      
     }

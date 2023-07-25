@@ -13,23 +13,23 @@ const ProductCard = ({type}) => {
     const {id} = useParams(); 
 
     React.useEffect(() => {
-            setIsLoading(true);
-            async function fetchProduct() {
-                try {
-                    const { data } = await axios
-                        .get(
-                            `http://localhost:3001/api/product/`+ id,
-                        );
-                    setItem(data);
-                    setIsLoading(false);
-                } catch (error) {
-                    alert('Produto não encontrado!');
-                    navigate('/');
-                }
+        setIsLoading(true);
+        async function fetchProduct() {
+            try {
+                const { data } = await axios
+                    .get(
+                        `http://localhost:3001/api/product/`+ id,
+                    );
+                setItem(data);
+                setIsLoading(false);
+            } catch (error) {
+                alert('Produto não encontrado!');
+                navigate('/');
             }
-            window.scrollTo(0, 0);
+        }
+        window.scrollTo(0, 0);
         fetchProduct();
-    }, [id]);     
+    }, [id]);   
 
     return (
         <div className="main__product-card product-card">
