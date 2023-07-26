@@ -5,6 +5,11 @@ export const createType = async type => {
   return data;
 };
 
+export const fetchOneAndUpdateType = async (type, id) => {
+  const { data } = await $authHost.put('api/type/' + id);
+  return data;
+};
+
 export const fetchTypes = async () => {
   const { data } = await $host.get('api/type');
   return data;

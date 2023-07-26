@@ -51,7 +51,6 @@ class ProductController {
 
   async destroy(req, res) {
     const { id } = req.query;
-
     const product = await Product.destroy({
       where: { id },
     });
@@ -106,15 +105,19 @@ class ProductController {
   }
 
   async getOne(req, res) {
-    const { id } = req.params;
-    const product = await Product.findOne({
-      where: { id },
-      include: [
-        { model: ProductInfo, as: 'info' },
-        { model: ProductSlide, as: 'slide' },
-      ],
-    });
-    return res.json(product);
+    try {
+      const { id } = req.params;
+      const product = await Product.findOne({
+        where: { id },
+        include: [
+          { model: ProductInfo, as: 'info' },
+          { model: ProductSlide, as: 'slide' },
+        ],
+      });
+      return res.json(product);
+    } catch (e) {
+      next(ApiError.badRequest(e.message));
+    }
   }
 }
 

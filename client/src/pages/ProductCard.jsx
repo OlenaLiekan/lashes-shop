@@ -15,14 +15,14 @@ const ProductCard = ({type}) => {
     React.useEffect(() => {
         setIsLoading(true);
         async function fetchProduct() {
-            try {
-                const { data } = await axios
-                    .get(
-                        `http://localhost:3001/api/product/`+ id,
-                    );
+            const { data } = await axios
+                .get(
+                    `http://localhost:3001/api/product/`+ id,
+            );
+            if (data) {
                 setItem(data);
-                setIsLoading(false);
-            } catch (error) {
+                setIsLoading(false);                    
+            } else {
                 alert('Produto não encontrado!');
                 navigate('/');
             }

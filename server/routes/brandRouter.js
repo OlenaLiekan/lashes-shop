@@ -6,6 +6,6 @@ const checkRole = require('../middleware/checkRoleMiddleware');
 router.post('/', checkRole('ADMIN'), brandController.create);
 router.get('/', brandController.getAll);
 router.get('/:id', brandController.getOne);
-router.delete('/', brandController.destroy);
+router.delete('/', checkRole('ADMIN'), brandController.destroy);
 
 module.exports = router;
