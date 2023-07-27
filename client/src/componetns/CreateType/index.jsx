@@ -18,7 +18,7 @@ const CreateType = () => {
     const [img, setImg] = React.useState(null);
 
     const success = () => {
-        alert('Novo categoria adicionado com sucesso!');
+        alert('Novo tipo adicionado com sucesso!');
         setCreateMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);        

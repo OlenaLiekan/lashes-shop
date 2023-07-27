@@ -25,6 +25,11 @@ export const fetchBrands = async () => {
   return data;
 };
 
+export const updateBrand = async (brand, id) => {
+  const { data } = await $authHost.put('api/brand/' + id, brand);
+  return data;
+};
+
 export const createSlide = async slide => {
   const { data } = await $authHost.post('api/slide', slide);
   return data;

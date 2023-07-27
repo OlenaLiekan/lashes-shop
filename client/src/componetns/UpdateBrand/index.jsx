@@ -4,7 +4,7 @@ import { AuthContext } from '../../context';
 import { updateBrand } from '../../http/productAPI';
 import { useNavigate } from 'react-router-dom';
 
-const UpdateBrand = () => {
+const UpdateBrand = ({brandItem}) => {
 
     const inputRef = React.useRef();
     const navigate = useNavigate();
@@ -13,8 +13,12 @@ const UpdateBrand = () => {
     const [img, setImg] = React.useState(null);
     const [name, setName] = React.useState('');
 
+    React.useEffect(() => {
+        setName(brandItem.name);          
+    }, [brandItem]);
+
     const success = () => {
-        alert('Novo marca adicionado com sucesso!');
+        alert('A marca foi atualizada com sucesso!');
         setUpdateMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);
@@ -34,6 +38,7 @@ const UpdateBrand = () => {
 
     const pushBrand = (e) => {
         e.preventDefault();
+        const id = brandItem.id;
         const formData = new FormData();
         formData.set('name', name);
         formData.set('img', img);
@@ -59,7 +64,7 @@ const UpdateBrand = () => {
                         onChange={selectFile}
                     />                   
                 </div>
-                <button type='submit'tabIndex='13' className={styles.button}>Create brand</button>
+                <button type='submit'tabIndex='13' className={styles.button}>Update brand</button>
             </form>            
         </div>
     );

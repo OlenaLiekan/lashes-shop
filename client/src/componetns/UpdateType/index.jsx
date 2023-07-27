@@ -22,7 +22,7 @@ const UpdateType = ({typeItem}) => {
     }, [typeItem]);
 
     const success = () => {
-        alert('Novo categoria adicionado com sucesso!');
+        alert('Tipo atualizado com sucesso!');
         setUpdateMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);        

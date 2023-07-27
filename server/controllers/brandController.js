@@ -21,6 +21,17 @@ class BrandController {
     return res.json(brand);
   }
 
+  async update(req, res) {
+    const brandId = req.params.id;
+    let { name } = req.body;
+    const { img } = req.files;
+    let fileName = uuid.v4() + '.jpg';
+    img.mv(path.resolve(__dirname, '..', 'static', fileName));
+    const options = { where: { id: brandId } };
+    const brand = await Brand.update({ name, img: fileName }, options);
+    return res.json(brand);
+  }
+
   async getAll(req, res) {
     const brands = await Brand.findAll({
       order: [['id', 'ASC']],
