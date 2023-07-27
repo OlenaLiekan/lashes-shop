@@ -8,11 +8,12 @@ import { AuthContext } from "../context";
 import axios from "axios";
 import "swiper/scss";
 import CreateBrand from "./CreateBrand";
+import UpdateBrand from "./UpdateBrand";
 
 const BrandsBlock = () => {
 
   const navigate = useNavigate();
-  const { isAuth, adminMode, createMode, setCreateMode } = React.useContext(AuthContext);
+  const { isAuth, adminMode, createMode, updateMode, setCreateMode } = React.useContext(AuthContext);
   const [brands, setBrands] = React.useState([]);
   const dispatch = useDispatch();
 
@@ -43,6 +44,7 @@ const BrandsBlock = () => {
         <section className="companies__block block-companies">
           <div className="block-companies__container">
           <div className="block-companies__body">
+            {isAuth && adminMode && updateMode ? <UpdateBrand /> : ''}
             {isAuth && adminMode && createMode ? <CreateBrand /> : ''}
             {isAuth && adminMode && !createMode ? 
               <button className="block-companies__create" onClick={setCreateMode}>Create new brand</button>

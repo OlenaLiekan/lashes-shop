@@ -2,8 +2,8 @@ import axios from 'axios';
 import React from 'react';
 import styles from './UpdateType.module.scss';
 import { AuthContext } from '../../context';
-import { fetchOneTypeAndUpdate } from '../../http/productAPI';
 import { useNavigate } from 'react-router-dom';
+import { fetchAndUpdateType } from '../../http/productAPI';
 
 const UpdateType = ({typeItem}) => {
 
@@ -65,18 +65,16 @@ const UpdateType = ({typeItem}) => {
 
     const updateTypeItem = (e) => {
         e.preventDefault();
+        const formData = new FormData();
         const id = typeItem.id;
-        const formData = new FormData();     
-        formData.set('id', id);
         formData.set('name', name);
         formData.set('img', img);
-        formData.set('categoryId', categoryId);
-        fetchOneTypeAndUpdate(formData).then(data => success());
+        formData.set('category', categoryId);
+        fetchAndUpdateType(formData, id).then(data => success());
     }
 
     return (
         <div className={styles.createType}>
-                   
             <form onSubmit={updateTypeItem} className={styles.formType}>
                 <div className={styles.line}>
                     <label htmlFor="type-name" className={styles.label} placeholder='Name'>Name:</label>

@@ -21,18 +21,14 @@ class TypeController {
     return res.json(type);
   }
 
-  async updateOne(req, res) {
-    const { id } = req.params;
+  async update(req, res) {
+    const typeId = req.params.id;
     let { name, categoryId } = req.body;
     const { img } = req.files;
     let fileName = uuid.v4() + '.jpg';
     img.mv(path.resolve(__dirname, '..', 'static', fileName));
-    const type = await Type.update({
-      where: { id },
-      name,
-      categoryId,
-      img: fileName,
-    });
+    const options = { where: { id: typeId } };
+    const type = await Type.update({ name, categoryId, img: fileName }, options);
     return res.json(type);
   }
 
