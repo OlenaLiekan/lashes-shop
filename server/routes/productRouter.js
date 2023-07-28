@@ -7,5 +7,6 @@ router.post('/', checkRole('ADMIN'), productController.create);
 router.get('/', productController.getAll);
 router.get('/:id', productController.getOne);
 router.delete('/', productController.destroy);
+router.put('/:id', productController.update);
 
 module.exports = router;

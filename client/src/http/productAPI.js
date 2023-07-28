@@ -54,3 +54,8 @@ export const fetchOneProduct = async id => {
   const { data } = await $host.get('api/product/' + id);
   return data;
 };
+
+export const updateProduct = async (product, id) => {
+  const { data } = await $authHost.put('api/product/' + id, product);
+  return data;
+};

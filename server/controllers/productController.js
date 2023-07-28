@@ -57,6 +57,41 @@ class ProductController {
     return res.json(product);
   }
 
+  async update(req, res) {
+    const productId = req.params.id;
+    let { name, code, price, brandId, typeId, info } = req.body;
+    const { img } = req.files;
+    const { slide } = req.files;
+    let fileName = uuid.v4() + '.jpg';
+    let slideName = uuid.v4() + '.jpg';
+    img.mv(path.resolve(__dirname, '..', 'static', fileName));
+    slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+    const options = { where: { id: productId } };
+    const product = await Product.update(
+      { name, code, price, brandId, typeId, img: fileName },
+      options
+    );
+
+    if (info) {
+      info = JSON.parse(info);
+      info.forEach(i =>
+        ProductInfo.update({
+          title: i.title,
+          description: i.description,
+          productId: product.id,
+        })
+      );
+    }
+
+    slide.forEach((img, i) => {
+      ProductSlide.update({
+        slideImg: i + slideName,
+        productId: product.id,
+      });
+    });
+    return res.json(product);
+  }
+
   async getAll(req, res) {
     const { brandId, typeId, limit = 12, page = 1, rating, name, price } = req.query;
     const offset = page * limit - limit;

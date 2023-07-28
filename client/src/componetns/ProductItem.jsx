@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem, minusItem } from '../redux/slices/cartSlice';
 import { camelize } from '../js/script';
 import axios from 'axios';
+import UpdateProduct from './UpdateProduct';
+import { AuthContext } from '../context';
 
 const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
@@ -19,6 +21,8 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
     const [types, setTypes] = React.useState([]);
 
     const [pestanasProducts, setPestanasProducts] = React.useState([]);
+
+    const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
 
     React.useEffect(() => {
         axios.get('http://localhost:3001/api/brand')
@@ -109,6 +113,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
             </div>
             <div className="product-card__body">
                 <div className="images-product__wrapper">
+                    {isAuth && adminMode && updateMode ? <UpdateProduct obj={obj} id={id} /> : ''}
                     <div className="product-card__images images-product">
                         <ProductCardSlider img={img} slides={slide} />                                
                     </div>

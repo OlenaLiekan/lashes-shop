@@ -26,7 +26,7 @@ const ProductPage = ({type}) => {
     const { brandId, sort, currentPage } = useSelector((state) => state.filter);
 
     const { searchValue } = React.useContext(SearchContext);
-    const { isAuth, adminMode, createMode, setCreateMode } = React.useContext(AuthContext);
+    const { isAuth, adminMode, createMode, setCreateMode, updateMode } = React.useContext(AuthContext);
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
