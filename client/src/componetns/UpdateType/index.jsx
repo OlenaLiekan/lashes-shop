@@ -18,7 +18,9 @@ const UpdateType = ({typeItem}) => {
     const [img, setImg] = React.useState(null);
 
     React.useEffect(() => {
-        setName(typeItem.name);          
+        setName(typeItem.name); 
+        const category = categories.find(category => category.id === typeItem.categoryId);
+        setCategoryName(category.name);
     }, [typeItem]);
 
     const success = () => {

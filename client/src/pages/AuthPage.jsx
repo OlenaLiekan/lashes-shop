@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
 
-    const {isAuth, setIsAuth, adminMode, setAdminMode} = React.useContext(AuthContext);
+    const {isAuth, setIsAuth, adminMode, setAdminMode, createMode, updateMode} = React.useContext(AuthContext);
 
     const navigate = useNavigate();
     const data = localStorage.getItem("user");
@@ -19,6 +19,7 @@ const AuthPage = () => {
         localStorage.removeItem('user');
         setIsAuth(false);    
         localStorage.removeItem('auth');
+        localStorage.removeItem('date');
         navigate("/login");
     }
     
@@ -26,10 +27,15 @@ const AuthPage = () => {
         if (user.role === "ADMIN") {
             setAdminMode(true);
         }
+
         if (isAuth) {
-            setTimeout(initLogout, 86400000);
+            const loginDate = localStorage.getItem("date");        
+            let result = Date.now() - loginDate;
+                if ( result > 86399998) {
+                    initLogout();
+                } 
         }
-    }, []);
+    }, [isAuth, createMode, updateMode]);
 
     return (
         <div className="main__account account-main">

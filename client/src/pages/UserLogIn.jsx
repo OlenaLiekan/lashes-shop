@@ -40,6 +40,8 @@ const UserLogIn = () => {
         try {
             await login(email, password);
             localStorage.setItem("auth", "true");
+            const loginDate = Date.now();
+            localStorage.setItem("date", loginDate);
             setIsAuth(true);
             const userData = JSON.stringify(currentUser);   
             localStorage.setItem("user", userData); 
