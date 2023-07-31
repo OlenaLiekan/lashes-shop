@@ -8,8 +8,9 @@ import { camelize } from '../js/script';
 import axios from 'axios';
 import UpdateProduct from './UpdateProduct';
 import { AuthContext } from '../context';
+import ReviewItem from './ReviewItem';
 
-const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
+const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -112,8 +113,9 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
                 </Link>
             </div>
             <div className="product-card__body">
+                {isAuth && adminMode && updateMode ? <UpdateProduct obj={obj} id={id} /> : ''}
                 <div className="images-product__wrapper">
-                    {isAuth && adminMode && updateMode ? <UpdateProduct obj={obj} id={id} /> : ''}
+                    
                     <div className="product-card__images images-product">
                         <ProductCardSlider img={img} slides={slide} />                                
                     </div>
@@ -123,15 +125,14 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
                                 <h1 className="info-product__title">
                                     {name} 
                                 </h1>   
-                                {
-                                    subtitle ?
-                                        <h2 className="info-product__subtitle">
-                                            {subtitle}
-                                        </h2>
-                                    :
-                                    ''
-                                }
+                                <div className="info-product__rating item-rating">
+                                    <svg className={rating === 0 ? 'empty-star' : 'rating-star'} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                                        <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z" />
+                                    </svg>
+                                    <span>{rating}</span>
+                                </div>
                             </div>
+
                             <div className="info-product__number"><span className="label-bold">Código do produto:</span> {code}</div>
                             <div className="info-product__brand"><span className="label-bold">Marca:</span> {company}</div>
                             {info.length ? info.map((obj) => 
@@ -196,6 +197,8 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
                                 : ''
                             }
 
+
+
                             <div className="info-product__price">
                                 <span className="label-bold">Preço:</span>
                                 <div className="price__value">
@@ -224,14 +227,36 @@ const ProductItem = ({ obj, id, info, slide, typeId, brandId, name, pestanasCurl
             </div>
 
             <div className="product-card__description description-product">
-                    <h3 className="description-product__title">
-                        Descrição
+                <h3 className="description-product__title">
+                    Descrição
                 </h3>
                 {description ? description.map((paragraph, i) => (
                     <p key={i} value={paragraph} className="description-product__text">
                         {paragraph}
                     </p>                     
-                )) : 'Oooops, description is not found.'}  
+                )) : 'Ai, a descrição não foi encontrada.'}  
+            </div>
+            <div className="product-card__new-review new-review">
+                <div className="new-review__body">
+                    <h2 className="new-review__title">
+                        Quantas estrelas de 1 a 5 você avalia o produto?
+                    </h2>
+                    <div className="new-review__rating new-review-rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
+                            <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z" />
+                        </svg>
+                        <span>{rating}</span>
+                    </div>
+                    <form action="#" className="new-review__form">
+                        <textarea className='new-review__text' name="text" cols="30" rows="10" placeholder='Escreva suas impressões sobre o produto.'/>
+                        <button className='new-review__btn'>Deixar feedback</button>
+                    </form>
+                </div>
+            </div>
+            <div className="product-card__reviews reviews">
+                <div className="reviews__items">
+                    <ReviewItem />
+                </div>
             </div>
         </div>
     );

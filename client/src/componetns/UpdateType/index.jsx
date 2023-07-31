@@ -20,8 +20,10 @@ const UpdateType = ({typeItem}) => {
     React.useEffect(() => {
         setName(typeItem.name); 
         const category = categories.find(category => category.id === typeItem.categoryId);
-        setCategoryName(category.name);
-    }, [typeItem]);
+        if (category) {
+            setCategoryName(category.name);            
+        }
+    }, [typeItem, categories]);
 
     const success = () => {
         alert('Tipo atualizado com sucesso!');

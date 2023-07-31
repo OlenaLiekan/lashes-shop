@@ -2,7 +2,7 @@ import React from "react";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { scrollTop, camelize } from "../js/script";
+import { scrollTop } from "../js/script";
 import ProductBlock from "./ProductBlock";
 import Skeleton from "./Skeleton";
 
@@ -21,15 +21,9 @@ const BestSellersBlock = ({ types }) => {
       });
     scrollTop();
   }, []);
-
-  const showProduct = (typeId) => {
-    const result = types.find((type) => type.id === typeId);
-    setPath(camelize(result.name));
-  }
       
   const products = items.map((item) =>
     <div key={item.id}
-      onClick={() => showProduct(item.typeId)}
       className="block-best__item product-main__item"
     >
       <ProductBlock path={`/${path}/${item.id}`} {...item} />

@@ -56,6 +56,6 @@ export const fetchOneProduct = async id => {
 };
 
 export const updateProduct = async (product, id) => {
-  const { data } = await $authHost.put('api/product/' + id, product);
+  const { data } = await $authHost.patch('api/product/' + id, product);
   return data;
 };

@@ -42,7 +42,7 @@ const UpdateProduct = ({id, obj}) => {
         if (type) {
             setTypeName(type.name);            
         } 
-    }, [obj]);
+    }, [obj, brands, types]);
 
     const success = () => {
         alert('Novo produtos adicionado com sucesso!');
