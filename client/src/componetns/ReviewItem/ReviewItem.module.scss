@@ -13,6 +13,7 @@
 .top {
     display: flex;
     justify-content: space-between;
+    align-items: start;
     gap: 20px;
 }
 
@@ -23,6 +24,7 @@
 }
 
 .date {
+    font-size: 12px;
     font-weight: 500;
     padding-right: 20px;
     color: #484848;

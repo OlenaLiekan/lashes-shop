@@ -26,6 +26,9 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
 
     const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
 
+    const data = localStorage.getItem("user");
+    const user = JSON.parse(data);
+
     React.useEffect(() => {
         axios.get('http://localhost:3001/api/brand')
             .then((res) => {
@@ -226,21 +229,22 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                     </div>
                 </div>
             </div>
-
-            <div className="product-card__description description-product">
-                <h3 className="description-product__title">
-                    Descrição
-                </h3>
-                {description ? description.map((paragraph, i) => (
-                    <p key={i} value={paragraph} className="description-product__text">
-                        {paragraph}
-                    </p>                     
-                )) : 'Ai, a descrição não foi encontrada.'}  
+            <div className='product-card__else else-product'>
+                {isAuth && user.role === 'USER' ? <NewReview productId={id} userId={user.id} /> : ''}    
+                <div className="product-card__description description-product">
+                    <h3 className="description-product__title">
+                        Descrição
+                    </h3>
+                    {description ? description.map((paragraph, i) => (
+                        <p key={i} value={paragraph} className="description-product__text">
+                            {paragraph}
+                        </p>                     
+                    )) : 'Ai, a descrição não foi encontrada.'}  
+                </div>
             </div>
-            <NewReview rating={rating} />
             <div className="product-card__reviews reviews">
                 <div className="reviews__items">
-                    <ReviewItem />
+                    <ReviewItem productId={id} />
                 </div>
             </div>
         </div>

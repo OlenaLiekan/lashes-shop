@@ -1,15 +1,39 @@
 import React from 'react';
 
 import styles from "./NewReview.module.scss";
+import { createRating, createReview } from '../../http/productAPI';
 
-const NewReview = ({ rating }) => {
+const NewReview = ({ userId, productId }) => {
+
+    const textareaRef = React.useRef();
+
+    const [reviewText, setReviewText] = React.useState('');
+    const rates = ['1', '2', '3', '4', '5'];
+    const [currentRate, setCurrentRate] = React.useState(0);
+
+    const onChangeText = (e) => {
+        setReviewText(e.target.value);
+    }
+    
+    const success = () => {
+        alert('Thank you for your review!');
+        setCurrentRate(0);
+        setReviewText('');
+    }
     
     const addReview = (e) => {
         e.preventDefault();
+        const formData = new FormData();
+        const reviewData = new FormData();
+        formData.append('name', currentRate);
+        formData.append('userId', userId);
+        formData.append('productId', productId);
+        reviewData.append('userId', userId);
+        reviewData.append('productId', productId);
+        reviewData.append('text', reviewText);
+        createReview(reviewData);
+        createRating(formData).then(data => success());  
     }
-
-    const rates = ['1', '2', '3', '4', '5'];
-    const [currentRate, setCurrentRate] = React.useState(0);
 
     return (
         <div className={styles.newReview}>
@@ -31,7 +55,16 @@ const NewReview = ({ rating }) => {
                     }
                     <span className={styles.currentRate}>{currentRate}</span>                         
                     </div>
-                    <textarea className={styles.textarea} name="text" rows="10" maxlength="200" placeholder='Escreva suas impressões sobre o produto.'/>
+                    <textarea
+                        className={styles.textarea}
+                        name="text"
+                        rows="8"
+                        maxLength="200"
+                        placeholder='Escreva suas impressões sobre o produto.'
+                        ref={textareaRef}
+                        value={reviewText}
+                        onChange={onChangeText}
+                    />
                     <button className={styles.btn}>Deixar feedback</button>
                 </form>
             </div>

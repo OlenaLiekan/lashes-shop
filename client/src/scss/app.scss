@@ -1832,7 +1832,15 @@
             justify-content: flex-end;
         }
     }
-
+    &__else {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        @media(max-width: 991.98px) {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 }
 .go-back {
     &__link {
@@ -2108,7 +2116,7 @@
 
 .description-product {
     display: flex;
-    max-width: 550px;
+    max-width: 700px;
     width: 100%;
     flex-direction: column;
     border-radius: 20px;
@@ -2148,6 +2156,16 @@
     &__items {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        @media(max-width: 991.98px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        @media(max-width: 767.98px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @media(max-width: 479.98px) {
+            grid-template-columns: repeat(1, 1fr);
+        }
     }
 }
 

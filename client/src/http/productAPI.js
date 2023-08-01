@@ -59,3 +59,13 @@ export const updateProduct = async (product, id) => {
   const { data } = await $authHost.patch('api/product/' + id, product);
   return data;
 };
+
+export const createRating = async rating => {
+  const { data } = await $authHost.post('api/rating', rating);
+  return data;
+};
+
+export const createReview = async review => {
+  const { data } = await $authHost.post('api/review', review);
+  return data;
+};

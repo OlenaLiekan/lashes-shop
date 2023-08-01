@@ -58,6 +58,11 @@ const Rating = sequelize.define('rating', {
   name: { type: DataTypes.INTEGER, allowNull: false },
 });
 
+const Review = sequelize.define('review', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  text: { type: DataTypes.STRING, allowNull: false },
+});
+
 const ProductInfo = sequelize.define('product_info', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
@@ -94,6 +99,9 @@ Product.belongsTo(Brand);
 Product.hasMany(Rating);
 Rating.belongsTo(Product);
 
+Product.hasMany(Review);
+Review.belongsTo(Product);
+
 Product.hasMany(BasketProduct);
 BasketProduct.belongsTo(Product);
 
@@ -115,6 +123,7 @@ module.exports = {
   Type,
   Brand,
   Rating,
+  Review,
   TypeBrand,
   ProductInfo,
   ProductSlide,
