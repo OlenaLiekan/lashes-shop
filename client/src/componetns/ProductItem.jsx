@@ -9,6 +9,7 @@ import axios from 'axios';
 import UpdateProduct from './UpdateProduct';
 import { AuthContext } from '../context';
 import ReviewItem from './ReviewItem';
+import NewReview from './NewReview';
 
 const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
@@ -236,23 +237,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                     </p>                     
                 )) : 'Ai, a descrição não foi encontrada.'}  
             </div>
-            <div className="product-card__new-review new-review">
-                <div className="new-review__body">
-                    <h2 className="new-review__title">
-                        Quantas estrelas de 1 a 5 você avalia o produto?
-                    </h2>
-                    <div className="new-review__rating new-review-rating">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512">
-                            <path d="M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z" />
-                        </svg>
-                        <span>{rating}</span>
-                    </div>
-                    <form action="#" className="new-review__form">
-                        <textarea className='new-review__text' name="text" cols="30" rows="10" placeholder='Escreva suas impressões sobre o produto.'/>
-                        <button className='new-review__btn'>Deixar feedback</button>
-                    </form>
-                </div>
-            </div>
+            <NewReview rating={rating} />
             <div className="product-card__reviews reviews">
                 <div className="reviews__items">
                     <ReviewItem />
