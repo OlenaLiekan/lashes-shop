@@ -6,6 +6,7 @@ const ReviewItem = ({ productId }) => {
     
     const [productRatings, setProductRatings] = React.useState([]);
     const [productReviews, setProductReviews] = React.useState([]);
+    const [user, setUser] = React.useState({});
 
     React.useEffect(() => {
         if (productId) {
@@ -40,7 +41,7 @@ const ReviewItem = ({ productId }) => {
                     </svg>
                     <span>{rating.name}</span>
                 </div>
-                <p className={styles.text}>Text</p>
+                <p className={styles.text}>text</p>
             </div>
         </div>    
     ) : ''}

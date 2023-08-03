@@ -59,7 +59,7 @@ class ProductController {
 
   async update(req, res) {
     const productId = req.params.id;
-    let { name, code, price, brandId, typeId, info } = req.body;
+    let { name, code, price, brandId, typeId, info, rating } = req.body;
     const { img } = req.files;
     const { slide } = req.files;
     let fileName = uuid.v4() + '.jpg';
@@ -72,7 +72,7 @@ class ProductController {
     }
     const options = { where: { id: productId } };
     const product = await Product.update(
-      { name, code, price, brandId, typeId, img: fileName },
+      { name, code, rating, price, brandId, typeId, img: fileName },
       options
     );
 

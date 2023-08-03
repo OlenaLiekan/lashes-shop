@@ -60,10 +60,17 @@ class UserController {
   }
 
   async getOne(req, res) {
-    const { email } = req.query;
-    const user = await User.findOne({
-      where: { email },
-    });
+    const { email, id } = req.query;
+    let options = {
+      where: {},
+    };
+    if (id) {
+      options.where = { ...options.where, id };
+    }
+    if (email) {
+      options.where = { ...options.where, email };
+    }
+    const user = await User.findOne(options);
     return res.json(user);
   }
 }

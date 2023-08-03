@@ -230,7 +230,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                 </div>
             </div>
             <div className='product-card__else else-product'>
-                {isAuth && user.role === 'USER' ? <NewReview productId={id} userId={user.id} /> : ''}    
+                {isAuth && user.role === 'USER' ? <NewReview productId={id} userId={user.id} rating={rating} /> : ''}    
                 <div className="product-card__description description-product">
                     <h3 className="description-product__title">
                         Descrição

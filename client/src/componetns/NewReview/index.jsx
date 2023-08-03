@@ -1,9 +1,9 @@
 import React from 'react';
 
 import styles from "./NewReview.module.scss";
-import { createRating, createReview } from '../../http/productAPI';
+import { createRating, createReview, updateProduct } from '../../http/productAPI';
 
-const NewReview = ({ userId, productId }) => {
+const NewReview = ({ userId, productId, rating }) => {
 
     const textareaRef = React.useRef();
 
@@ -19,6 +19,10 @@ const NewReview = ({ userId, productId }) => {
         alert('Thank you for your review!');
         setCurrentRate(0);
         setReviewText('');
+        const newRating = rating === 0 ? currentRate : (rating + currentRate) / 2;
+        const formData = new FormData();
+        formData.set('rating', newRating);
+        updateProduct(formData, productId);
     }
     
     const addReview = (e) => {
