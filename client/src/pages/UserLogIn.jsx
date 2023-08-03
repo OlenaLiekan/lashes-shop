@@ -95,7 +95,7 @@ const UserLogIn = () => {
                                 value={email}
                                 onChange={onChangeInputEmail} />                            
                         </div>
-                        <div className={!currentUser && !emailValue.length || currentUser && emailValue.length ? "form-login__line form-login__line_err" : "form-login__line form-login__line_err _error"}>
+                        <div className={currentUser && !emailValue.length || currentUser && emailValue.length ? "form-login__line form-login__line_err" : "form-login__line form-login__line_err _error"}>
                             E-mail inválido!
                         </div>
                         <div className="form-login__line">

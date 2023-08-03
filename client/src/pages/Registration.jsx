@@ -155,7 +155,7 @@ const Registration = () => {
                                 value={checkPass}
                                 onChange={onChangeCheckPass}/> 
                         </div>
-                        <div className={"form-login__line form-login__line_error"}>
+                        <div className={checkPass && password !== checkPass ? 'form-login__line form-login__line_error _error' : "form-login__line form-login__line_error" }>
                             As senhas não correspondem.
                         </div>
                         <div className="form-login__text">

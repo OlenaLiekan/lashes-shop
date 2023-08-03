@@ -59,7 +59,7 @@ class ProductController {
 
   async update(req, res) {
     const productId = req.params.id;
-    let { name, code, price, brandId, typeId, info, rating } = req.body;
+    let { name, code, rating, price, brandId, typeId, info } = req.body;
     const { img } = req.files;
     const { slide } = req.files;
     let fileName = uuid.v4() + '.jpg';
@@ -71,10 +71,29 @@ class ProductController {
       slide.mv(path.resolve(__dirname, '..', 'static', slideName));
     }
     const options = { where: { id: productId } };
-    const product = await Product.update(
-      { name, code, rating, price, brandId, typeId, img: fileName },
-      options
-    );
+    let props = {};
+    if (name) {
+      props = { ...props, name };
+    }
+    if (code) {
+      props = { ...props, code };
+    }
+    if (price) {
+      props = { ...props, price };
+    }
+    if (brandId) {
+      props = { ...props, brandId };
+    }
+    if (typeId) {
+      props = { ...props, typeId };
+    }
+    if (rating) {
+      props = { ...props, rating };
+    }
+    if (img) {
+      props = { ...props, img: fileName };
+    }
+    const product = await Product.update(props, options);
 
     if (info) {
       info = JSON.parse(info);
@@ -89,24 +108,26 @@ class ProductController {
       );
     }
 
-    if (slide.length > 1) {
-      slide.forEach((img, i) => {
+    if (slide) {
+      if (slide.length > 1) {
+        slide.forEach((img, i) => {
+          ProductSlide.update(
+            {
+              slideImg: i + slideName,
+            },
+            options
+          );
+        });
+        return res.json(product);
+      } else {
         ProductSlide.update(
           {
-            slideImg: i + slideName,
+            slideImg: slideName,
           },
           options
         );
-      });
-      return res.json(product);
-    } else {
-      ProductSlide.update(
-        {
-          slideImg: slideName,
-        },
-        options
-      );
-      return res.json(product);
+        return res.json(product);
+      }
     }
   }
 

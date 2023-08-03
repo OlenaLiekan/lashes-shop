@@ -84,6 +84,9 @@ Basket.belongsTo(User);
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
+User.hasMany(Review);
+Review.belongsTo(User);
+
 Basket.hasMany(BasketProduct);
 BasketProduct.belongsTo(Basket);
 

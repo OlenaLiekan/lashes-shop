@@ -31,7 +31,6 @@ const ProductPage = ({type}) => {
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
 
-
     const onChangeBrand = (id) => {
         dispatch(setBrandId(id));
     };  

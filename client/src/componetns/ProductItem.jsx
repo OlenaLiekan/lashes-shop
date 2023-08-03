@@ -29,12 +29,25 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     const data = localStorage.getItem("user");
     const user = JSON.parse(data);
 
+    const [productRatings, setProductRatings] = React.useState([]);
+
+    React.useEffect(() => {
+        if (id) {
+            axios.get(`http://localhost:3001/api/rating?productId=${id}`)
+                .then((res) => {
+                    setProductRatings(res.data);            
+                }); 
+        }
+    }, [id]);
+
     React.useEffect(() => {
         axios.get('http://localhost:3001/api/brand')
             .then((res) => {
                 setBrands(res.data);
             });
     }, []);
+
+    const userRate = user ? productRatings.find((productRating) => productRating.userId === user.id) : '';
 
     const companyNames = brands.map((brand) => brand.name);
     const company = companyNames.find((companyName, i) => i + 1 === brandId);
@@ -79,8 +92,6 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
 
     const addedCount = cartItem ? cartItem.count : 0;
 
-
-
     const onClickAdd = () => {
        
         const item = {
@@ -105,6 +116,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
         );
     };
 
+    const reviewItem = productRatings ? productRatings.map((productRating) => <ReviewItem key={productRating.createdAt} {...productRating} /> ) : '';
 
     return (
         <div className="product-card__content">
@@ -230,7 +242,13 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                 </div>
             </div>
             <div className='product-card__else else-product'>
-                {isAuth && user.role === 'USER' ? <NewReview productId={id} userId={user.id} rating={rating} /> : ''}    
+
+                {isAuth && user.role === 'USER' && !userRate
+                    ?
+                    <NewReview productId={id} userId={user.id} rating={rating} />
+                    :
+                    ''
+                }    
                 <div className="product-card__description description-product">
                     <h3 className="description-product__title">
                         Descrição
@@ -243,10 +261,25 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                 </div>
             </div>
             <div className="product-card__reviews reviews">
-                <div className="reviews__items">
-                    <ReviewItem productId={id} />
-                </div>
-            </div>
+                {productRatings.length
+                    ?                         
+                    <div className="reviews__items">
+                        {reviewItem ? reviewItem : ''}
+                    </div>
+                    :
+                    <p className='reviews__text'>
+                        Ainda não há comentários sobre o produto. Você quer ser o primeiro?
+                    </p>
+                }                             
+            </div>   
+            {!isAuth
+                ?
+                    <Link className='product-card__login-link' to='/login'>
+                        <span>Faça login</span> na sua conta para deixar uma avaliação do produto.
+                    </Link>
+                :
+                    ''
+            }  
         </div>
     );
 };
