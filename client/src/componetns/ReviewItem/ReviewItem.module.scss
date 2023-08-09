@@ -12,6 +12,7 @@
 
 .top {
     display: flex;
+    flex-direction: column-reverse;
     justify-content: space-between;
     align-items: start;
     gap: 20px;
@@ -24,7 +25,8 @@
 }
 
 .date {
-    font-size: 12px;
+    align-self: flex-end;
+    font-size: 10px;
     font-weight: 500;
     padding-right: 20px;
     color: #484848;

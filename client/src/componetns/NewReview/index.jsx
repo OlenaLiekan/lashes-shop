@@ -19,10 +19,12 @@ const NewReview = ({ userId, productId, rating }) => {
         alert('Thank you for your review!');
         setCurrentRate(0);
         setReviewText('');
-        const newRating = rating === 0 ? currentRate : (rating + currentRate) / 2;
+        rating = +rating;
+        currentRate = +currentRate;
+        const newRating = rating ? rating + currentRate : ((rating + currentRate) / 2).toFixed(1);        
         const formData = new FormData();
         formData.set('rating', newRating);
-        updateProduct(formData, productId);
+        updateProduct(formData, productId).then();
     }
     
     const addReview = (e) => {
@@ -36,7 +38,7 @@ const NewReview = ({ userId, productId, rating }) => {
         reviewData.append('productId', productId);
         reviewData.append('text', reviewText);
         createReview(reviewData);
-        createRating(formData).then(data => success());  
+        createRating(formData).then(data => success());
     }
 
     return (

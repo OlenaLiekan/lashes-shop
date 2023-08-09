@@ -42,6 +42,7 @@ const UpdateProduct = ({id, obj}) => {
         if (type) {
             setTypeName(type.name);            
         } 
+
     }, [obj, brands, types]);
 
     const success = () => {
@@ -53,7 +54,6 @@ const UpdateProduct = ({id, obj}) => {
 
     const selectFile = (event) => {
         setImg(event.target.files[0]);
-        console.log(img);
     }
 
     const onChangeName = (e) => {
@@ -150,15 +150,17 @@ const UpdateProduct = ({id, obj}) => {
     const updateProductItem = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('code', code);
-        formData.append('price', price);
-        formData.append('brandId', brandId);
-        formData.append('typeId', typeId);
-        formData.append('img', img);
-        formData.append('info', JSON.stringify(info));
+        formData.set('name', name);
+        formData.set('code', code);
+        formData.set('price', price);
+        formData.set('brandId', brandId);
+        formData.set('typeId', typeId);
+        if (img) {
+            formData.set('img', img);               
+        }
+        formData.set('info', JSON.stringify(info));
         images.forEach((slide) => {
-            formData.append('slide', slide);             
+            formData.set('slide', slide);             
         })
         updateProduct(formData, id).then(data => success());      
     }
@@ -225,7 +227,7 @@ const UpdateProduct = ({id, obj}) => {
                 </div>
                 <div className={styles.line}>
                     <label htmlFor="product-file" className={styles.label}>Photo:</label>
-                    <input id="product-file" required tabIndex="6" type='file' className={styles.formFile}
+                    <input id="product-file" tabIndex="6" type='file' className={styles.formFile}
                         onChange={selectFile}
                     />                    
                 </div>

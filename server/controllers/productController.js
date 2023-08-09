@@ -57,21 +57,30 @@ class ProductController {
     return res.json(product);
   }
 
-  async update(req, res) {
-    const productId = req.params.id;
-    let { name, code, rating, price, brandId, typeId, info } = req.body;
-    const { img } = req.files;
-    const { slide } = req.files;
+  async update(req, res, next) {
+    const { id } = req.params;
+    let { name, rating, code, price, brandId, typeId, info } = req.body;
+
+    const { img } = req.files ? req.files : '';
+    const { slide } = req.files ? req.files : '';
+
     let fileName = uuid.v4() + '.jpg';
     let slideName = uuid.v4() + '.jpg';
-    img.mv(path.resolve(__dirname, '..', 'static', fileName));
-    if (slide.length > 1) {
-      slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
-    } else {
-      slide.mv(path.resolve(__dirname, '..', 'static', slideName));
+
+    if (img) {
+      img.mv(path.resolve(__dirname, '..', 'static', fileName));
     }
-    const options = { where: { id: productId } };
+
+    if (slide) {
+      slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+    }
+
+    const options = { where: { id: id } };
     let props = {};
+
+    if (img) {
+      props = { ...props, img: fileName };
+    }
     if (name) {
       props = { ...props, name };
     }
@@ -90,12 +99,11 @@ class ProductController {
     if (rating) {
       props = { ...props, rating };
     }
-    if (img) {
-      props = { ...props, img: fileName };
-    }
     const product = await Product.update(props, options);
 
     if (info) {
+      const productId = req.params.id;
+      const infoOps = { where: { productId: productId } };
       info = JSON.parse(info);
       info.forEach(i =>
         ProductInfo.update(
@@ -103,32 +111,25 @@ class ProductController {
             title: i.title,
             description: i.description,
           },
-          options
+          infoOps
         )
       );
     }
 
     if (slide) {
-      if (slide.length > 1) {
-        slide.forEach((img, i) => {
-          ProductSlide.update(
-            {
-              slideImg: i + slideName,
-            },
-            options
-          );
-        });
-        return res.json(product);
-      } else {
+      const productId = req.params.id;
+      const slideOps = { where: { productId: productId } };
+      slide.forEach((img, index) => {
         ProductSlide.update(
           {
-            slideImg: slideName,
+            slideImg: index + slideName,
           },
-          options
+          slideOps
         );
-        return res.json(product);
-      }
+      });
     }
+
+    return res.json(product);
   }
 
   async getAll(req, res) {
