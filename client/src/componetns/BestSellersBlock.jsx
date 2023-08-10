@@ -14,7 +14,9 @@ const BestSellersBlock = ({ types }) => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:3001/api/product?rating=5`)
+    const sortBy = 'rating';        
+    const order = 'DESC';
+    axios.get(`http://localhost:3001/api/product?sort=${sortBy}&order=${order}`)
       .then((res) => {
         setItems(res.data.rows);
         setIsLoading(false);
@@ -27,7 +29,7 @@ const BestSellersBlock = ({ types }) => {
       className="block-best__item product-main__item"
     >
       <ProductBlock path={`/${path}/${item.id}`} {...item} />
-    </div>
+    </div>     
   );
 
   const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);

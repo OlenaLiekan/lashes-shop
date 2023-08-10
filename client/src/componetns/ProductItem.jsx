@@ -21,6 +21,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     const [activeLength, setActiveLength] = React.useState('');
     const [brands, setBrands] = React.useState([]);
     const [types, setTypes] = React.useState([]);
+    const [userRate, setUserRate] = React.useState({});
 
     const [pestanasProducts, setPestanasProducts] = React.useState([]);
 
@@ -47,7 +48,11 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
             });
     }, []);
 
-    const userRate = user ? productRatings.find((productRating) => productRating.userId === user.id) : '';
+    React.useEffect(() => {
+        if (user) {
+            setUserRate(productRatings.find((productRating) => productRating.userId === user.id));            
+        }
+    }, [user]);
 
     const companyNames = brands.map((brand) => brand.name);
     const company = companyNames.find((companyName, i) => i + 1 === brandId);
