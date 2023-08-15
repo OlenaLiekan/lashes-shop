@@ -11,6 +11,7 @@ const NewReview = ({ userId, productId, rating }) => {
     const [reviewText, setReviewText] = React.useState('');
     const rates = ['1', '2', '3', '4', '5'];
     const [currentRate, setCurrentRate] = React.useState(0);
+    const [hideWindow, setHideWindow] = React.useState(false);
 
     const onChangeText = (e) => {
         setReviewText(e.target.value);
@@ -26,6 +27,7 @@ const NewReview = ({ userId, productId, rating }) => {
         const formData = new FormData();
         formData.set('rating', newRating.toFixed(1));
         updateProduct(formData, productId).then();
+        setHideWindow(true);
     }
     
     const addReview = (e) => {
@@ -38,13 +40,14 @@ const NewReview = ({ userId, productId, rating }) => {
             formData.append('productId', productId);
             reviewData.append('userId', userId);
             reviewData.append('productId', productId);
-            reviewData.append('text', reviewText);
+            reviewData.append('text', reviewText ? reviewText : 'Sem comentários.');
             createReview(reviewData);
-            createRating(formData).then(data => success());            
+            createRating(formData).then(data => success());
         }
     }
 
     return (
+        !hideWindow ?
         <div className={styles.newReview}>
             <div className={styles.body}>
                 <h2 className={styles.title}>
@@ -77,7 +80,7 @@ const NewReview = ({ userId, productId, rating }) => {
                     <button className={styles.btn}>Deixar feedback</button>
                 </form>
             </div>
-        </div>
+        </div> : ''
     );
 };
 

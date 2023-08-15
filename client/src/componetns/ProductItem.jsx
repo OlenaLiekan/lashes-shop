@@ -22,7 +22,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     const [brands, setBrands] = React.useState([]);
     const [types, setTypes] = React.useState([]);
     const [userRate, setUserRate] = React.useState({});
-
+    const [productRatings, setProductRatings] = React.useState([]);
     const [pestanasProducts, setPestanasProducts] = React.useState([]);
 
     const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
@@ -30,7 +30,11 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     const data = localStorage.getItem("user");
     const user = JSON.parse(data);
 
-    const [productRatings, setProductRatings] = React.useState([]);
+    React.useEffect(() => {
+        if (user) {
+            setUserRate(productRatings.find((productRating) => productRating.userId === user.id));
+        }
+    }, [user]);
 
     React.useEffect(() => {
         if (id) {
@@ -48,11 +52,6 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
             });
     }, []);
 
-    React.useEffect(() => {
-        if (user) {
-            setUserRate(productRatings.find((productRating) => productRating.userId === user.id));            
-        }
-    }, [user]);
 
     const companyNames = brands.map((brand) => brand.name);
     const company = companyNames.find((companyName, i) => i + 1 === brandId);
@@ -136,7 +135,6 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
             <div className="product-card__body">
                 {isAuth && adminMode && updateMode ? <UpdateProduct obj={obj} id={id} /> : ''}
                 <div className="images-product__wrapper">
-                    
                     <div className="product-card__images images-product">
                         <ProductCardSlider img={img} slides={slide} />                                
                     </div>

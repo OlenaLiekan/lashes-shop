@@ -17,6 +17,9 @@ function App() {
     if (localStorage.getItem('auth', 'true')) {
       setIsAuth(true);
     }
+    if (localStorage.getItem('adminMode', 'true')) {
+      setAdminMode(true);
+    }
     setLoading(false);
   }, []);
 

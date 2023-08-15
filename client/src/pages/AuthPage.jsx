@@ -15,6 +15,7 @@ const AuthPage = () => {
     const initLogout = () => {
         if (adminMode) {
             setAdminMode(false);
+            localStorage.removeItem("adminMode", "true");
         }
         localStorage.removeItem('user');
         setIsAuth(false);    
@@ -26,6 +27,13 @@ const AuthPage = () => {
     React.useEffect(() => {
         if (user.role === "ADMIN") {
             setAdminMode(true);
+        } else {
+            setAdminMode(false);
+            localStorage.removeItem("adminMode", "true");
+        }
+
+        if (adminMode) {
+            localStorage.setItem("adminMode", "true");            
         }
 
         if (isAuth) {
@@ -35,7 +43,7 @@ const AuthPage = () => {
                     initLogout();
                 } 
         }
-    }, [isAuth, createMode, updateMode]);
+    }, [isAuth, createMode, updateMode, adminMode]);
 
     return (
         <div className="main__account account-main">
