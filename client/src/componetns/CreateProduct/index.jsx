@@ -140,9 +140,9 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
-        images.forEach((slide) => {
-            formData.append('slide', slide);             
-        })
+        images.forEach((file) => {
+            formData.append('slide', file);
+        });
         createProduct(formData).then(data => success());      
     }
 
@@ -208,7 +208,7 @@ const CreateProduct = () => {
                 </div>
                 <div className={styles.line}>
                     <label htmlFor="product-file" className={styles.label}>Photo:</label>
-                    <input id="product-file" required tabIndex="6" type='file' className={styles.formFile}
+                    <input id="product-file" required tabIndex="6" type='file' name='image' className={styles.formFile}
                         onChange={selectFile}
                     />                    
                 </div>
@@ -235,7 +235,7 @@ const CreateProduct = () => {
                 {slide.map((i) => 
                     <div className={styles.line} key={i.number}>
                         <label htmlFor="product-slide" className={styles.label}>Slide:</label>
-                        <input id="product-slide" tabIndex="11" type='file' className={styles.formFile}
+                        <input id="product-slide" tabIndex="11" type='file' name='slide' className={styles.formFile}
                             onChange={(e) => changeSlide('slideImg', e.target.files[0], i.number)}
                         />
                         <button type='button' tabIndex='12' className='slide-product__remove' onClick={() => removeSlide(i.number)}>

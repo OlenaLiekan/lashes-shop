@@ -10,6 +10,7 @@ import UpdateProduct from './UpdateProduct';
 import { AuthContext } from '../context';
 import ReviewItem from './ReviewItem';
 import NewReview from './NewReview';
+import { setCurrentPage } from '../redux/slices/filterSlice';
 
 const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
 
@@ -120,16 +121,22 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
         );
     };
 
+    const changePage = () => {
+        dispatch(
+            setCurrentPage(1)
+        );
+    }
+
     const reviewItem = productRatings ? productRatings.map((productRating) => <ReviewItem key={productRating.createdAt} {...productRating} /> ) : '';
 
     return (
         <div className="product-card__content">
             <div className="product-card__go-back go-back">
-                <Link to={curl ? `/pestanas` : `/${path}`} className='go-back__link'>
+                <Link to={`/${path}`} className='go-back__link'>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
                         <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />
                     </svg>
-                    Voltar
+                    <span onClick={changePage}>Voltar</span>
                 </Link>
             </div>
             <div className="product-card__body">
@@ -155,7 +162,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                             <div className="info-product__number"><span className="label-bold">Código do produto:</span> {code}</div>
                             <div className="info-product__brand"><span className="label-bold">Marca:</span> {company}</div>
                             {info.length ? info.map((obj) => 
-                                <div key={obj} className='info-product__volume'>
+                                <div key={obj.id} className='info-product__volume'>
                                     <span className="label-bold">
                                         {obj.title}:
                                     </span>

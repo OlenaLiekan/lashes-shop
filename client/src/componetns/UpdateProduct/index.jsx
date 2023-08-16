@@ -97,6 +97,7 @@ const UpdateProduct = ({id, obj}) => {
         slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
         slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
         setImages(slideFiles.map((slideFile) => slideFile[0]));
+        console.log(images);
     }, [slide]);
 
     const closeUpdatePopup = () => {
@@ -159,9 +160,9 @@ const UpdateProduct = ({id, obj}) => {
             formData.set('img', img);               
         }
         formData.set('info', JSON.stringify(info));
-        images.forEach((slide) => {
-            formData.set('slide', slide);             
-        })
+        images.forEach((file) => {
+            formData.append('slide', file);
+        });           
         updateProduct(formData, id).then(data => success());      
     }
 

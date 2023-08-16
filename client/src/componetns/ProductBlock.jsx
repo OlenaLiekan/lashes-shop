@@ -73,7 +73,7 @@ const ProductBlock = ({path, id, info, name, rating, typeId, subtitle, price, br
                     <div className='item-product__bottom'>
                         <div className="item-product__sizes">
                             {info.length ? info.map((obj) => 
-                                <div key={obj} className='item-product__length'>
+                                <div key={obj.id} className='item-product__length'>
                                     <span className="label-bold">
                                         {obj.title}:
                                     </span>

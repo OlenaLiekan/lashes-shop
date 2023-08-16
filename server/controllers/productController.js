@@ -14,7 +14,11 @@ class ProductController {
       let fileName = uuid.v4() + '.jpg';
       let slideName = uuid.v4() + '.jpg';
       img.mv(path.resolve(__dirname, '..', 'static', fileName));
-      slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+      if (slide.length > 1) {
+        slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+      } else {
+        slide.mv(path.resolve(__dirname, '..', 'static', slideName));
+      }
 
       const product = await Product.create({
         name,
@@ -36,12 +40,19 @@ class ProductController {
         );
       }
 
-      slide.forEach((img, i) => {
+      if (slide.length > 1) {
+        slide.forEach((img, i) => {
+          ProductSlide.create({
+            slideImg: i + slideName,
+            productId: product.id,
+          });
+        });
+      } else {
         ProductSlide.create({
-          slideImg: i + slideName,
+          slideImg: slideName,
           productId: product.id,
         });
-      });
+      }
 
       return res.json(product);
     } catch (e) {
@@ -72,7 +83,11 @@ class ProductController {
     }
 
     if (slide) {
-      slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+      if (slide.length > 1) {
+        slide.forEach((img, i) => img.mv(path.resolve(__dirname, '..', 'static', i + slideName)));
+      } else {
+        slide.mv(path.resolve(__dirname, '..', 'static', slideName));
+      }
     }
 
     const options = { where: { id: id } };
@@ -103,30 +118,33 @@ class ProductController {
 
     if (info) {
       const productId = req.params.id;
-      const infoOps = { where: { productId: productId } };
+      //const infoOps = { where: { productId: productId } };
       info = JSON.parse(info);
       info.forEach(i =>
-        ProductInfo.update(
-          {
-            title: i.title,
-            description: i.description,
-          },
-          infoOps
-        )
+        ProductInfo.create({
+          title: i.title,
+          description: i.description,
+          productId: productId,
+        })
       );
     }
 
     if (slide) {
       const productId = req.params.id;
-      const slideOps = { where: { productId: productId } };
-      slide.forEach((img, index) => {
-        ProductSlide.update(
-          {
+      //const slideOps = { where: { productId: productId } };
+      if (slide.length > 1) {
+        slide.forEach((img, index) => {
+          ProductSlide.create({
             slideImg: index + slideName,
-          },
-          slideOps
-        );
-      });
+            productId: productId,
+          });
+        });
+      } else {
+        ProductSlide.create({
+          slideImg: slideName,
+          productId: productId,
+        });
+      }
     }
 
     return res.json(product);
