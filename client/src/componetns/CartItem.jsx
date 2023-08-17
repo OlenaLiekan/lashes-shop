@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-const CartItem = ({ obj, typeId, path, info, name, img, id, title, subtitle, code, price, company, imageUrl, lengthP, thickness, curl, volume, count }) => { 
+const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, title, subtitle, code, price, company, imageUrl, lengthArr, thicknessArr, curlArr, volume, count }) => { 
 
     const navigate = useNavigate();
 
@@ -46,8 +46,7 @@ const CartItem = ({ obj, typeId, path, info, name, img, id, title, subtitle, cod
                     </div>
                     <div className="item-cart__info info-cart">
                         <div className="info-cart__titles">
-                            <h4 className='info-cart__title'>{name}</h4>
-                            { subtitle ? <h4 className="info-cart__subtitle">{subtitle}</h4> : ''}                            
+                            <h4 className='info-cart__title'>{name}</h4>                           
                         </div>
                         <div className='info-cart__line'>
                             <span>Código: </span>
@@ -58,7 +57,7 @@ const CartItem = ({ obj, typeId, path, info, name, img, id, title, subtitle, cod
                             {company}
                         </div>
                         {
-                            info
+                            info && !isLashes
                             ?
                             info.map((obj) => 
                                 <div key={obj} className='info-cart__line'>
@@ -71,6 +70,17 @@ const CartItem = ({ obj, typeId, path, info, name, img, id, title, subtitle, cod
                             :
                             ''
                         }
+                        {
+                            isLashes
+                            ?
+                                <div className='info-cart__line'>
+                                    <span>Opções: </span>
+                                    {curlArr} / {thicknessArr} / {lengthArr} mm
+                                </div>                                    
+                            :
+                            ''
+                        }
+
                     </div>                                         
                 </div>
                 <div className="item-cart__actions">

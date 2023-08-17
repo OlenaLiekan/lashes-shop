@@ -1,11 +1,10 @@
 import axios from 'axios';
 import React from 'react';
 import { AuthContext } from '../context';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
-const ProductBlock = ({path, id, info, name, rating, typeId, subtitle, price, brandId, img, thickness, lengthP, volume, imageSlides}) => {
+const ProductBlock = ({path, id, info, name, rating, isLashes, typeId, price, brandId, img}) => {
 
     const navigate = useNavigate();
 
@@ -72,7 +71,7 @@ const ProductBlock = ({path, id, info, name, rating, typeId, subtitle, price, br
                     </div>
                     <div className='item-product__bottom'>
                         <div className="item-product__sizes">
-                            {info.length ? info.map((obj) => 
+                            {info.length && !isLashes ? info.map((obj) => 
                                 <div key={obj.id} className='item-product__length'>
                                     <span className="label-bold">
                                         {obj.title}:

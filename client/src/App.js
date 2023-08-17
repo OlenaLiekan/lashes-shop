@@ -16,9 +16,13 @@ function App() {
   React.useEffect(() => {
     if (localStorage.getItem('auth', 'true')) {
       setIsAuth(true);
+    } else {
+      setIsAuth(false);
     }
     if (localStorage.getItem('adminMode', 'true')) {
       setAdminMode(true);
+    } else {
+      setAdminMode(false);
     }
     setLoading(false);
   }, []);

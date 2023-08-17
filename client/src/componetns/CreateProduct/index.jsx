@@ -26,6 +26,7 @@ const CreateProduct = () => {
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
     const [images, setImages] = React.useState([]);
+    const [isLashes, setIsLashes] = React.useState(false);
 
     const success = () => {
         alert('Novo produtos adicionado com sucesso!');
@@ -130,6 +131,14 @@ const CreateProduct = () => {
         setTypesVisibility(false);
     }
 
+    React.useEffect(() => {
+        if (typeName === 'Pestanas') {
+            setIsLashes(true);
+        } else {
+            setIsLashes(false);
+        }
+    }, [typeName]);
+
     const pushProduct = (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -140,6 +149,7 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
+        formData.append('isLashes', isLashes);
         images.forEach((file) => {
             formData.append('slide', file);
         });

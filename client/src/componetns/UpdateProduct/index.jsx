@@ -26,6 +26,7 @@ const UpdateProduct = ({id, obj}) => {
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
     const [images, setImages] = React.useState([]);
+    const [isLashes, setIsLashes] = React.useState(false);
 
     React.useEffect(() => {
         setName(obj.name);
@@ -34,6 +35,7 @@ const UpdateProduct = ({id, obj}) => {
         setTypeId(obj.typeId);
         setBrandId(obj.brandId);
         setInfo(obj.info);
+        setIsLashes(obj.isLashes);
         const brand = brands.find(brand => brand.id === obj.brandId);
         if (brand) {
             setBrandName(brand.name);            
@@ -147,6 +149,14 @@ const UpdateProduct = ({id, obj}) => {
         setTypeName(name);
         setTypesVisibility(false);
     }
+
+    React.useEffect(() => {
+        if (typeName === 'Pestanas') {
+            setIsLashes(true);
+        } else {
+            setIsLashes(false);
+        }
+    }, [typeName]);
 
     const updateProductItem = (e) => {
         e.preventDefault();

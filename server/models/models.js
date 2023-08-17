@@ -27,6 +27,7 @@ const Product = sequelize.define('product', {
   price: { type: DataTypes.NUMBER, allowNull: false },
   rating: { type: DataTypes.NUMBER, defaultValue: 0 },
   img: { type: DataTypes.STRING, allowNull: false },
+  isLashes: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
 const ProductSlide = sequelize.define('product_slide', {

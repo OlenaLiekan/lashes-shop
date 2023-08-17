@@ -8,7 +8,7 @@ const ApiError = require('../error/ApiError');
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, code, price, brandId, typeId, info } = req.body;
+      let { name, code, price, brandId, typeId, info, isLashes } = req.body;
       const { img } = req.files;
       const { slide } = req.files;
       let fileName = uuid.v4() + '.jpg';
@@ -27,6 +27,7 @@ class ProductController {
         brandId,
         typeId,
         img: fileName,
+        isLashes,
       });
 
       if (info) {
@@ -70,7 +71,7 @@ class ProductController {
 
   async update(req, res, next) {
     const { id } = req.params;
-    let { name, rating, code, price, brandId, typeId, info } = req.body;
+    let { name, rating, code, price, brandId, typeId, info, isLashes } = req.body;
 
     const { img } = req.files ? req.files : '';
     const { slide } = req.files ? req.files : '';
@@ -114,6 +115,9 @@ class ProductController {
     if (rating) {
       props = { ...props, rating };
     }
+
+    props = { ...props, isLashes };
+
     const product = await Product.update(props, options);
 
     if (info) {

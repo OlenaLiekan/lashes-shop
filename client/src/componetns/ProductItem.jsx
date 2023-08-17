@@ -12,19 +12,24 @@ import ReviewItem from './ReviewItem';
 import NewReview from './NewReview';
 import { setCurrentPage } from '../redux/slices/filterSlice';
 
-const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pestanasCurl, pestanasThickness, pestanasLength, title, subtitle, code, price, brand, lengthP, thickness, curl, volume, img, imageSlides, description }) => {
+const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, name, code, price, brand, img, description }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [activeCurl, setActiveCurl] = React.useState('');
+    const [curl, setCurl] = React.useState({});
+    const [curlArr, setCurlArr] = React.useState([]);
     const [activeThickness, setActiveThickness] = React.useState('');
+    const [thickness, setThickness] = React.useState({});
+    const [thicknessArr, setThicknessArr] = React.useState([]);
     const [activeLength, setActiveLength] = React.useState('');
+    const [lengthArr, setLengthArr] = React.useState([]);
+    const [lengthP, setLengthP] = React.useState({});
     const [brands, setBrands] = React.useState([]);
     const [types, setTypes] = React.useState([]);
     const [userRate, setUserRate] = React.useState({});
     const [productRatings, setProductRatings] = React.useState([]);
-    const [pestanasProducts, setPestanasProducts] = React.useState([]);
 
     const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
 
@@ -67,25 +72,6 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     const typeNames = types.map((type) => camelize(type.name));
     const path = typeNames.find((typeName, i) => i === typeId);
 
-    /*React.useEffect(() => {
-        if (pestanasCurl) {
-            axios
-                .get(`https://643037ddc26d69edc88d8266.mockapi.io/${obj}`)
-                .then((res) => {
-                    setPestanasProducts(res.data);
-            })            
-        }
-
-    }, [obj]);*/
-    
-/*const pestanasProduct = pestanasProducts ? (pestanasProducts.find((product) => product.curl === pestanasCurl[activeCurl] && product.thickness === pestanasThickness[activeThickness] && product.lengthP === Number(pestanasLength[activeLength]))) : '';    
-
-    React.useEffect(() => {
-        if (pestanasProduct) {
-            navigate(`/${obj}/${pestanasProduct.id}`); 
-        } 
-    }, [activeCurl, activeLength, activeThickness]);*/
-
     const showCart = () => {
         if (addedCount) {
             window.scrollTo(0, 0);
@@ -102,15 +88,17 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
         const item = {
             id,
             name,
-            info,
-            subtitle,
+            info,               
             code,
             price,
             company,
             img,
-            volume,
             obj,
-            path
+            path,
+            isLashes,
+            curlArr: curlArr[activeCurl],
+            thicknessArr: thicknessArr[activeThickness],
+            lengthArr: lengthArr[activeLength],
         };
         dispatch(addItem(item));
     };
@@ -128,6 +116,18 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
     }
 
     const reviewItem = productRatings ? productRatings.map((productRating) => <ReviewItem key={productRating.createdAt} {...productRating} /> ) : '';
+
+
+    React.useEffect(() => {
+        if (isLashes) {
+            setCurlArr((Object.values(info).find((obj) => obj.title === 'Curvatura')).description.split(','));
+            setCurl(Object.values(info).find((obj) => obj.title === 'Curvatura'));
+            setThicknessArr((Object.values(info).find((obj) => obj.title === 'Grossura')).description.split(','));
+            setThickness(Object.values(info).find((obj) => obj.title === 'Grossura'));
+            setLengthArr((Object.values(info).find((obj) => obj.title === 'Tamanho')).description.split(','));
+            setLengthP(Object.values(info).find((obj) => obj.title === 'Tamanho'));
+        }
+    }, [isLashes]);
 
     return (
         <div className="product-card__content">
@@ -161,69 +161,65 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
 
                             <div className="info-product__number"><span className="label-bold">Código do produto:</span> {code}</div>
                             <div className="info-product__brand"><span className="label-bold">Marca:</span> {company}</div>
-                            {info.length ? info.map((obj) => 
-                                <div key={obj.id} className='info-product__volume'>
-                                    <span className="label-bold">
-                                        {obj.title}:
-                                    </span>
-                                    <div className="volume__value">
-                                        {obj.description}
-                                    </div>                                      
-                                </div>                                    
+                            {info.length && !isLashes ? info.map((obj) => 
+                                        <div key={obj.id} className='info-product__volume'>  
+                                            <span className="label-bold">
+                                                {obj.title}:
+                                            </span>
+                                            <div className="volume__value">
+                                                {obj.description}
+                                            </div>
+                                        </div>                                    
                             ) :
                                 ''
                             }
-                            {curl && pestanasCurl ?
-                                <div className="info-product__curl">
-                                    <label htmlFor="curlList" className="label-bold">Curvatura: <span>{curl}</span></label>
-                                    <div className="curl__select select-curl"> 
-                                        
-                                        <ul id="curlList" className="curl__list list-curl">   
- 
-                                            {pestanasCurl.map((itemCurl, curlIndex) => 
-                                                <li key={itemCurl}
-                                                    onClick={() => setActiveCurl(curlIndex)}
-                                                    className={activeCurl === curlIndex ? 'activeCurl' : 'curlItem'}>
-                                                    {itemCurl}
-                                                </li>
-                                            )}                              
-                                        </ul>
+                            
+                            {isLashes
+                                ?
+                                <>
+                                    <div className="info-product__curl">
+                                        <label htmlFor="curlList" className="label-bold">{curl.title}:</label>
+                                        <div className="curl__select select-curl">
+                                            
+                                            <ul id="curlList" className="curl__list list-curl">
+    
+                                                {curlArr.map((itemCurl, curlIndex) =>
+                                                    <li key={curlIndex}
+                                                        onClick={() => setActiveCurl(curlIndex)}
+                                                        className={activeCurl === curlIndex ? 'activeCurl' : 'curlItem'}>
+                                                        {itemCurl}
+                                                    </li>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    </div>      
+                                    <div className="info-product__thick">
+                                        <label className="label-bold">{thickness.title}: </label>
+                                        <div className="thick__select select-thick"> 
+                                            <ul className="thick__list list-thick">
+                                                {thicknessArr.map((itemThick, thickIndex) => 
+                                                    <li key={itemThick} onClick={() => setActiveThickness(thickIndex)} className={activeThickness === thickIndex ? "activeThick" : "thickItem"}>
+                                                        {itemThick}
+                                                    </li>
+                                                )}                              
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>                                
+                                    <div className="info-product__length">
+                                        <label htmlFor="lengthList" className="label-bold">{lengthP.title}, mm: </label>
+                                        <div className="length__select select-length"> 
+                                            <ul className="length__list list-length">
+                                                {lengthArr.map((itemLength, lengthIndex) => 
+                                                    <li key={itemLength} onClick={() => setActiveLength(lengthIndex)} className={activeLength === lengthIndex ? "activeLength" : "lengthItem"}>
+                                                        {itemLength}
+                                                    </li>
+                                                )}                              
+                                            </ul>
+                                        </div>
+                                    </div> 
+                                </>
                                 : ''
-                            }
-                            {thickness && pestanasThickness ?
-                                <div className="info-product__thick">
-                                    <label className="label-bold">Grossura, mm: <span>{thickness}</span></label>
-                                    <div className="thick__select select-thick"> 
-                                        <ul className="thick__list list-thick">
-                                            {pestanasThickness.map((itemThick, thickIndex) => 
-                                                <li key={itemThick} onClick={() => setActiveThickness(thickIndex)} className={activeThickness === thickIndex ? "activeThick" : "thickItem"}>
-                                                    {itemThick}
-                                                </li>
-                                            )}                              
-                                        </ul>
-                                    </div>
-                                </div>                                
-                                : ''
-                            }
-                            {lengthP && pestanasLength ?
-                                <div className="info-product__length">
-                                    <label htmlFor="lengthList" className="label-bold">Tamanho, mm: <span>{lengthP} </span> </label>
-                                    <div className="length__select select-length"> 
-                                        <ul className="length__list list-length">
-                                            {pestanasLength.map((itemLength, lengthIndex) => 
-                                                <li key={itemLength} onClick={() => setActiveLength(lengthIndex)} className={activeLength === lengthIndex ? "activeLength" : "lengthItem"}>
-                                                    {itemLength}
-                                                </li>
-                                            )}                              
-                                        </ul>
-                                    </div>
-                                </div>                                
-                                : ''
-                            }
-
-
+                            }          
 
                             <div className="info-product__price">
                                 <span className="label-bold">Preço:</span>
@@ -232,22 +228,19 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                                 </div>
                             </div>
                         </div> 
-
-                                <div className="product-card__actions">
-                                    <div className="product-card__quantity quantity">
-                                        <button onClick={onClickMinus} className="quantity__minus">-</button>
-                                        <div className="quantity__text">{addedCount}</div>
-                                        <button onClick={onClickAdd} className="quantity__plus">+</button>
-                                    </div>
-                                    <button onClick={showCart} className="checkout">
-                                        Comprar
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                            <path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z" />
-                                        </svg>
-                                    </button>
-                                </div>                                  
-
-      
+                        <div className="product-card__actions">
+                            <div className="product-card__quantity quantity">
+                                <button onClick={onClickMinus} className="quantity__minus">-</button>
+                                <div className="quantity__text">{addedCount}</div>
+                                <button onClick={onClickAdd} className="quantity__plus">+</button>
+                            </div>
+                            <button onClick={showCart} className="checkout">
+                                Comprar
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z" />
+                                </svg>
+                            </button>
+                        </div>                                  
                     </div>
                 </div>
             </div>
@@ -278,7 +271,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, brandId, name, pest
                     </div>
                     :
                     <p className='reviews__text'>
-                        Ainda não há comentários sobre o produto. Você quer ser o primeiro?
+                        {adminMode ? '' :  'Ainda não há comentários sobre o produto. Você quer ser o primeiro?'}
                     </p>
                 }                             
             </div>   
