@@ -77,6 +77,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
             window.scrollTo(0, 0);
             navigate('/cart');
         }
+
     };
 
     const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
@@ -84,23 +85,23 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
     const addedCount = cartItem ? cartItem.count : 0;
 
     const onClickAdd = () => {
-       
-        const item = {
-            id,
-            name,
-            info,               
-            code,
-            price,
-            company,
-            img,
-            obj,
-            path,
-            isLashes,
-            curlArr: curlArr[activeCurl],
-            thicknessArr: thicknessArr[activeThickness],
-            lengthArr: lengthArr[activeLength],
-        };
-        dispatch(addItem(item));
+            const item = {
+                id,
+                name,
+                info,               
+                code,
+                price,
+                company,
+                img,
+                obj,
+                path,
+                isLashes,
+                curlArr: curlArr[activeCurl],
+                thicknessArr: thicknessArr[activeThickness],
+                lengthArr: lengthArr[activeLength],
+            };
+            dispatch(addItem(item));           
+
     };
 
     const onClickMinus = () => { 

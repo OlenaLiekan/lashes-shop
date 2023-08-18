@@ -20,9 +20,19 @@ const cartSlice = createSlice({
             }, 0);
         },*/
     addItem(state, action) {
-      const findItem = state.items.find(obj => obj.id === action.payload.id);
+      const findItem = state.items.find(obj => obj.id === action.payload.id && !obj.isLashes);
+      const lashesItem = state.items.find(
+        obj =>
+          obj.id === action.payload.id &&
+          obj.isLashes &&
+          obj.curlArr === action.payload.curlArr &&
+          obj.thicknessArr === action.payload.thicknessArr &&
+          obj.lengthArr === action.payload.lengthArr
+      );
       if (findItem) {
         findItem.count++;
+      } else if (lashesItem) {
+        lashesItem.count++;
       } else {
         state.items.push({
           ...action.payload,

@@ -32,9 +32,7 @@ const Cart = () => {
         //isMounted.current = true;
     }, [items]);
 
-    if (!totalPrice) {
-        return <CartEmpty />
-    }
+
 
     return (
         <div className="main__cart cart">
@@ -55,8 +53,8 @@ const Cart = () => {
                     <div className="cart__body body-cart">
                         <div className="body-cart__items">
                             {
-                                items.map((item) => (
-                                    <CartItem key={item.id} {...item} />
+                                items.map((item, i) => (
+                                    <CartItem key={i} {...item} />
                                 ))
                             }
                         </div>
