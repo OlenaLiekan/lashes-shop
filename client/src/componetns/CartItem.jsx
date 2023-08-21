@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, title, subtitle, code, price, company, imageUrl, lengthArr, thicknessArr, curlArr, volume, count }) => { 
+const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, index, title, subtitle, code, price, company, imageUrl, lengthArr, thicknessArr, curlArr, volume, count }) => { 
 
     const navigate = useNavigate();
 
@@ -19,13 +19,16 @@ const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, title, sub
         dispatch(
             addItem({
                 id,
+                lengthArr,
+                thicknessArr,
+                curlArr,
             }),
         );
     };
 
     const onClickMinus = () => { 
         dispatch(
-            minusItem(id)
+            minusItem(isLashes ? index : id),
         );
     };
 

@@ -30,6 +30,7 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
     const [types, setTypes] = React.useState([]);
     const [userRate, setUserRate] = React.useState({});
     const [productRatings, setProductRatings] = React.useState([]);
+    const [index, setIndex] = React.useState('');
 
     const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
 
@@ -46,8 +47,8 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
         if (id) {
             axios.get(`http://localhost:3001/api/rating?productId=${id}`)
                 .then((res) => {
-                    setProductRatings(res.data);            
-                }); 
+                    setProductRatings(res.data);
+                });
         }
     }, [id]);
 
@@ -77,12 +78,12 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
             window.scrollTo(0, 0);
             navigate('/cart');
         }
-
     };
 
     const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id));
-
+    const lashesItem = useSelector((state) => state.cart.items.find((obj) => obj.index === index));
     const addedCount = cartItem ? cartItem.count : 0;
+    const lashesCount = lashesItem ? lashesItem.count : 0;
 
     const onClickAdd = () => {
             const item = {
@@ -93,21 +94,22 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
                 price,
                 company,
                 img,
-                obj,
+                //obj,
                 path,
                 isLashes,
                 curlArr: curlArr[activeCurl],
                 thicknessArr: thicknessArr[activeThickness],
                 lengthArr: lengthArr[activeLength],
+                index
             };
             dispatch(addItem(item));           
-
     };
 
     const onClickMinus = () => { 
         dispatch(
-            minusItem(id)
+            minusItem(isLashes ? index : id)
         );
+
     };
 
     const changePage = () => {
@@ -127,8 +129,16 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
             setThickness(Object.values(info).find((obj) => obj.title === 'Grossura'));
             setLengthArr((Object.values(info).find((obj) => obj.title === 'Tamanho')).description.split(','));
             setLengthP(Object.values(info).find((obj) => obj.title === 'Tamanho'));
-        }
+        }       
     }, [isLashes]);
+
+    React.useEffect(() => {
+        if (activeCurl && activeLength && activeThickness) {
+            setIndex(id + curlArr[activeCurl] + thicknessArr[activeThickness] + lengthArr[activeLength]);
+        } else {
+            setIndex('');
+        }
+    }, [id, activeCurl, activeLength, activeThickness]);
 
     return (
         <div className="product-card__content">
@@ -230,11 +240,13 @@ const ProductItem = ({ obj, id, info, slide, typeId, rating, isLashes, brandId, 
                             </div>
                         </div> 
                         <div className="product-card__actions">
+
                             <div className="product-card__quantity quantity">
                                 <button onClick={onClickMinus} className="quantity__minus">-</button>
-                                <div className="quantity__text">{addedCount}</div>
+                                <div className="quantity__text">{isLashes ? lashesCount : addedCount}</div>
                                 <button onClick={onClickAdd} className="quantity__plus">+</button>
-                            </div>
+                            </div>                              
+ 
                             <button onClick={showCart} className="checkout">
                                 Comprar
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

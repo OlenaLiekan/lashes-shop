@@ -42,9 +42,13 @@ const cartSlice = createSlice({
       state.totalPrice = calcTotalPrice(state.items);
     },
     minusItem(state, action) {
-      const findItem = state.items.find(obj => obj.id === action.payload);
-      if (findItem.count > 1) {
+      const findItem = state.items.find(obj => obj.id === action.payload && !obj.isLashes);
+      const lashesItem = state.items.find(obj => obj.index === action.payload && obj.isLashes);
+
+      if (findItem && findItem.count > 1) {
         findItem.count--;
+      } else if (lashesItem && lashesItem.count > 1) {
+        lashesItem.count--;
       }
       state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
