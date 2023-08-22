@@ -27,6 +27,7 @@ const UpdateProduct = ({id, obj}) => {
     const [img, setImg] = React.useState(null);
     const [images, setImages] = React.useState([]);
     const [isLashes, setIsLashes] = React.useState(false);
+    const [text, setText] = React.useState('');
 
     React.useEffect(() => {
         setName(obj.name);
@@ -36,6 +37,7 @@ const UpdateProduct = ({id, obj}) => {
         setBrandId(obj.brandId);
         setInfo(obj.info);
         setIsLashes(obj.isLashes);
+        setText(obj.text[0].text);
         const brand = brands.find(brand => brand.id === obj.brandId);
         if (brand) {
             setBrandName(brand.name);            
@@ -68,6 +70,10 @@ const UpdateProduct = ({id, obj}) => {
 
     const onChangePrice = (e) => {
         setPrice(e.target.value);
+    }
+
+    const onChangeText = (e) => {
+        setText(e.target.value);
     }
 
     const addInfo = () => {
@@ -166,6 +172,7 @@ const UpdateProduct = ({id, obj}) => {
         formData.set('price', price);
         formData.set('brandId', brandId);
         formData.set('typeId', typeId);
+        formData.set('text', text);
         if (img) {
             formData.set('img', img);               
         }
@@ -277,7 +284,11 @@ const UpdateProduct = ({id, obj}) => {
                 )}
                 <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Add new slide</button>
                 <label htmlFor="product-about" className={styles.label}>Description:</label>
-                <textarea id="product-about" tabIndex='14' className={styles.textarea}></textarea>
+                <textarea id="product-about" tabIndex='14' className={styles.textarea}
+                    ref={inputRef}
+                    value={text}
+                    onChange={onChangeText}
+                />
                 <button type='submit' tabIndex='15' className={styles.button}>Update product</button>
             </form>            
         </div>

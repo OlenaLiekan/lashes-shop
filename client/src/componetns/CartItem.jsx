@@ -35,10 +35,16 @@ const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, index, tit
     const onClickRemove = () => { 
         if (window.confirm('Tem certeza de que deseja excluir o produto?')) {
             dispatch(
-                removeItem(id)
+                removeItem(isLashes ? index : id)
             );            
         }
     };
+
+    if (count === 0) {
+        dispatch(
+            removeItem(isLashes ? index : id)
+        );  
+    } 
 
     return (
         <div className="body-cart__item item__cart">

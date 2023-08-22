@@ -52,19 +52,17 @@ const PopupSubmitForm = ({totalCount}) => {
     const order = items.map((item, index) => (
         (index > 0 ? '\n\n' : '') + (index + 1) + '. ' + item.name
         +
-        (item.subtitle ? ' ' + item.subtitle : '')
-        +
         '\nMarca: ' + item.company
         +
         '\nCódigo: ' + item.code + '\n'
         +
-        (item.curl ? 'Curvatura: ' + item.curl + '\n' : '')
+        (item.curlArr ? 'Curvatura: ' + item.curlArr + '\n' : '')
         +
-        (item.thickness ? 'Grossura: ' + item.thickness + ' mm\n' : '')
+        (item.thicknessArr ? 'Grossura: ' + item.thicknessArr + ' mm\n' : '')
         +
-        (item.lengthP ? 'Tamanho: ' + item.lengthP + ' mm\n' : '')
+        (item.lengthArr ? 'Tamanho: ' + item.lengthArr + ' mm\n' : '')
         +
-        (item.volume ? 'Volume: ' + item.volume + ' ml\n' : '')
+        (item.isLashes ? '' : item.info.map((obj) => obj.title + ': ' + obj.description) + '\n')
         +
         'Preço: ' + item.price + ' €\n'
         +

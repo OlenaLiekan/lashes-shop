@@ -2,13 +2,19 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const uuid = require('uuid');
 const path = require('path');
-const { Product, ProductInfo, ProductSlide } = require('../models/models');
+const {
+  Product,
+  ProductInfo,
+  ProductSlide,
+  ProductDescription,
+  ProductText,
+} = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class ProductController {
   async create(req, res, next) {
     try {
-      let { name, code, price, brandId, typeId, info, isLashes } = req.body;
+      let { name, code, price, brandId, typeId, info, isLashes, text } = req.body;
       const { img } = req.files;
       const { slide } = req.files;
       let fileName = uuid.v4() + '.jpg';
@@ -29,6 +35,13 @@ class ProductController {
         img: fileName,
         isLashes,
       });
+
+      if (text) {
+        ProductText.create({
+          text: text,
+          productId: product.id,
+        });
+      }
 
       if (info) {
         info = JSON.parse(info);
@@ -71,7 +84,7 @@ class ProductController {
 
   async update(req, res, next) {
     const { id } = req.params;
-    let { name, rating, code, price, brandId, typeId, info, isLashes } = req.body;
+    let { name, rating, code, price, brandId, typeId, info, isLashes, text } = req.body;
 
     const { img } = req.files ? req.files : '';
     const { slide } = req.files ? req.files : '';
@@ -119,6 +132,17 @@ class ProductController {
     props = { ...props, isLashes };
 
     const product = await Product.update(props, options);
+
+    if (text) {
+      const productId = req.params.id;
+      const textOps = { where: { productId: productId } };
+      ProductText.update(
+        {
+          text: text,
+        },
+        textOps
+      );
+    }
 
     if (info) {
       const productId = req.params.id;
@@ -170,6 +194,7 @@ class ProductController {
       include: [
         { model: ProductInfo, as: 'info' },
         { model: ProductSlide, as: 'slide' },
+        { model: ProductText, as: 'text' },
       ],
     };
 
@@ -209,6 +234,7 @@ class ProductController {
         include: [
           { model: ProductInfo, as: 'info' },
           { model: ProductSlide, as: 'slide' },
+          { model: ProductText, as: 'text' },
         ],
       });
       return res.json(product);

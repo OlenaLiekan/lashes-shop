@@ -48,7 +48,10 @@
 }
 
 .formInput {
-    max-width: 240px;
+    width: 360px;
+    @media(max-width: 579.98px) {
+        width: 240px;
+    }
 }
 
 .formInputSmall {

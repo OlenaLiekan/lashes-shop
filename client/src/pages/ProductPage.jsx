@@ -68,7 +68,7 @@ const ProductPage = ({type}) => {
         navigate(`?${queryString}`);
     }, [brandId, currentPage, sort.sortProperty]);
     
-    const products = items.map((item) => <div key={item.id}><ProductBlock info={item.info} path={`/${camelize(type.name)}/${item.id}`} {...item} /></div>);
+    const products = items.map((item) => <div key={item.id}><ProductBlock text={item.text} info={item.info} path={`/${camelize(type.name)}/${item.id}`} {...item} /></div>);
     const skeletons = [...new Array(12)].map((_, index) => <Skeleton key={index} />);
 
     return (

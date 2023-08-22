@@ -15,7 +15,6 @@ const Cart = () => {
     const totalCount = items.reduce((sum, item) => sum + item.count, 0);
     //const isMounted = React.useRef(false);
 
-
     const onClickClear = () => { 
         if (window.confirm('Tem certeza de que deseja esvaziar o carrinho?')) {
             dispatch(
@@ -30,9 +29,12 @@ const Cart = () => {
             localStorage.setItem('cart', cartData);
         //}
         //isMounted.current = true;
+        console.log(items);
     }, [items]);
 
-
+    if (!totalPrice) {
+        return <CartEmpty />
+    }
 
     return (
         <div className="main__cart cart">

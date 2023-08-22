@@ -70,6 +70,11 @@ const ProductInfo = sequelize.define('product_info', {
   description: { type: DataTypes.STRING, allowNull: false },
 });
 
+const ProductText = sequelize.define('product_text', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  text: { type: DataTypes.TEXT, allowNull: false },
+});
+
 const TypeBrand = sequelize.define('type_brand', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
@@ -115,6 +120,9 @@ ProductInfo.belongsTo(Product);
 Product.hasMany(ProductSlide, { as: 'slide' });
 ProductSlide.belongsTo(Product);
 
+Product.hasMany(ProductText, { as: 'text' });
+ProductText.belongsTo(Product);
+
 Type.belongsToMany(Brand, { through: TypeBrand });
 Brand.belongsToMany(Type, { through: TypeBrand });
 
@@ -132,4 +140,5 @@ module.exports = {
   ProductInfo,
   ProductSlide,
   Slide,
+  ProductText,
 };

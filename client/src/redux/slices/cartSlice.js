@@ -45,9 +45,9 @@ const cartSlice = createSlice({
       const findItem = state.items.find(obj => obj.id === action.payload && !obj.isLashes);
       const lashesItem = state.items.find(obj => obj.index === action.payload && obj.isLashes);
 
-      if (findItem && findItem.count > 1) {
+      if (findItem && findItem.count > 0) {
         findItem.count--;
-      } else if (lashesItem && lashesItem.count > 1) {
+      } else if (lashesItem && lashesItem.count > 0) {
         lashesItem.count--;
       }
       state.totalPrice = state.items.reduce((sum, obj) => {
@@ -55,7 +55,13 @@ const cartSlice = createSlice({
       }, 0);
     },
     removeItem(state, action) {
-      state.items = state.items.filter(obj => obj.id !== action.payload);
+      const findItem = state.items.find(obj => obj.id === action.payload && !obj.isLashes);
+      const lashesItem = state.items.find(obj => obj.index === action.payload && obj.isLashes);
+      if (findItem) {
+        state.items = state.items.filter(obj => obj.id !== action.payload);
+      } else if (lashesItem) {
+        state.items = state.items.filter(obj => obj.index !== action.payload);
+      }
       state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
       }, 0);

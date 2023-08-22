@@ -20,13 +20,14 @@ const CreateProduct = () => {
     const [brandsVisibility, setBrandsVisibility] = React.useState(false);
     const [name, setName] = React.useState('');
     const [code, setCode] = React.useState('');
-    const [price, setPrice] = React.useState(0);
+    const [price, setPrice] = React.useState('');
     const { setCreateMode } = React.useContext(AuthContext);
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
     const [images, setImages] = React.useState([]);
     const [isLashes, setIsLashes] = React.useState(false);
+    const [text, setText] = React.useState('');
 
     const success = () => {
         alert('Novo produtos adicionado com sucesso!');
@@ -74,6 +75,10 @@ const CreateProduct = () => {
 
     const changeSlide = (key, value, number) => {
         setSlide(slide.map(i => i.number === number ? { ...i, [key]: value } : i));
+    }
+
+    const onChangeText = (e) => {
+        setText(e.target.value);
     }
 
     React.useEffect(() => {
@@ -149,6 +154,7 @@ const CreateProduct = () => {
         formData.append('typeId', typeId);
         formData.append('img', img);
         formData.append('info', JSON.stringify(info));
+        formData.append('text', text);
         formData.append('isLashes', isLashes);
         images.forEach((file) => {
             formData.append('slide', file);
@@ -178,7 +184,7 @@ const CreateProduct = () => {
                         onChange={onChangeCode}
                     /> 
                     <label htmlFor="product-price" className={styles.label}>Price:</label>                    
-                    <input id="product-price" required tabIndex="3" type='text' className={styles.formInputSmall}
+                    <input id="product-price" required tabIndex="3" type='text' className={styles.formInputSmall} placeholder='0.00'
                         ref={inputRef}
                         value={price}
                         onChange={onChangePrice}
@@ -257,7 +263,10 @@ const CreateProduct = () => {
                 )}
                 <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Add new slide</button>
                 <label htmlFor="product-about" className={styles.label}>Description:</label>
-                <textarea id="product-about" tabIndex='14' className={styles.textarea}></textarea>
+                <textarea required id="product-about" tabIndex='14' className={styles.textarea}
+                    ref={inputRef}
+                    value={text}
+                    onChange={onChangeText}/>
                 <button type='submit' tabIndex='15' className={styles.button}>Create product</button>
             </form>            
         </div>
