@@ -146,7 +146,8 @@ class ProductController {
 
     if (info) {
       const productId = req.params.id;
-      //const infoOps = { where: { productId: productId } };
+      const infoOps = { where: { productId: productId } };
+      ProductInfo.destroy(infoOps);
       info = JSON.parse(info);
       info.forEach(i =>
         ProductInfo.create({
@@ -159,7 +160,8 @@ class ProductController {
 
     if (slide) {
       const productId = req.params.id;
-      //const slideOps = { where: { productId: productId } };
+      const slideOps = { where: { productId: productId } };
+      ProductSlide.destroy(slideOps);
       if (slide.length > 1) {
         slide.forEach((img, index) => {
           ProductSlide.create({

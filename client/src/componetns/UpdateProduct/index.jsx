@@ -35,9 +35,11 @@ const UpdateProduct = ({id, obj}) => {
         setPrice(obj.price);
         setTypeId(obj.typeId);
         setBrandId(obj.brandId);
-        setInfo(obj.info);
         setIsLashes(obj.isLashes);
         setText(obj.text[0].text);
+        setInfo(obj.info);
+        setSlide(obj.slide);
+        setImg(obj.img);
         const brand = brands.find(brand => brand.id === obj.brandId);
         if (brand) {
             setBrandName(brand.name);            
@@ -46,7 +48,7 @@ const UpdateProduct = ({id, obj}) => {
         if (type) {
             setTypeName(type.name);            
         } 
-
+        console.log(obj.slide);
     }, [obj, brands, types]);
 
     const success = () => {
@@ -77,27 +79,27 @@ const UpdateProduct = ({id, obj}) => {
     }
 
     const addInfo = () => {
-        setInfo([...info, { title: "", description: "", number: Date.now() }]);
+        setInfo([...info, { title: "", description: "", id: Date.now() }]);
     }
 
-    const removeInfo = (number) => {
-        setInfo(info.filter(i => i.number !== number));
+    const removeInfo = (id) => {
+        setInfo(info.filter(i => i.id !== id));
     }
 
-    const changeInfo = (key, value, number) => {
-        setInfo(info.map(i => i.number === number ? { ...i, [key]: value } : i));
+    const changeInfo = (key, value, id) => {
+        setInfo(info.map(i => i.id === id ? { ...i, [key]: value } : i));
     }
 
     const addSlide = () => {
-        setSlide([...slide, { slideImg: "", number: Date.now() }]);
+        setSlide([...slide, { slideImg: "", id: Date.now() }]);
     }
 
-    const removeSlide = (number) => {
-        setSlide(slide.filter(i => i.number !== number));
+    const removeSlide = (id) => {
+        setSlide(slide.filter(i => i.id !== id));
     }
 
-    const changeSlide = (key, value, number) => {
-        setSlide(slide.map(i => i.number === number ? { ...i, [key]: value } : i));
+    const changeSlide = (key, value, id) => {
+        setSlide(slide.map(i => i.id === id ? { ...i, [key]: value } : i));
     }
 
     React.useEffect(() => {
@@ -105,7 +107,6 @@ const UpdateProduct = ({id, obj}) => {
         slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
         slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
         setImages(slideFiles.map((slideFile) => slideFile[0]));
-        console.log(images);
     }, [slide]);
 
     const closeUpdatePopup = () => {
@@ -250,18 +251,18 @@ const UpdateProduct = ({id, obj}) => {
                     />                    
                 </div>
                 {info.map((i) => 
-                    <div className={styles.line} key={i.number}>
+                    <div className={styles.line} key={i.id}>
                         <label htmlFor="info-product_title" className={styles.label}>Info title:</label>
                         <input id="info-product_title" tabIndex="7" type='text' className={styles.formInputSmall}
                             value={i.title}
-                            onChange={(e) => changeInfo('title', e.target.value, i.number)}
+                            onChange={(e) => changeInfo('title', e.target.value, i.id)}
                         /> 
                         <label htmlFor="info-product_description" className={styles.label}>Info description:</label>
                         <input id="info-product_description" tabIndex="8" type='text' className={styles.formInputSmall}
                             value={i.description}
-                            onChange={(e) => changeInfo('description', e.target.value, i.number)}
+                            onChange={(e) => changeInfo('description', e.target.value, i.id)}
                         />
-                        <button type='button' tabIndex='9' className='info-product__remove' onClick={() => removeInfo(i.number)}>
+                        <button type='button' tabIndex='9' className='info-product__remove' onClick={() => removeInfo(i.id)}>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                 <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                             </svg>                                     
@@ -270,12 +271,12 @@ const UpdateProduct = ({id, obj}) => {
                 )}
                 <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Add new info</button>
                 {slide.map((i) => 
-                    <div className={styles.line} key={i.number}>
+                    <div className={styles.line} key={i.id}>
                         <label htmlFor="product-slide" className={styles.label}>Slide:</label>
                         <input id="product-slide" tabIndex="11" type='file' className={styles.formFile}
-                            onChange={(e) => changeSlide('slideImg', e.target.files[0], i.number)}
+                            onChange={(e) => changeSlide('slideImg', e.target.files[0], i.id)}
                         />
-                        <button type='button' tabIndex='12' className='slide-product__remove' onClick={() => removeSlide(i.number)}>
+                        <button type='button' tabIndex='12' className='slide-product__remove' onClick={() => removeSlide(i.id)}>
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                 <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                             </svg>                                     

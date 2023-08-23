@@ -62,7 +62,7 @@ const PopupSubmitForm = ({totalCount}) => {
         +
         (item.lengthArr ? 'Tamanho: ' + item.lengthArr + ' mm\n' : '')
         +
-        (item.isLashes ? '' : item.info.map((obj) => obj.title + ': ' + obj.description) + '\n')
+        (item.isLashes ? '' : item.info.map((obj) => obj.title + ': ' + obj.description + '\n') )
         +
         'Preço: ' + item.price + ' €\n'
         +
@@ -70,7 +70,8 @@ const PopupSubmitForm = ({totalCount}) => {
         +
         '\n\nQuantidade total: ' + totalCount
         +
-        '\nMontante total: ' + totalPrice.toFixed(2) + ' €';
+        '\nMontante total: ' + totalPrice.toFixed(2) + ' €'
+    ;
 
     const submitForm = () => {
         dispatch(
