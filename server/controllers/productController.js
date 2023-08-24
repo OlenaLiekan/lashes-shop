@@ -160,8 +160,8 @@ class ProductController {
 
     if (slide) {
       const productId = req.params.id;
-      const slideOps = { where: { productId: productId } };
-      ProductSlide.destroy(slideOps);
+      /*const slideOps = { where: { productId: productId } };
+      ProductSlide.destroy(slideOps);*/
       if (slide.length > 1) {
         slide.forEach((img, index) => {
           ProductSlide.create({

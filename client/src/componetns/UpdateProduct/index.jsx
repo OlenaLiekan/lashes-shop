@@ -38,7 +38,6 @@ const UpdateProduct = ({id, obj}) => {
         setIsLashes(obj.isLashes);
         setText(obj.text[0].text);
         setInfo(obj.info);
-        setSlide(obj.slide);
         setImg(obj.img);
         const brand = brands.find(brand => brand.id === obj.brandId);
         if (brand) {
@@ -48,7 +47,6 @@ const UpdateProduct = ({id, obj}) => {
         if (type) {
             setTypeName(type.name);            
         } 
-        console.log(obj.slide);
     }, [obj, brands, types]);
 
     const success = () => {
@@ -91,7 +89,7 @@ const UpdateProduct = ({id, obj}) => {
     }
 
     const addSlide = () => {
-        setSlide([...slide, { slideImg: "", id: Date.now() }]);
+        setSlide([...slide, { slideImg: '', id: Date.now() }]);
     }
 
     const removeSlide = (id) => {
@@ -103,10 +101,8 @@ const UpdateProduct = ({id, obj}) => {
     }
 
     React.useEffect(() => {
-        let slideFiles = Object.entries(slide).map(([key, value]) => value);
-        slideFiles = slideFiles.map((slideFile) => Object.entries(slideFile));
-        slideFiles = slideFiles.map((slideFile) => slideFile.map((file) => file[1]));
-        setImages(slideFiles.map((slideFile) => slideFile[0]));
+        let slideFiles = slide.map((s) => s.slideImg);
+        setImages(slideFiles);
     }, [slide]);
 
     const closeUpdatePopup = () => {
@@ -182,6 +178,10 @@ const UpdateProduct = ({id, obj}) => {
             formData.append('slide', file);
         });           
         updateProduct(formData, id).then(data => success());      
+    }
+
+    const removeImage = (id) => {
+
     }
 
     return (
@@ -270,6 +270,20 @@ const UpdateProduct = ({id, obj}) => {
                     </div>                    
                 )}
                 <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Add new info</button>
+                <div className={styles.lineImg}>                
+                {obj.slide ? 
+                    obj.slide.map((s) => 
+                        <div key={s.id} className={styles.imgBox}> 
+                            <img src={ s.slideImg ? `http://localhost:3001/` + s.slideImg : ''} />  
+                            <svg onClick={() => removeImage(s.id)} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                <path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z" />
+                            </svg>
+                        </div>
+                    )
+                    :
+                    ""
+                    }
+                </div>
                 {slide.map((i) => 
                     <div className={styles.line} key={i.id}>
                         <label htmlFor="product-slide" className={styles.label}>Slide:</label>
