@@ -1,7 +1,7 @@
 import React from 'react';
 import { AuthContext } from '../context';
 import AdminPanel from '../componetns/AdminPanel';
-import UserPanel from '../componetns/UserPanel';
+import UserPanel from '../componetns/UserPanel/UserPanel';
 import { useNavigate } from 'react-router-dom';
 
 const AuthPage = () => {
@@ -49,9 +49,9 @@ const AuthPage = () => {
         <div className="main__account account-main">
             <div className="account-main__container">
                 <div className="account-main__content">
-                    <h1 className="account-main__title">
+                    <h2 className="account-main__title">
                         Ola, {adminMode ? 'administrador' : ''} <span>{user.firstName ? user.firstName : "User"}</span> !
-                    </h1>
+                    </h2>
                     <h2 className="account-main__subtitle">
                         Fico feliz em vê-lo novamente
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -62,7 +62,7 @@ const AuthPage = () => {
                         {
                             !adminMode
                                 ?
-                                <UserPanel />
+                                <UserPanel user={user} />
                                 :
                                 <AdminPanel />
                         }

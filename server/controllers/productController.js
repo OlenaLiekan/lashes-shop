@@ -2,13 +2,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const uuid = require('uuid');
 const path = require('path');
-const {
-  Product,
-  ProductInfo,
-  ProductSlide,
-  ProductDescription,
-  ProductText,
-} = require('../models/models');
+const { Product, ProductInfo, ProductSlide, ProductText } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
 class ProductController {
@@ -84,7 +78,8 @@ class ProductController {
 
   async update(req, res, next) {
     const { id } = req.params;
-    let { name, rating, code, price, brandId, typeId, info, isLashes, text } = req.body;
+    let { name, rating, code, price, brandId, typeId, info, isLashes, text, deletedSlideId } =
+      req.body;
 
     const { img } = req.files ? req.files : '';
     const { slide } = req.files ? req.files : '';
@@ -158,10 +153,16 @@ class ProductController {
       );
     }
 
+    if (deletedSlideId.length) {
+      deletedSlideId = JSON.parse(deletedSlideId);
+      deletedSlideId.forEach(slideId => {
+        const slideOps = { where: { id: slideId } };
+        ProductSlide.destroy(slideOps);
+      });
+    }
+
     if (slide) {
       const productId = req.params.id;
-      /*const slideOps = { where: { productId: productId } };
-      ProductSlide.destroy(slideOps);*/
       if (slide.length > 1) {
         slide.forEach((img, index) => {
           ProductSlide.create({

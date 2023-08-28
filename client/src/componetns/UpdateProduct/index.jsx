@@ -24,10 +24,12 @@ const UpdateProduct = ({id, obj}) => {
     const { setUpdateMode } = React.useContext(AuthContext);
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
+    const [objSlides, setObjSlides] = React.useState([]);
     const [img, setImg] = React.useState(null);
     const [images, setImages] = React.useState([]);
     const [isLashes, setIsLashes] = React.useState(false);
     const [text, setText] = React.useState('');
+    const [deletedSlideId, setDeletedSlideId] = React.useState([]);
 
     React.useEffect(() => {
         setName(obj.name);
@@ -39,6 +41,7 @@ const UpdateProduct = ({id, obj}) => {
         setText(obj.text[0].text);
         setInfo(obj.info);
         setImg(obj.img);
+        setObjSlides(obj.slide);
         const brand = brands.find(brand => brand.id === obj.brandId);
         if (brand) {
             setBrandName(brand.name);            
@@ -170,6 +173,9 @@ const UpdateProduct = ({id, obj}) => {
         formData.set('brandId', brandId);
         formData.set('typeId', typeId);
         formData.set('text', text);
+        if (deletedSlideId) {
+            formData.append('deletedSlideId', JSON.stringify(deletedSlideId));            
+        }
         if (img) {
             formData.set('img', img);               
         }
@@ -181,7 +187,8 @@ const UpdateProduct = ({id, obj}) => {
     }
 
     const removeImage = (id) => {
-
+        setObjSlides(objSlides.filter((s) => s.id !== id));
+        setDeletedSlideId([...deletedSlideId, id]);
     }
 
     return (
@@ -271,8 +278,8 @@ const UpdateProduct = ({id, obj}) => {
                 )}
                 <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Add new info</button>
                 <div className={styles.lineImg}>                
-                {obj.slide ? 
-                    obj.slide.map((s) => 
+                {objSlides ? 
+                    objSlides.map((s) => 
                         <div key={s.id} className={styles.imgBox}> 
                             <img src={ s.slideImg ? `http://localhost:3001/` + s.slideImg : ''} />  
                             <svg onClick={() => removeImage(s.id)} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
