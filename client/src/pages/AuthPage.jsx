@@ -50,7 +50,7 @@ const AuthPage = () => {
             <div className="account-main__container">
                 <div className="account-main__content">
                     <h2 className="account-main__title">
-                        Ola, {adminMode ? 'administrador' : ''} <span>{user.firstName ? user.firstName : "User"}</span> !
+                        Ola, {adminMode ? 'administrador' : ''} <span>{user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : "Usuário"}</span> !
                     </h2>
                     <h2 className="account-main__subtitle">
                         Fico feliz em vê-lo novamente
