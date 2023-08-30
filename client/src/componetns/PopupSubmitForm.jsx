@@ -5,7 +5,8 @@ import { scrollTop } from '../js/script';
 import { useForm, ValidationError } from '@formspree/react';
 import { clearItems } from '../redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentOrder } from '../redux/slices/orderSlice';
+import { updateUser } from '../http/userAPI';
+import axios from 'axios';
 
 const PopupSubmitForm = ({totalCount}) => {
 
@@ -13,11 +14,12 @@ const PopupSubmitForm = ({totalCount}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
+    const [users, setUsers] = React.useState([]);
     const [username, setUsername] = React.useState('');
     const [surname, setSurname] = React.useState('');    
     const [phone, setPhone] = React.useState('');
     const [email, setEmail] = React.useState('');
+    const [orderNumber, setOrderNumber] = React.useState('');
 
     React.useEffect(() => {
         if (user) {
@@ -26,6 +28,10 @@ const PopupSubmitForm = ({totalCount}) => {
             setPhone(user.phone);
             setEmail(user.email);
         }
+        axios.get(`http://localhost:3001/api/user?role=USER`)
+            .then((res) => {
+                setUsers(res.data);
+        });
     }, []);
 
     const onChangeUsername = (event) => { 
@@ -72,13 +78,28 @@ const PopupSubmitForm = ({totalCount}) => {
         +
         '\nMontante total: ' + totalPrice.toFixed(2) + ' €'
     ;
+    
+    React.useEffect(() => {
+        if (users.length) {
+            setOrderNumber(users.map((user) => user.order.length).reduce((a, b) => a + b));    
+        }
+    }, [users]);
 
     const submitForm = () => {
+        const formData = new FormData();
+        const id = user.id;
+        formData.append('userId', id);
+        formData.append('orderNumber', orderNumber + 1);
+        formData.append('items', JSON.stringify(items));
+        formData.append('quantity', totalCount);
+        formData.append('sum', totalPrice.toFixed(2));
+        updateUser(formData, id);
+        localStorage.setItem('orderId', orderNumber ? orderNumber + 1 : '');            
         dispatch(
             clearItems()
         ); 
         navigate('/success');
-        scrollTop();
+        scrollTop();            
     } 
 
     const [state, handleSubmit] = useForm("xqkoljrq");

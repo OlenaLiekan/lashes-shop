@@ -20,6 +20,19 @@ const BasketProduct = sequelize.define('basket_product', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
+const UserOrder = sequelize.define('user_order', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  orderNumber: { type: DataTypes.INTEGER, allowNull: false },
+  quantity: { type: DataTypes.INTEGER, allowNull: false },
+  sum: { type: DataTypes.INTEGER, allowNull: false },
+});
+
+const OrderItem = sequelize.define('order_item', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  title: { type: DataTypes.STRING, allowNull: false },
+  description: { type: DataTypes.STRING, allowNull: false },
+});
+
 const Product = sequelize.define('product', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   code: { type: DataTypes.INTEGER, allowNull: false, unique: true },
@@ -87,6 +100,12 @@ const Slide = sequelize.define('slide', {
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
+User.hasMany(UserOrder, { as: 'order' });
+UserOrder.belongsTo(User);
+
+UserOrder.hasMany(OrderItem, { as: 'item' });
+OrderItem.belongsTo(UserOrder);
+
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
@@ -128,6 +147,8 @@ Brand.belongsToMany(Type, { through: TypeBrand });
 
 module.exports = {
   User,
+  UserOrder,
+  OrderItem,
   Basket,
   BasketProduct,
   Product,

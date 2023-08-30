@@ -25,7 +25,7 @@ const UserLogIn = () => {
                         .get(
                             `http://localhost:3001/api/user?email=${emailValue}`,
                         );
-                    setUser(data);
+                    setUser(data[0]);
                 } catch (error) {
                     alert('User não encontrado!');
                     navigate('/login');

@@ -26,7 +26,7 @@
     margin-bottom: 40px;
     gap: 15px;
     color: #252525;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     @media(max-width: 767.98px) {
         gap: 8px;
@@ -78,6 +78,7 @@
         padding: 40px 10px 20px;
         border-left: 0;
         border-top: 2px solid #61616124;
+        min-height: 0;
     }
     @media(max-width: 379.98px) {
         padding: 30px 10px 20px;
@@ -104,12 +105,13 @@
 
 .orderTitle {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 15px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     span {
+        font-size: 16px;
         font-weight: 500;
     }
     @media(max-width: 991.98px) {
@@ -117,7 +119,6 @@
             font-size: 14px;
         }
         font-size: 12px;
-        align-items: flex-end;
     }
     @media(max-width: 379.98px) {
         span {
@@ -132,6 +133,10 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.orderBodyHidden {
+    display: none;
 }
 
 .productsList {
@@ -191,6 +196,11 @@
     @media(max-width: 379.98px) {
         font-size: 10px;
     }
+}
+
+.infoLine {
+    display: flex;
+    white-space: nowrap;
 }
 
 .total {

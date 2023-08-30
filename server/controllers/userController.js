@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Basket } = require('../models/models');
+const { User, Basket, UserOrder, OrderItem } = require('../models/models');
 
 const generateJwt = (id, email, role) => {
   return jwt.sign({ id, email, role }, process.env.SECRET_KEY, { expiresIn: '24h' });
@@ -59,19 +59,74 @@ class UserController {
     return res.json({ token });
   }
 
-  async getOne(req, res) {
-    const { email, id } = req.query;
+  async getAll(req, res) {
+    const { role, email } = req.query;
     let options = {
       where: {},
+      include: [{ model: UserOrder, as: 'order', include: [{ model: OrderItem, as: 'item' }] }],
     };
-    if (id) {
-      options.where = { ...options.where, id };
+    if (role) {
+      options.where = { ...options.where, role };
     }
     if (email) {
       options.where = { ...options.where, email };
     }
+    const users = await User.findAll(options);
+    return res.json(users);
+  }
+
+  async getOne(req, res) {
+    const { id } = req.params;
+    let options = {
+      where: {},
+      include: [{ model: UserOrder, as: 'order', include: [{ model: OrderItem, as: 'item' }] }],
+    };
+    if (id) {
+      options.where = { ...options.where, id };
+    }
     const user = await User.findOne(options);
     return res.json(user);
+  }
+
+  async update(req, res) {
+    let { userId, orderNumber, quantity, sum, items } = req.body;
+
+    if (userId) {
+      const order = await UserOrder.create({
+        userId: userId,
+        orderNumber: orderNumber,
+        quantity: quantity,
+        sum: sum,
+      });
+      items = JSON.parse(items);
+      items.forEach(item => {
+        OrderItem.create({
+          title: item.name,
+          description:
+            'Marca: ' +
+            item.company +
+            '\nCódigo: ' +
+            item.code +
+            '\n' +
+            (item.curlArr
+              ? 'Opções: ' +
+                item.curlArr +
+                ' / ' +
+                item.thicknessArr +
+                ' / ' +
+                item.lengthArr +
+                '\n'
+              : '') +
+            (item.isLashes ? '' : item.info.map(obj => obj.title + ': ' + obj.description + '\n')) +
+            'Preço: ' +
+            item.price +
+            ' €\n' +
+            'Quantidade: ' +
+            item.count,
+          userOrderId: order.id,
+        });
+      });
+    }
   }
 }
 

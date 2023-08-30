@@ -5,12 +5,15 @@ import successImg from "../assets/img/success/001.png";
 import { scrollTop } from '../js/script';
 
 const SuccessPage = () => {
+
+    const orderId = localStorage.getItem('orderId');
+
     return (
         <div className="main__success success-main">
             <div className="success-main__container">
                 <div className="success-main__content">
                     <h2 className="success-main__title">
-                        Seu pedido foi feito com sucesso.
+                        Seu pedido {orderId ? '№' + orderId : ''} foi feito com sucesso.
                     </h2>
                     <div className="success-main__body body-success">
                         <div className="body-success__image">
