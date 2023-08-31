@@ -59,7 +59,7 @@ const Catalog = () => {
     }, []);
     
     const removeType = (id) => {
-        if (prompt('Tem certeza de que deseja excluir o tipo? Confirme com «Sim».', 'Sim')) {
+        if (window.confirm('Tem certeza de que deseja excluir o tipo?')) {
             axios.delete(`http://localhost:3001/api/type?id=${id}`)
                 .then(() => {
                     alert('O tipo foi excluído com sucesso!');

@@ -83,6 +83,7 @@ const PopupSubmitForm = ({totalCount}) => {
         if (users.length) {
             setOrderNumber(users.map((user) => user.order.length).reduce((a, b) => a + b));    
         }
+        console.log(items);
     }, [users]);
 
     const submitForm = () => {

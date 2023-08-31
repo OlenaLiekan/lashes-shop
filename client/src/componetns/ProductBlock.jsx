@@ -19,7 +19,7 @@ const ProductBlock = ({path, id, info, name, rating, isLashes, typeId, price, br
     }, []);
 
     const removeProduct = () => {
-        if (prompt('Tem certeza de que deseja excluir o produto? Confirme com «Sim».', 'Sim')) {
+        if (window.confirm('Tem certeza de que deseja excluir o produto?')) {
         axios.delete(`http://localhost:3001/api/product?id=${id}`)
             .then(() => {
                 alert('O produto foi excluído com sucesso!');

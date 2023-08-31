@@ -58,7 +58,7 @@ const BrandsBlock = () => {
 
 
   const removeBrand = (id) => {
-    if (prompt('Tem certeza de que deseja excluir a marca? Confirme com «Sim».', 'Sim')) {
+    if (window.confirm('Tem certeza de que deseja excluir a marca')) {
       axios.delete(`http://localhost:3001/api/brand?id=${id}`)
         .then(() => {
           alert('A marca foi excluído com sucesso!');

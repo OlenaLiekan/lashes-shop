@@ -88,6 +88,14 @@ class UserController {
     return res.json(user);
   }
 
+  async destroy(req, res) {
+    const { id } = req.query;
+    const user = await User.destroy({
+      where: { id },
+    });
+    return res.json(user);
+  }
+
   async update(req, res) {
     let { userId, orderNumber, quantity, sum, items } = req.body;
 
@@ -123,6 +131,7 @@ class UserController {
             ' €\n' +
             'Quantidade: ' +
             item.count,
+          img: item.img,
           userOrderId: order.id,
         });
       });

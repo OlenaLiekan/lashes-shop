@@ -29,7 +29,7 @@ const MainSliderBlock = () => {
   }, []);
 
   const removeSlide = (id) => {
-    if (prompt('Tem certeza de que deseja excluir o slide? Confirme com «Sim».', 'Sim')) {
+    if (window.confirm('Tem certeza de que deseja excluir o slide?')) {
       axios.delete(`http://localhost:3001/api/slide?id=${id}`)
         .then(() => {
           alert('O slide foi excluído com sucesso!');

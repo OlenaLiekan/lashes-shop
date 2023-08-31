@@ -10,5 +10,6 @@ router.get('/auth', authMiddleware, userController.refreshToken);
 router.get('/:id', userController.getOne);
 router.get('/', userController.getAll);
 router.patch('/:id', userController.update);
+router.delete('/', userController.destroy);
 
 module.exports = router;

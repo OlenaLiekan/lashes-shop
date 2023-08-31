@@ -67,6 +67,24 @@
     }
 }
 
+.asideMenuItemBlack {
+    font-size: 20px;
+    font-weight: 500;
+    color: #000;
+
+    @media(max-width: 991.98px) {
+        font-size: 18px;
+    }
+
+    @media(max-width: 767.98px) {
+        font-size: 16px;
+    }
+
+    @media(max-width: 379.98px) {
+        font-size: 14px;
+    }
+}
+
 .body {
     min-height: 240px;
     border-left: 2px solid #61616124;
@@ -85,12 +103,16 @@
     }
 }
 
+.hidden {
+    display: none;
+}
+
 .ordersList {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     @media(max-width: 767.98px) {
-        gap: 30px;
+        gap: 20px;
     }
     @media(max-width: 767.98px) {
         gap: 20px;
@@ -109,6 +131,7 @@
     justify-content: space-between;
     gap: 15px;
     font-size: 14px;
+    width: 300px;
     cursor: pointer;
     span {
         font-size: 16px;
@@ -126,17 +149,23 @@
         }
         gap: 8px;
         font-size: 10px;
+        width: 240px;
     }
+}
+
+.chevron {
+    fill: #252525;
+}
+
+.rotate {
+    transform: rotate(180deg);
+    fill: #484848;
 }
 
 .orderBody {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.orderBodyHidden {
-    display: none;
 }
 
 .productsList {
@@ -216,6 +245,20 @@
         padding: 0 0 20px 80px;
         font-size: 11px;
         border-bottom: 2px dashed #61616124;
+    }
+}
+
+.deleteAccount {
+    display: block;
+    padding: 15px 30px;
+    border-radius: 20px;
+    border: 2px solid #252525;
+    box-shadow: 3px 3px 3px #4848481b;
+    font-weight: 600;
+    transition: all 0.6s ease 0s;
+    &:hover {
+        color: #fff;
+        background-color: #252525;
     }
 }
 
