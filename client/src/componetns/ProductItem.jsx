@@ -171,14 +171,14 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
                             <div className="info-product__number"><span className="label-bold">Código do produto:</span> {code}</div>
                             <div className="info-product__brand"><span className="label-bold">Marca:</span> {company}</div>
                             {info.length && !isLashes ? info.map((obj) => 
-                                        <div key={obj.id} className='info-product__volume'>  
-                                            <span className="label-bold">
-                                                {obj.title}:
-                                            </span>
-                                            <div className="volume__value">
-                                                {obj.description}
-                                            </div>
-                                        </div>                                    
+                                <div key={obj.id} className='info-product__volume'>  
+                                    <span className="label-bold">
+                                        {obj.title}:
+                                    </span>
+                                    <div className="volume__value">
+                                        {obj.description}
+                                    </div>
+                                </div>                                    
                             ) :
                                 ''
                             }
@@ -266,7 +266,7 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
 
                 {isAuth && user.role === 'USER' && !userRate
                     ?
-                    <NewReview productId={id} userId={user.id} rating={rating} />
+                    <NewReview productId={id} userId={user.id} userName={user.firstName} rating={rating} />
                     :
                     ''
                 }    

@@ -52,19 +52,19 @@ const UpdateBrand = ({brandItem}) => {
             </svg>
             <form onSubmit={pushBrand} className={styles.formBrand}>
                 <div className={styles.line}>
-                    <label htmlFor="brand-name" className={styles.label} placeholder='Name'>Name:</label>
+                    <label htmlFor="brand-name" className={styles.label}>Nome:</label>
                     <input id="brand-name" required tabIndex="1" type='text' className={styles.formInput}
                         ref={inputRef}    
                         value={name}
                         onChange={onChangeName} />                   
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="brand-file" className={styles.label}>Image:</label>
+                    <label htmlFor="brand-file" className={styles.label}>Imagem:</label>
                     <input id="brand-file" required tabIndex="6" type='file' className={styles.formFile}
                         onChange={selectFile}
                     />                   
                 </div>
-                <button type='submit'tabIndex='13' className={styles.button}>Update brand</button>
+                <button type='submit'tabIndex='13' className={styles.button}>Atualizar marca</button>
             </form>            
         </div>
     );

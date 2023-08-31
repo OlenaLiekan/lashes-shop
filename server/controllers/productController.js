@@ -153,7 +153,7 @@ class ProductController {
       );
     }
 
-    if (deletedSlideId.length) {
+    if (deletedSlideId) {
       deletedSlideId = JSON.parse(deletedSlideId);
       deletedSlideId.forEach(slideId => {
         const slideOps = { where: { id: slideId } };

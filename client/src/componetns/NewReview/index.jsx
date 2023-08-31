@@ -4,7 +4,7 @@ import styles from "./NewReview.module.scss";
 import { createRating, createReview, updateProduct } from '../../http/productAPI';
 import { useNavigate } from 'react-router-dom';
 
-const NewReview = ({ userId, productId, rating }) => {
+const NewReview = ({ userId, userName, productId, rating }) => {
 
     const textareaRef = React.useRef();
 
@@ -37,6 +37,7 @@ const NewReview = ({ userId, productId, rating }) => {
             const reviewData = new FormData();
             formData.append('name', currentRate);
             formData.append('userId', userId);
+            formData.append('userName', userName);
             formData.append('productId', productId);
             reviewData.append('userId', userId);
             reviewData.append('productId', productId);

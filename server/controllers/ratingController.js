@@ -3,8 +3,8 @@ const ApiError = require('../error/ApiError');
 
 class RatingController {
   async create(req, res) {
-    let { name, userId, productId } = req.body;
-    const rating = await Rating.create({ name, userId, productId });
+    let { name, userId, userName, productId } = req.body;
+    const rating = await Rating.create({ name, userId, userName, productId });
     return res.json(rating);
   }
 

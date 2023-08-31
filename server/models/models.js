@@ -22,7 +22,6 @@ const BasketProduct = sequelize.define('basket_product', {
 
 const UserOrder = sequelize.define('user_order', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  orderNumber: { type: DataTypes.INTEGER, allowNull: false },
   quantity: { type: DataTypes.INTEGER, allowNull: false },
   sum: { type: DataTypes.INTEGER, allowNull: false },
 });
@@ -71,6 +70,7 @@ const Brand = sequelize.define('brand', {
 const Rating = sequelize.define('rating', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.INTEGER, allowNull: false },
+  userName: { type: DataTypes.STRING },
 });
 
 const Review = sequelize.define('review', {

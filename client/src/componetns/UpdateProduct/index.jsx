@@ -38,8 +38,8 @@ const UpdateProduct = ({id, obj}) => {
         setTypeId(obj.typeId);
         setBrandId(obj.brandId);
         setIsLashes(obj.isLashes);
-        setText(obj.text[0].text);
-        setInfo(obj.info);
+        setText(obj.text[0] ? obj.text[0].text : 'Ai, a descrição não foi encontrada.');
+        setInfo(obj.info ? obj.info : '');
         setImg(obj.img);
         setObjSlides(obj.slide);
         const brand = brands.find(brand => brand.id === obj.brandId);
@@ -198,7 +198,7 @@ const UpdateProduct = ({id, obj}) => {
             </svg>
             <form onSubmit={updateProductItem} className={styles.formProduct}>
                 <div className={styles.line}>
-                    <label htmlFor="product-name" className={styles.label} placeholder='Name'>Name:</label>
+                    <label htmlFor="product-name" className={styles.label}>Nome:</label>
                     <input id="product-name" required tabIndex="1" type='text' className={styles.formInput}
                         ref={inputRef}
                         value={name}
@@ -206,13 +206,13 @@ const UpdateProduct = ({id, obj}) => {
                     />                    
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-code" className={styles.label}>Code:</label>
+                    <label htmlFor="product-code" className={styles.label}>Código:</label>
                     <input id="product-code" required tabIndex="2" type='text' className={styles.formInputSmall}
                         ref={inputRef}
                         value={code}
                         onChange={onChangeCode}
                     /> 
-                    <label htmlFor="product-price" className={styles.label}>Price:</label>                    
+                    <label htmlFor="product-price" className={styles.label}>Preço:</label>                    
                     <input id="product-price" required tabIndex="3" type='text' className={styles.formInputSmall}
                         ref={inputRef}
                         value={price}
@@ -220,7 +220,7 @@ const UpdateProduct = ({id, obj}) => {
                     />
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-brand" className={styles.label}>Brand:</label>
+                    <label htmlFor="product-brand" className={styles.label}>Marca:</label>
                     <div onClick={toggleBrandOptions} id="product-brand" required tabIndex="4" className={styles.formSelectBrands}>
                         {brandName}
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
@@ -235,7 +235,7 @@ const UpdateProduct = ({id, obj}) => {
                         </div>                        
                         : ''
                     }
-                    <label htmlFor="product-type" className={styles.label}>Type:</label>
+                    <label htmlFor="product-type" className={styles.label}>Tipo:</label>
                     <div onClick={toggleTypeOptions} id="product-type" required tabIndex="5" className={styles.formSelectTypes}>
                         {typeName}
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
@@ -252,19 +252,19 @@ const UpdateProduct = ({id, obj}) => {
                     }
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-file" className={styles.label}>Photo:</label>
+                    <label htmlFor="product-file" className={styles.label}>Foto:</label>
                     <input id="product-file" tabIndex="6" type='file' className={styles.formFile}
                         onChange={selectFile}
                     />                    
                 </div>
                 {info.map((i) => 
                     <div className={styles.line} key={i.id}>
-                        <label htmlFor="info-product_title" className={styles.label}>Info title:</label>
+                        <label htmlFor="info-product_title" className={styles.label}>Propriedade:</label>
                         <input id="info-product_title" tabIndex="7" type='text' className={styles.formInputSmall}
                             value={i.title}
                             onChange={(e) => changeInfo('title', e.target.value, i.id)}
                         /> 
-                        <label htmlFor="info-product_description" className={styles.label}>Info description:</label>
+                        <label htmlFor="info-product_description" className={styles.label}>Significado:</label>
                         <input id="info-product_description" tabIndex="8" type='text' className={styles.formInputSmall}
                             value={i.description}
                             onChange={(e) => changeInfo('description', e.target.value, i.id)}
@@ -276,7 +276,7 @@ const UpdateProduct = ({id, obj}) => {
                         </button>
                     </div>                    
                 )}
-                <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Add new info</button>
+                <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Adicionar informações</button>
                 <div className={styles.lineImg}>                
                 {objSlides ? 
                     objSlides.map((s) => 
@@ -304,14 +304,14 @@ const UpdateProduct = ({id, obj}) => {
                         </button>
                     </div>                
                 )}
-                <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Add new slide</button>
-                <label htmlFor="product-about" className={styles.label}>Description:</label>
+                <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Adicionar slide</button>
+                <label htmlFor="product-about" className={styles.label}>Descrição:</label>
                 <textarea id="product-about" tabIndex='14' className={styles.textarea}
                     ref={inputRef}
                     value={text}
                     onChange={onChangeText}
                 />
-                <button type='submit' tabIndex='15' className={styles.button}>Update product</button>
+                <button type='submit' tabIndex='15' className={styles.button}>Atualizar produto</button>
             </form>            
         </div>
     );

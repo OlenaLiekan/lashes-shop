@@ -48,30 +48,22 @@
 }
 
 .asideMenuItem {
-    font-size: 20px;
-    font-weight: 500;
     color: #616161b6;
     cursor: pointer;
     transition: all 0.3s ease 0s;
     &:hover {
         color: #000;
     }
-    @media(max-width: 991.98px) {
-        font-size: 18px;
-    }
-    @media(max-width: 767.98px) {
-        font-size: 16px;
-    }
-    @media(max-width: 379.98px) {
-        font-size: 14px;
-    }
 }
 
 .asideMenuItemBlack {
+    color: #000;
+}
+
+.asideMenuItem,
+.asideMenuItemBlack {    
     font-size: 20px;
     font-weight: 500;
-    color: #000;
-
     @media(max-width: 991.98px) {
         font-size: 18px;
     }
@@ -82,7 +74,7 @@
 
     @media(max-width: 379.98px) {
         font-size: 14px;
-    }
+    }    
 }
 
 .body {
@@ -125,7 +117,8 @@
     gap: 30px;
 }
 
-.orderTitle {
+.orderTitle, 
+.orderTitleGold {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -153,13 +146,17 @@
     }
 }
 
+.orderTitleGold {
+    color: #AD912B;
+}
+
 .chevron {
     fill: #252525;
 }
 
 .rotate {
     transform: rotate(180deg);
-    fill: #484848;
+    fill: #AD912B;
 }
 
 .orderBody {
@@ -171,21 +168,26 @@
 .productsList {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;    
 }
 
 .productsItem {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding: 10px;
+
 }
 
 .productTop {
     font-size: 14px;
+    line-height: 1.2;
     font-weight: 500;
-    color: #AD912B;
+    color: #252525;
+    width: 280px;
     @media(max-width: 379.98px) {
         font-size: 12px;
+        width: 240px;
     }
 }
 

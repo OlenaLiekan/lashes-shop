@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './ReviewItem.module.scss';
 import axios from 'axios';
 
-const ReviewItem = ({ name, userId, productId, createdAt }) => {
+const ReviewItem = ({ name, userId, userName, productId, createdAt }) => {
 
     const [productReviews, setProductReviews] = React.useState([]);
     const [user, setUser] = React.useState({});
@@ -16,21 +16,12 @@ const ReviewItem = ({ name, userId, productId, createdAt }) => {
         }
     }, [productId]);
 
-    React.useEffect(() => {
-        if (userId) {
-            axios.get(`http://localhost:3001/api/user?id=${userId}`)
-                .then((res) => {
-                    setUser(res.data);            
-                }); 
-        }
-    }, [userId]);
-
     const productReview = productReviews ? productReviews.find((review) => userId === review.userId && productId === review.productId) : '';
-
+    if (user)
     return (
             <div className={styles.item}>
                 <div className={styles.top}>
-                    <div className={styles.userName}>{user.firstName}</div>
+                    <div className={styles.userName}>{userName}</div>
                     <div className={styles.date}>{createdAt.slice(0,19).replace('T', ' / ')}</div>
                 </div>
                 <div className={styles.body}>

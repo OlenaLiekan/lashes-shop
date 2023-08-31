@@ -1592,9 +1592,12 @@
         @media (max-width: 479.98px) {
            height: 160px;
         }
+        @media (max-width: 379.98px) {
+            height: 120px;
+        }
         @media (max-width: 371.98px) {
+            height: 110px;
             align-self: flex-start;
-            height: 145px;
         }
         img {
             position: absolute;

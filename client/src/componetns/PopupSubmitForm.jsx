@@ -81,21 +81,19 @@ const PopupSubmitForm = ({totalCount}) => {
     
     React.useEffect(() => {
         if (users.length) {
-            setOrderNumber(users.map((user) => user.order.length).reduce((a, b) => a + b));    
+            setOrderNumber(users.map((user) => user.order[user.order.length - 1].id));    
         }
-        console.log(items);
     }, [users]);
 
     const submitForm = () => {
         const formData = new FormData();
         const id = user.id;
         formData.append('userId', id);
-        formData.append('orderNumber', orderNumber + 1);
         formData.append('items', JSON.stringify(items));
         formData.append('quantity', totalCount);
         formData.append('sum', totalPrice.toFixed(2));
         updateUser(formData, id);
-        localStorage.setItem('orderId', orderNumber ? orderNumber + 1 : '');            
+        localStorage.setItem('orderId', orderNumber ? +orderNumber + 1 : '');            
         dispatch(
             clearItems()
         ); 

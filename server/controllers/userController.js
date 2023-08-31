@@ -97,12 +97,11 @@ class UserController {
   }
 
   async update(req, res) {
-    let { userId, orderNumber, quantity, sum, items } = req.body;
+    let { userId, quantity, sum, items } = req.body;
 
     if (userId) {
       const order = await UserOrder.create({
         userId: userId,
-        orderNumber: orderNumber,
         quantity: quantity,
         sum: sum,
       });
