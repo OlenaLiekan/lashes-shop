@@ -10,6 +10,7 @@ const UserPanel = ({ user }) => {
     const [currentUser, setCurrentUser] = React.useState({});
     const [activeIndex, setActiveIndex] = React.useState('');
     const [activeOption, setActiveOption] = React.useState(0);
+    const [editMode, setEditMode] = React.useState(false);
 
     const menuItems = ['Histórico de pedidos', 'Informações pessoais', 'Gerenciamento de contas'];
 
@@ -42,6 +43,14 @@ const UserPanel = ({ user }) => {
         } else {
             alert('Cancelar exclusão.');
         }
+    }
+
+    const editData = () => {
+        setEditMode(true);
+    }
+
+    const cancelAction = () => {
+        setEditMode(false);
     }
 
     return (
@@ -105,12 +114,35 @@ const UserPanel = ({ user }) => {
                                 :
                                     <h4 className={styles.orderTitle}>
                                         <span>
-                                           A lista de pedidos está vazia no momento. 
+                                           Você ainda não fez nenhum pedido.
                                         </span>
                                     </h4>} 
                             </ul>
                         </div>
-                        <button onClick={removeUser} className={activeOption === 2 ? styles.deleteAccount : styles.hidden }>Deletar conta</button>
+                        <div className={activeOption === 1 && !editMode ? styles.userInfo : styles.hidden}>
+                            <ul className={styles.userInfoTop}>
+                                <li className={styles.infoLine}>
+                                    {currentUser.firstName + ' ' + currentUser.lastName}
+                                </li>
+                                <li className={styles.infoLine}>{currentUser.email}</li>
+                                <li className={styles.infoLine}>{currentUser.phone}</li>
+                            </ul>
+                            <div className={styles.userAddress}>
+                                <h3 className={styles.addressTitle}>Endereço primário</h3>
+                                <p className={styles.addressLine}>Morada №1:</p>
+                                <p className={styles.addressLine}>Morada №2:</p>
+                                <p className={styles.addressLine}>Cidade:</p>
+                                <p className={styles.addressLine}>País:</p>
+                                <p className={styles.addressLine}>Província:</p>
+                                <p className={styles.addressLine}>Código postal/ZIP: </p>
+                            </div>
+                            <button onClick={editData} className={styles.updateInfoBtn}>Editar</button>
+                        </div>
+                        <button onClick={cancelAction} className={activeOption === 1 && editMode ? styles.updateInfoBtn : styles.hidden}>Сancelar</button>
+                        <div className={activeOption === 2 ? styles.actions : styles.hidden}>
+                            <button onClick={removeUser} className={ styles.deleteAccount }>Deletar conta</button>
+                            <button className={styles.changePassword}>Alterar a senha</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -250,8 +250,18 @@
     }
 }
 
-.deleteAccount {
-    display: block;
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.deleteAccount,
+.changePassword,
+.updateInfoBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 15px 30px;
     border-radius: 20px;
     border: 2px solid #252525;
@@ -264,3 +274,29 @@
     }
 }
 
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.userInfoTop,
+.userAddress {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    p {
+        padding-left: 22px;
+    }
+}
+
+.infoLine,
+.addressTitle {
+    font-weight: 500;
+    color: #252525;
+}
+
+.addressLine {
+    font-size: 14px;
+    color: #484848;
+}
