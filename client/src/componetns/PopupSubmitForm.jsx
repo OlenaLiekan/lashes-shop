@@ -118,6 +118,8 @@ const PopupSubmitForm = ({totalCount}) => {
         if (users.length) {
             setOrderNumber(users.map((user) => user.order[user.order.length - 1].id));    
         }
+
+        console.log(+orderNumber + 1);
     }, [users]);
 
     const submitForm = () => {
@@ -128,7 +130,7 @@ const PopupSubmitForm = ({totalCount}) => {
         formData.append('quantity', totalCount);
         formData.append('sum', totalPrice.toFixed(2));
         updateUser(formData, id);
-        localStorage.setItem('orderId', orderNumber ? +orderNumber + 1 : '');            
+        localStorage.setItem('orderId', orderNumber ? (+orderNumber) + 1 : '');            
         dispatch(
             clearItems()
         ); 

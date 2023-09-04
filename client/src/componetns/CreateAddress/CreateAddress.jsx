@@ -1,4 +1,5 @@
 import React from 'react';
+import { checkedCheckbox } from '../../js/script';
 
 const CreateAddress = () => {
 
@@ -62,10 +63,16 @@ const CreateAddress = () => {
 
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
+
+
+    const createNewAddress = (e) => {
+        e.preventDefault();
+        console.log('hello');
+    }
     
     return (
         <div className="popup-cart__body">     
-            <form id="addressForm" className="popup-cart__form popup-form">
+            <form onSubmit={createNewAddress} id="addressForm" className="popup-cart__form popup-form">
                 <div className="popup-form__line">
                     <label htmlFor="user-name-input" className="popup-form__label">Primeiro Nome</label>
                     <input required id="user-name-input" tabIndex="1" autoComplete="off" type="text" name="name" data-error="Error" placeholder='Nome' className="popup-form__input _req"
@@ -143,7 +150,13 @@ const CreateAddress = () => {
                         value={postalCode}
                         onChange={onChangePostalCode}/>
                 </div>
-                <button tabIndex="12" className="popup-form__button checkout scroll-top">
+                <div className="form-login__line form-login__line_checkbox">
+                    <label onClick={checkedCheckbox} htmlFor="userCheckBox" className="form-login__label checkbox-label">
+                        Selecione principal
+                    </label>
+                    <input required id="userCheckBox" type="checkbox" name="agree" tabIndex="12" className="form-login__checkbox" /> 
+                </div>
+                <button type='submit' tabIndex="13" className="popup-form__button checkout scroll-top">
                     Adicionar
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg>
                 </button>

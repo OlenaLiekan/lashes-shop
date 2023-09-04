@@ -13,22 +13,19 @@ const UserPanel = ({ user }) => {
     const [activeOption, setActiveOption] = React.useState(0);
     const [editMode, setEditMode] = React.useState(false);
     const [createAddressMode, setCreateAddressMode] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [orders, setOrders] = React.useState(null);
 
     const menuItems = ['Histórico de pedidos', 'Endereços', 'Gerenciamento de contas'];
 
     React.useEffect(() => {
+        setIsLoading(true);
         axios.get(`http://localhost:3001/api/user/${user.id}`)
             .then((res) => {
                 setCurrentUser(res.data);
+                setOrders(res.data.order);
+                setIsLoading(false);
             });
-    }, []);
-
-    const orders = currentUser.order ? currentUser.order : false;
-
-    React.useEffect(() => {
-        if (orders) {
-            console.log(orders.map((order) => order.item));            
-        }
     }, []);
 
     const removeUser = () => {
@@ -77,7 +74,7 @@ const UserPanel = ({ user }) => {
                     <div className={styles.body}>
                         <div className={activeOption === 0 ? styles.orders : styles.hidden}>
                             <ul className={styles.ordersList}>
-                                {orders ? orders.map((order, index) =>  
+                                {orders && !isLoading ? orders.map((order, index) =>  
                                  <li key={order.id} className={styles.ordersItem}>
                                     <div className={styles.orderInfo}>
                                         <h4 onClick={() => setActiveIndex(index)} className={activeIndex === index ? styles.orderTitleGold : styles.orderTitle}>
@@ -114,11 +111,17 @@ const UserPanel = ({ user }) => {
                                 </li>
                                 )
                                 :
-                                    <h4 className={styles.orderTitle}>
+                                    isLoading
+                                        ?
                                         <span>
-                                           Você ainda não fez nenhum pedido.
+                                            Por favor, aguarde. Informações do pedido carregando...                                            
                                         </span>
-                                    </h4>} 
+                                        :
+                                        <h4 className={styles.orderTitle}>
+                                            <span>
+                                                Você ainda não fez nenhum pedido.
+                                            </span>
+                                        </h4>}  
                             </ul>
                         </div>
                         <div className={activeOption === 1 && !editMode ? styles.userInfo : styles.hidden}>

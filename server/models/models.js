@@ -26,6 +26,22 @@ const UserOrder = sequelize.define('user_order', {
   sum: { type: DataTypes.INTEGER, allowNull: false },
 });
 
+const UserAddress = sequelize.define('user_address', {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  firstName: { type: DataTypes.STRING, allowNull: false },
+  lastName: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false },
+  phone: { type: DataTypes.STRING, allowNull: false },
+  company: { type: DataTypes.STRING },
+  firstAddress: { type: DataTypes.STRING, allowNull: false },
+  secondAddress: { type: DataTypes.STRING },
+  city: { type: DataTypes.STRING, allowNull: false },
+  country: { type: DataTypes.STRING, allowNull: false },
+  region: { type: DataTypes.STRING, allowNull: false },
+  postalCode: { type: DataTypes.INTEGER, allowNull: false },
+  mainAddress: { type: DataTypes.BOOLEAN, allowNull: false },
+});
+
 const OrderItem = sequelize.define('order_item', {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: DataTypes.STRING, allowNull: false },
@@ -104,6 +120,9 @@ Basket.belongsTo(User);
 User.hasMany(UserOrder, { as: 'order' });
 UserOrder.belongsTo(User);
 
+User.hasMany(UserAddress, { as: 'address' });
+UserAddress.belongsTo(User);
+
 UserOrder.hasMany(OrderItem, { as: 'item' });
 OrderItem.belongsTo(UserOrder);
 
@@ -149,6 +168,7 @@ Brand.belongsToMany(Type, { through: TypeBrand });
 module.exports = {
   User,
   UserOrder,
+  UserAddress,
   OrderItem,
   Basket,
   BasketProduct,

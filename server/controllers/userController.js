@@ -63,7 +63,13 @@ class UserController {
     const { role, email } = req.query;
     let options = {
       where: {},
-      include: [{ model: UserOrder, as: 'order', include: [{ model: OrderItem, as: 'item' }] }],
+      include: [
+        {
+          model: UserOrder,
+          as: 'order',
+          include: [{ model: OrderItem, as: 'item' }],
+        },
+      ],
     };
     if (role) {
       options.where = { ...options.where, role };
@@ -99,7 +105,7 @@ class UserController {
   async update(req, res) {
     let { userId, quantity, sum, items } = req.body;
 
-    if (userId) {
+    if (userId && items) {
       const order = await UserOrder.create({
         userId: userId,
         quantity: quantity,
