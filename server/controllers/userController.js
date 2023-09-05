@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Basket, UserOrder, OrderItem } = require('../models/models');
+const { User, Basket, UserOrder, OrderItem, UserAddress } = require('../models/models');
 
 const generateJwt = (id, email, role) => {
   return jwt.sign({ id, email, role }, process.env.SECRET_KEY, { expiresIn: '24h' });
@@ -69,6 +69,10 @@ class UserController {
           as: 'order',
           include: [{ model: OrderItem, as: 'item' }],
         },
+        {
+          model: UserAddress,
+          as: 'address',
+        },
       ],
     };
     if (role) {
@@ -85,7 +89,13 @@ class UserController {
     const { id } = req.params;
     let options = {
       where: {},
-      include: [{ model: UserOrder, as: 'order', include: [{ model: OrderItem, as: 'item' }] }],
+      include: [
+        { model: UserOrder, as: 'order', include: [{ model: OrderItem, as: 'item' }] },
+        {
+          model: UserAddress,
+          as: 'address',
+        },
+      ],
     };
     if (id) {
       options.where = { ...options.where, id };
@@ -103,7 +113,24 @@ class UserController {
   }
 
   async update(req, res) {
-    let { userId, quantity, sum, items } = req.body;
+    let {
+      userId,
+      quantity,
+      sum,
+      items,
+      firstName,
+      lastName,
+      email,
+      phone,
+      company,
+      firstAddress,
+      secondAddress,
+      city,
+      country,
+      region,
+      postalCode,
+      mainAddress,
+    } = req.body;
 
     if (userId && items) {
       const order = await UserOrder.create({
@@ -139,6 +166,25 @@ class UserController {
           img: item.img,
           userOrderId: order.id,
         });
+      });
+    }
+
+    if (userId && firstAddress) {
+      company = company ? company : '';
+      UserAddress.create({
+        userId,
+        firstName,
+        lastName,
+        email,
+        phone,
+        company: company,
+        firstAddress,
+        secondAddress,
+        city,
+        country,
+        region,
+        postalCode,
+        mainAddress,
       });
     }
   }

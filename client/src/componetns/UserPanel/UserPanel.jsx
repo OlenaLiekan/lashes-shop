@@ -15,6 +15,7 @@ const UserPanel = ({ user }) => {
     const [createAddressMode, setCreateAddressMode] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(true);
     const [orders, setOrders] = React.useState(null);
+    const [addresses, setAddresses] = React.useState([]);
 
     const menuItems = ['Histórico de pedidos', 'Endereços', 'Gerenciamento de contas'];
 
@@ -24,6 +25,7 @@ const UserPanel = ({ user }) => {
             .then((res) => {
                 setCurrentUser(res.data);
                 setOrders(res.data.order);
+                setAddresses(res.data.address);
                 setIsLoading(false);
             });
     }, []);
@@ -138,39 +140,38 @@ const UserPanel = ({ user }) => {
                                 :
                                 ''
                             }
-                            {createAddressMode ? <CreateAddress /> : ''}
+                            {createAddressMode ? <CreateAddress userId={currentUser.id} /> : ''}
                             {
-                            !createAddressMode
+                            !createAddressMode && addresses
                                 ? 
-                                <>
-                            <ul className={styles.userInfoTop}>
-                                <li className={styles.infoLine}>
-                                    {currentUser.firstName + ' ' + currentUser.lastName} (primário)
-                                </li>
-                                <li className={styles.infoLine}>Código postal/ZIP: </li>
-                            </ul>
-                            <div className={styles.userAddress}>
-                                <h3 className={styles.addressTitle}>
-                                    Endereço
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
-                                        <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
-                                    </svg>
-                                </h3>
-                                <p className={styles.addressLine}>Primeiro Nome:</p>  
-                                <p className={styles.addressLine}>Último Nome:</p> 
-                                <p className={styles.addressLine}>E-mail:</p> 
-                                <p className={styles.addressLine}>Telefone:</p>                                
-                                <p className={styles.addressLine}>Empresa:</p>
-                                <p className={styles.addressLine}>Morada №1:</p>
-                                <p className={styles.addressLine}>Morada №2:</p>
-                                <p className={styles.addressLine}>Cidade:</p>
-                                <p className={styles.addressLine}>País:</p>
-                                <p className={styles.addressLine}>Província:</p>
-                                <p className={styles.addressLine}>Código postal/ZIP:</p>
-                            </div>
-                            <button onClick={editData} className={styles.updateAddressBtn}>Editar</button>
-                            <button className={styles.deleteAddressBtn}>Deletar</button>
-                            </>
+                                addresses.map((address) => 
+                                    <div key={address.id} className={styles.addressesList}>
+                                        <ul className={styles.userInfoTop}>
+                                            <li className={styles.infoLine}>
+                                                {address.firstName + ' ' + address.lastName} {address.mainAddress ? '(primário)' : ''}
+                                            </li>
+                                            <li className={styles.infoLine}>Código postal/ZIP: {address.postalCode}</li>
+                                        </ul>           
+                                        <div className={styles.userAddress}>
+                                            <h3 className={styles.addressTitle}>
+                                                Endereço
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                                    <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
+                                                </svg>
+                                            </h3>
+                                            <p className={styles.addressLine}>{address.firstName } {address.lastName }</p>  
+                                            <p className={styles.addressLine}>{address.email }</p> 
+                                            <p className={styles.addressLine}>{address.phone }</p>                                
+                                            <p className={styles.addressLine}>{address.company }</p>
+                                            <p
+                                                className={styles.addressLine}>
+                                                {address.firstAddress}, {address.secondAddress ? address.secondAddress + ',' : ''} {address.city}, {address.region}, {address.country}, {address.postalCode}
+                                            </p>
+                                        </div>
+                                        <button onClick={editData} className={styles.updateAddressBtn}>Editar</button>
+                                        <button className={styles.deleteAddressBtn}>Deletar</button>
+                                    </div>                            
+                                )
                             :
                             ''
                             }

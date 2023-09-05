@@ -1,7 +1,8 @@
 import React from 'react';
-import { checkedCheckbox } from '../../js/script';
+import styles from './CreateAddress.module.scss';
+import { updateUser } from '../../http/userAPI';
 
-const CreateAddress = () => {
+const CreateAddress = ({userId}) => {
 
     const inputRef = React.useRef();
 
@@ -16,6 +17,7 @@ const CreateAddress = () => {
     const [country, setCountry] = React.useState('');
     const [postalCode, setPostalCode] = React.useState('');
     const [company, setCompany] = React.useState('');
+    const [checked, setChecked] = React.useState(false);
 
     const onChangeCompany = (event) => { 
         setCompany(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');            
@@ -61,104 +63,132 @@ const CreateAddress = () => {
         setPostalCode(event.target.value);            
     };
 
+    const checkedCheckbox = () => {
+        if (!checked) {
+            setChecked(true);
+        } else {
+            setChecked(false);
+        }
+    }
+
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
+
+    const success = () => {
+        alert('Адрес добавлен успешно!');
+    }
 
 
     const createNewAddress = (e) => {
         e.preventDefault();
-        console.log('hello');
+        const formData = new FormData();
+        const id = userId;
+        formData.append('userId', id);
+        formData.append('firstName', username);
+        formData.append('lastName', surname);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        if (company) {
+            formData.append('company', company);            
+        }
+        formData.append('firstAddress', firstAddress);
+        formData.append('secondAddress', secondAddress);
+        formData.append('city', city);
+        formData.append('country', country);
+        formData.append('region', region);
+        formData.append('postalCode', postalCode);
+        formData.append('mainAddress', checked);
+        updateUser(formData, id).then(data => success());
     }
     
     return (
-        <div className="popup-cart__body">     
-            <form onSubmit={createNewAddress} id="addressForm" className="popup-cart__form popup-form">
-                <div className="popup-form__line">
-                    <label htmlFor="user-name-input" className="popup-form__label">Primeiro Nome</label>
-                    <input required id="user-name-input" tabIndex="1" autoComplete="off" type="text" name="name" data-error="Error" placeholder='Nome' className="popup-form__input _req"
+        <div className={styles.body}>     
+            <form onSubmit={createNewAddress} id="addressForm" className={styles.addressForm}>
+                <div className={styles.formLine}>
+                    <label htmlFor="user-name-input" className={styles.formLabel}>Primeiro Nome</label>
+                    <input required id="user-name-input" tabIndex="1" autoComplete="off" type="text" name="name" data-error="Error" placeholder='Nome' className={styles.formInput}
                         ref={inputRef}
                         value={username}
                         onChange={onChangeUsername}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-surname-input" className="popup-form__label">Último Nome</label>
-                    <input required id="user-surname-input" tabIndex="2" autoComplete="off" type="text" name="surname" data-error="Error" placeholder="Sobrenome" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-surname-input" className={styles.formLabel}>Último Nome</label>
+                    <input required id="user-surname-input" tabIndex="2" autoComplete="off" type="text" name="surname" data-error="Error" placeholder="Sobrenome" className={styles.formInput}
                         ref={inputRef}
                         value={surname}
                         onChange={onChangeSurname}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-company-input" className="popup-form__label">Empresa</label>
-                    <input id="user-company-input" tabIndex="3" autoComplete="off" type="text" name="company" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-company-input" className={styles.formLabel}>Empresa</label>
+                    <input id="user-company-input" tabIndex="3" autoComplete="off" type="text" name="company" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={company}
                         onChange={onChangeCompany}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-contact-input" className="popup-form__label">Telefone</label>
-                    <input required id="user-contact-input" tabIndex="4" autoComplete="off" type="tel" pattern="[+]{1}[0-9]{12}" name="contact" data-error="Error" placeholder="+351XXXXXXXXXX" className="popup-form__input _req"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-contact-input" className={styles.formLabel}>Telefone</label>
+                    <input required id="user-contact-input" tabIndex="4" autoComplete="off" type="tel" pattern="[+]{1}[0-9]{12}" name="contact" data-error="Error" placeholder="+351XXXXXXXXXX" className={styles.formInput}
                         ref={inputRef}
                         value={phone}
                         onChange={onChangePhone}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-email-input" className="popup-form__label">E-mail</label>
-                    <input required id="user-email-input" tabIndex="5" autoComplete="off" type="email" name="email" data-error="Error" placeholder="example@email.com" className="popup-form__input _req _email" 
+                <div className={styles.formLine}>
+                    <label htmlFor="user-email-input" className={styles.formLabel}>E-mail</label>
+                    <input required id="user-email-input" tabIndex="5" autoComplete="off" type="email" name="email" data-error="Error" placeholder="example@email.com" className={styles.formInput} 
                         ref={inputRef}
                         value={email}
                         onChange={onChangeEmail}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-f-address-input" className="popup-form__label">Morada №1</label>
-                    <input required id="user-f-address-input" tabIndex="6" autoComplete="off" type="text" name="firstAddress" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-f-address-input" className={styles.formLabel}>Morada №1</label>
+                    <input required id="user-f-address-input" tabIndex="6" autoComplete="off" type="text" name="firstAddress" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={firstAddress}
                         onChange={onChangeFAddress}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-s-address-input" className="popup-form__label">Morada №2</label>
-                    <input id="user-s-address-input" tabIndex="7" autoComplete="off" type="text" name="secondAddress" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-s-address-input" className={styles.formLabel}>Morada №2</label>
+                    <input id="user-s-address-input" tabIndex="7" autoComplete="off" type="text" name="secondAddress" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={secondAddress}
                         onChange={onChangeSAddress}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-city-input" className="popup-form__label">Cidade</label>
-                    <input required id="user-city-input" tabIndex="8" autoComplete="off" type="text" name="city" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-city-input" className={styles.formLabel}>Cidade</label>
+                    <input required id="user-city-input" tabIndex="8" autoComplete="off" type="text" name="city" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={city}
                         onChange={onChangeCity}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-country-input" className="popup-form__label">País</label>
-                    <input required id="user-country-input" tabIndex="9" autoComplete="off" type="text" name="country" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-country-input" className={styles.formLabel}>País</label>
+                    <input required id="user-country-input" tabIndex="9" autoComplete="off" type="text" name="country" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={country}
                         onChange={onChangeCountry}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-region-input" className="popup-form__label">Província</label>
-                    <input required id="user-region-input" tabIndex="10" autoComplete="off" type="text" name="region" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-region-input" className={styles.formLabel}>Província</label>
+                    <input required id="user-region-input" tabIndex="10" autoComplete="off" type="text" name="region" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={region}
                         onChange={onChangeRegion}/>
                 </div>
-                <div className="popup-form__line">
-                    <label htmlFor="user-postal-code-input" className="popup-form__label">Código postal/ZIP</label>
-                    <input required id="user-postal-code-input" tabIndex="11" autoComplete="off" type="text" name="postal-code" data-error="Error" className="popup-form__input"
+                <div className={styles.formLine}>
+                    <label htmlFor="user-postal-code-input" className={styles.formLabel}>Código postal/ZIP</label>
+                    <input required id="user-postal-code-input" tabIndex="11" autoComplete="off" type="text" name="postal-code" data-error="Error" className={styles.formInput}
                         ref={inputRef}
                         value={postalCode}
                         onChange={onChangePostalCode}/>
                 </div>
-                <div className="form-login__line form-login__line_checkbox">
-                    <label onClick={checkedCheckbox} htmlFor="userCheckBox" className="form-login__label checkbox-label">
+                <div className={styles.formLineCheckbox}>
+                    <label onClick={checkedCheckbox} htmlFor="userCheckBox" className={checked ? styles.formLabelChecked : styles.formLabelCheckbox}>
                         Selecione principal
                     </label>
-                    <input required id="userCheckBox" type="checkbox" name="agree" tabIndex="12" className="form-login__checkbox" /> 
+                    <input required id="userCheckBox" type="checkbox" name="agree" tabIndex="12" className={styles.formInputCheckbox} /> 
                 </div>
-                <button type='submit' tabIndex="13" className="popup-form__button checkout scroll-top">
+                <button type='submit' tabIndex="13" className={styles.formBtnSubmit}>
                     Adicionar
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg>
                 </button>
             </form>                   
         </div>

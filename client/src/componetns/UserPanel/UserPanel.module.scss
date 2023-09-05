@@ -275,7 +275,7 @@
 .deleteAddressBtn,
 .cancelBtn {
     border: 2px solid #252525;
-    box-shadow: 3px 3px 3px #4848481b;
+    box-shadow: 3px 3px 3px #9c9c9c56;
     &:hover {
         color: #fff;
         background-color: #252525;
@@ -326,6 +326,9 @@
 }
 
 .addressLine {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 300px;
     font-size: 14px;
     color: #484848;
 }
