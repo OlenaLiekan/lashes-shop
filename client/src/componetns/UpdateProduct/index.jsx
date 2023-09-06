@@ -39,7 +39,7 @@ const UpdateProduct = ({id, obj}) => {
         setBrandId(obj.brandId);
         setIsLashes(obj.isLashes);
         setText(obj.text[0] ? obj.text[0].text : 'Ai, a descrição não foi encontrada.');
-        setInfo(obj.info ? obj.info : '');
+        setInfo(obj.info ? obj.info : info);
         setImg(obj.img);
         setObjSlides(obj.slide);
         const brand = brands.find(brand => brand.id === obj.brandId);

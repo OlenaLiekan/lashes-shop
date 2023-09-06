@@ -13,6 +13,7 @@ function App() {
   const [updateMode, setUpdateMode] = React.useState(false);
   const [createAddressMode, setCreateAddressMode] = React.useState(false);
   const [updateAddressMode, setUpdateAddressMode] = React.useState(false);
+  const [updateUserMode, setUpdateUserMode] = React.useState(false);
   const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -46,6 +47,8 @@ function App() {
           setCreateAddressMode,
           updateAddressMode,
           setUpdateAddressMode,
+          updateUserMode,
+          setUpdateUserMode,
         }}
       >
         <SearchContext.Provider value={{ searchValue, setSearchValue }}>

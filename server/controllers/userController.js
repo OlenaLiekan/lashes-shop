@@ -113,6 +113,7 @@ class UserController {
   }
 
   async update(req, res) {
+    const { id } = req.params;
     let {
       userId,
       quantity,
@@ -131,10 +132,35 @@ class UserController {
       postalCode,
       mainAddress,
       deletedAddressId,
+      updatedAddressId,
     } = req.body;
 
+    let options = {
+      where: { id: id },
+    };
+
+    let props = {};
+
+    if (firstName) {
+      props = { ...props, firstName };
+    }
+
+    if (lastName) {
+      props = { ...props, lastName };
+    }
+
+    if (email) {
+      props = { ...props, email };
+    }
+
+    if (phone) {
+      props = { ...props, phone };
+    }
+
+    const user = await User.update(props, options);
+
     if (userId && items) {
-      const order = await UserOrder.create({
+      const userOrder = await UserOrder.create({
         userId: userId,
         quantity: quantity,
         sum: sum,
@@ -165,13 +191,14 @@ class UserController {
             'Quantidade: ' +
             item.count,
           img: item.img,
-          userOrderId: order.id,
+          userOrderId: userOrder.id,
         });
       });
     }
 
-    if (userId && firstAddress) {
+    if (userId && firstAddress && !updatedAddressId) {
       company = company ? company : '';
+      secondAddress = secondAddress ? secondAddress : '';
       UserAddress.create({
         userId,
         firstName,
@@ -180,7 +207,7 @@ class UserController {
         phone,
         company: company,
         firstAddress,
-        secondAddress,
+        secondAddress: secondAddress,
         city,
         country,
         region,
@@ -194,6 +221,51 @@ class UserController {
         where: { id: deletedAddressId },
       });
     }
+
+    if (updatedAddressId) {
+      let options = {
+        where: { id: updatedAddressId },
+      };
+      let props = {};
+
+      if (firstName) {
+        props = { ...props, firstName };
+      }
+      if (lastName) {
+        props = { ...props, lastName };
+      }
+      if (email) {
+        props = { ...props, email };
+      }
+      if (phone) {
+        props = { ...props, phone };
+      }
+      if (company) {
+        props = { ...props, company };
+      }
+      if (firstAddress) {
+        props = { ...props, firstAddress };
+      }
+      if (secondAddress) {
+        props = { ...props, secondAddress };
+      }
+      if (city) {
+        props = { ...props, city };
+      }
+      if (country) {
+        props = { ...props, country };
+      }
+      if (region) {
+        props = { ...props, region };
+      }
+      if (postalCode) {
+        props = { ...props, postalCode };
+      }
+
+      props = { ...props, mainAddress };
+      UserAddress.update(props, options);
+    }
+    return res.json(user);
   }
 }
 

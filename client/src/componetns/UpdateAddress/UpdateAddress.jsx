@@ -3,7 +3,7 @@ import styles from './UpdateAddress.module.scss';
 import { updateUser } from '../../http/userAPI';
 import { AuthContext } from '../../context';
 
-const UpdateAddress = ({userId}) => {
+const UpdateAddress = ({userId, addressId, addresses}) => {
 
     const inputRef = React.useRef();
 
@@ -20,6 +20,24 @@ const UpdateAddress = ({userId}) => {
     const [postalCode, setPostalCode] = React.useState('');
     const [company, setCompany] = React.useState('');
     const [checked, setChecked] = React.useState(false);
+
+    React.useEffect(() => {
+        const currentAddress = addresses.find((address) => address.id === addressId);
+        if (currentAddress) {
+            setUsername(currentAddress.firstName);
+            setSurname(currentAddress.lastName);
+            setCompany(currentAddress.company ? currentAddress.company : company);
+            setPhone(currentAddress.phone);
+            setEmail(currentAddress.email);
+            setFirstAddress(currentAddress.firstAddress);
+            setSecondAddress(currentAddress.secondAddress ? currentAddress.secondAddress : secondAddress);
+            setCity(currentAddress.city);
+            setCountry(currentAddress.country);
+            setRegion(currentAddress.region);
+            setPostalCode(currentAddress.postalCode);
+            setChecked(currentAddress.mainAddress);            
+        }
+    }, []);
 
     const onChangeCompany = (event) => { 
         setCompany(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');            
@@ -76,31 +94,29 @@ const UpdateAddress = ({userId}) => {
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
 
-    const createNewAddress = (e) => {
+    const updateAddress = (e) => {
         e.preventDefault();
         const formData = new FormData();
         const id = userId;
-        formData.append('userId', id);
-        formData.append('firstName', username);
-        formData.append('lastName', surname);
-        formData.append('email', email);
-        formData.append('phone', phone);
-        if (company) {
-            formData.append('company', company);            
-        }
-        formData.append('firstAddress', firstAddress);
-        formData.append('secondAddress', secondAddress);
-        formData.append('city', city);
-        formData.append('country', country);
-        formData.append('region', region);
-        formData.append('postalCode', postalCode);
-        formData.append('mainAddress', checked);
+        formData.set('updatedAddressId', addressId);
+        formData.set('firstName', username);
+        formData.set('lastName', surname);
+        formData.set('email', email);
+        formData.set('phone', phone);
+        formData.set('company', company);            
+        formData.set('firstAddress', firstAddress);
+        formData.set('secondAddress', secondAddress);
+        formData.set('city', city);
+        formData.set('country', country);
+        formData.set('region', region);
+        formData.set('postalCode', postalCode);
+        formData.set('mainAddress', checked);
         updateUser(formData, id).then(() => setUpdateAddressMode(false));
     }
     
     return (
         <div className={styles.body}>     
-            <form onSubmit={createNewAddress} id="addressForm" className={styles.addressForm}>
+            <form onSubmit={updateAddress} id="addressForm" className={styles.addressForm}>
                 <div className={styles.formLine}>
                     <label htmlFor="user-name-input" className={styles.formLabel}>Primeiro Nome</label>
                     <input required id="user-name-input" tabIndex="1" autoComplete="off" type="text" name="name" data-error="Error" placeholder='Nome' className={styles.formInput}
@@ -185,7 +201,7 @@ const UpdateAddress = ({userId}) => {
                     <input id="userCheckBox" type="checkbox" name="agree" tabIndex="12" className={styles.formInputCheckbox} /> 
                 </div>
                 <button type='submit' tabIndex="13" className={styles.formBtnSubmit}>
-                    Adicionar
+                    Atualizar
                 </button>
             </form>                   
         </div>
