@@ -130,6 +130,7 @@ class UserController {
       region,
       postalCode,
       mainAddress,
+      deletedAddressId,
     } = req.body;
 
     if (userId && items) {
@@ -185,6 +186,12 @@ class UserController {
         region,
         postalCode,
         mainAddress,
+      });
+    }
+
+    if (userId && deletedAddressId) {
+      UserAddress.destroy({
+        where: { id: deletedAddressId },
       });
     }
   }

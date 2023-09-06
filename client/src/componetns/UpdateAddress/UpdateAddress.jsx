@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './CreateAddress.module.scss';
+import styles from './UpdateAddress.module.scss';
 import { updateUser } from '../../http/userAPI';
 import { AuthContext } from '../../context';
 
-const CreateAddress = ({userId}) => {
+const UpdateAddress = ({userId}) => {
 
     const inputRef = React.useRef();
 
-    const { setCreateAddressMode } = React.useContext(AuthContext);
+    const { setUpdateAddressMode } = React.useContext(AuthContext);
     const [username, setUsername] = React.useState('');
     const [surname, setSurname] = React.useState('');    
     const [phone, setPhone] = React.useState('');
@@ -95,7 +95,7 @@ const CreateAddress = ({userId}) => {
         formData.append('region', region);
         formData.append('postalCode', postalCode);
         formData.append('mainAddress', checked);
-        updateUser(formData, id).then(() => setCreateAddressMode(false));
+        updateUser(formData, id).then(() => setUpdateAddressMode(false));
     }
     
     return (
@@ -192,4 +192,4 @@ const CreateAddress = ({userId}) => {
     );
 };
 
-export default CreateAddress;
+export default UpdateAddress;

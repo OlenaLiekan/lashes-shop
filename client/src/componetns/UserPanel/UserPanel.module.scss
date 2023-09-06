@@ -263,6 +263,7 @@
 .deleteAddressBtn,
 .cancelBtn {
     display: flex;
+    width: 100%;
     justify-content: center;
     align-items: center;
     padding: 15px 30px;
@@ -298,23 +299,48 @@
 .userInfo {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 60px;
+    width: 300px;
+}
+
+.colorGold {
+    color: #AD912B;
+    font-size: 14px;
 }
 
 .userInfoTop,
 .userAddress {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+}
+
+.userAddress {
+    margin-bottom: 15px;
+}
+
+.paragraphs {     
     p {
         padding-left: 22px;
-    }
+        &:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }    
+}
+
+.addressItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .infoLine,
 .addressTitle {
+    display: flex;
+    justify-content: space-between;
     font-weight: 500;
     color: #252525;
+    gap: 8px;
 }
 
 .addressTitle {
@@ -328,8 +354,9 @@
 .addressLine {
     display: flex;
     flex-wrap: wrap;
-    max-width: 300px;
+    max-width: 290px;
     font-size: 14px;
+    line-height: 1.2;
     color: #484848;
 }
 

@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context';
 import CreateAddress from '../CreateAddress/CreateAddress';
+import UpdateAddress from '../UpdateAddress/UpdateAddress';
+import { updateUser } from '../../http/userAPI';
 
 const UserPanel = ({ user }) => {
     const { setIsAuth } = React.useContext(AuthContext);
@@ -11,8 +13,9 @@ const UserPanel = ({ user }) => {
     const [currentUser, setCurrentUser] = React.useState({});
     const [activeIndex, setActiveIndex] = React.useState('');
     const [activeOption, setActiveOption] = React.useState(0);
-    const [editMode, setEditMode] = React.useState(false);
-    const [createAddressMode, setCreateAddressMode] = React.useState(false);
+    const [activeAddress, setActiveAddress] = React.useState(0);
+    const { updateAddressMode, setUpdateAddressMode } = React.useContext(AuthContext);
+    const { createAddressMode, setCreateAddressMode } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(true);
     const [orders, setOrders] = React.useState(null);
     const [addresses, setAddresses] = React.useState([]);
@@ -47,11 +50,27 @@ const UserPanel = ({ user }) => {
     }
 
     const editData = () => {
-        setEditMode(true);
+        setUpdateAddressMode(true);
+        window.scrollTo(0, 0);
     }
 
     const cancelAction = () => {
-        setEditMode(false);
+        setUpdateAddressMode(false);
+    }
+
+    const cancelCreating = () => {
+        setCreateAddressMode(false);
+        window.scrollTo(0, 0);
+    }
+
+    const removeAddress = (addressId) => {
+        if (window.confirm('Are you sure you want to delete address?')) {
+            const formData = new FormData();
+            const id = currentUser.id;
+            formData.set('userId', id);
+            formData.append('deletedAddressId', addressId);
+            updateUser(formData, id).then(alert('Success'));
+       }
     }
 
     return (
@@ -126,7 +145,7 @@ const UserPanel = ({ user }) => {
                                         </h4>}  
                             </ul>
                         </div>
-                        <div className={activeOption === 1 && !editMode ? styles.userInfo : styles.hidden}>
+                        <div className={activeOption === 1 && !updateAddressMode ? styles.userInfo : styles.hidden}>
                             {!createAddressMode
                                 ? 
                             <div className={styles.newAddress}> 
@@ -144,40 +163,43 @@ const UserPanel = ({ user }) => {
                             {
                             !createAddressMode && addresses
                                 ? 
-                                addresses.map((address) => 
-                                    <div key={address.id} className={styles.addressesList}>
+                                addresses.map((address, aIndex) => 
+                                    <div key={address.id} className={styles.addressItem}>
                                         <ul className={styles.userInfoTop}>
                                             <li className={styles.infoLine}>
-                                                {address.firstName + ' ' + address.lastName} {address.mainAddress ? '(primário)' : ''}
+                                                {address.firstName + ' ' + address.lastName} {address.mainAddress ? <span className={styles.colorGold}>(primário)</span> : ''}
                                             </li>
                                             <li className={styles.infoLine}>Código postal/ZIP: {address.postalCode}</li>
                                         </ul>           
                                         <div className={styles.userAddress}>
-                                            <h3 className={styles.addressTitle}>
-                                                Endereço
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                            <h3 onClick={() => setActiveAddress(aIndex)} className={styles.addressTitle}>
+                                                Endereço:
+                                                <svg className={aIndex === activeAddress ? styles.rotate : ''} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                                     <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
                                                 </svg>
                                             </h3>
-                                            <p className={styles.addressLine}>{address.firstName } {address.lastName }</p>  
-                                            <p className={styles.addressLine}>{address.email }</p> 
-                                            <p className={styles.addressLine}>{address.phone }</p>                                
-                                            <p className={styles.addressLine}>{address.company }</p>
-                                            <p
-                                                className={styles.addressLine}>
-                                                {address.firstAddress}, {address.secondAddress ? address.secondAddress + ',' : ''} {address.city}, {address.region}, {address.country}, {address.postalCode}
-                                            </p>
+                                            <div className={aIndex === activeAddress ? styles.paragraphs : styles.hidden}>
+                                                <p className={styles.addressLine}>{address.firstName } {address.lastName }</p>  
+                                                <p className={styles.addressLine}>{address.email }</p> 
+                                                <p className={styles.addressLine}>{address.phone }</p>                                
+                                                <p className={styles.addressLine}>{address.company }</p>
+                                                <p
+                                                    className={styles.addressLine}>
+                                                    {address.firstAddress}, {address.secondAddress ? address.secondAddress + ',' : ''} {address.city}, {address.region}, {address.country}, {address.postalCode}
+                                                </p>
+                                            </div>
                                         </div>
                                         <button onClick={editData} className={styles.updateAddressBtn}>Editar</button>
-                                        <button className={styles.deleteAddressBtn}>Deletar</button>
+                                        <button onClick={() => removeAddress(address.id)} className={styles.deleteAddressBtn}>Deletar</button>
                                     </div>                            
                                 )
                             :
-                            ''
+                            'Ainda não há endereços salvos.'
                             }
                         </div>
-                        <button onClick={cancelAction} className={activeOption === 1 && editMode ? styles.cancelBtn : styles.hidden}>Сancelar</button>
-                        <button onClick={() => setCreateAddressMode(false)} className={activeOption === 1 && createAddressMode ? styles.cancelBtn : styles.hidden}>Cancelar</button>            
+                        {updateAddressMode ? <UpdateAddress userId={currentUser.id} /> : ''}
+                        <button onClick={cancelAction} className={activeOption === 1 && updateAddressMode ? styles.cancelBtn : styles.hidden}>Сancelar</button>
+                        <button onClick={cancelCreating} className={activeOption === 1 && createAddressMode ? styles.cancelBtn : styles.hidden}>Cancelar</button>            
                                     
                         <div className={activeOption === 2 ? styles.actions : styles.hidden}>
                             <ul className={styles.userInfoTop}>
