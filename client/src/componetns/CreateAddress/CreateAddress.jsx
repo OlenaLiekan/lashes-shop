@@ -85,9 +85,7 @@ const CreateAddress = ({userId}) => {
         formData.append('lastName', surname);
         formData.append('email', email);
         formData.append('phone', phone);
-        if (company) {
-            formData.append('company', company);            
-        }
+        formData.append('company', company);            
         formData.append('firstAddress', firstAddress);
         formData.append('secondAddress', secondAddress);
         formData.append('city', city);
