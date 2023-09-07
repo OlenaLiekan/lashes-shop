@@ -16,13 +16,16 @@ const UserPanel = ({ user }) => {
     const [currentUser, setCurrentUser] = React.useState({});
     const [activeIndex, setActiveIndex] = React.useState('');
     const [activeOption, setActiveOption] = React.useState(0);
-    const [activeAddress, setActiveAddress] = React.useState(0);
+    const [activeAddress, setActiveAddress] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(true);
     const [orders, setOrders] = React.useState([]);
     const [ordersReverse, setOrdersReverse] = React.useState([]);
     const [addresses, setAddresses] = React.useState([]);
     const [editAddressId, setEditAddressId] = React.useState('');
     const [deletedAddressId, setDeletedAddressId] = React.useState('');
+    const [mainAddress, setMainAddress] = React.useState('');
+    const [restAddresses, setRestAddresses] = React.useState([]);
+    const [visibleMain, setVisibleMain] = React.useState(false);
 
     const menuItems = ['Histórico de pedidos', 'Endereços', 'Gerenciamento de contas'];
 
@@ -49,6 +52,13 @@ const UserPanel = ({ user }) => {
                 setIsLoading(false);
             });
     }, [deletedAddressId]);
+
+    React.useEffect(() => {
+        if (addresses.length) {
+            setMainAddress(addresses.filter((addr) => addr.mainAddress)[0]);
+            setRestAddresses(addresses.filter((addr) => !addr.mainAddress));            
+        }
+    }, [addresses]);
 
     const removeUser = () => {
         const access = prompt('Tem certeza de que deseja excluir sua conta? Depois de excluído, você não poderá restaurá-lo. Para excluir, escreva SIM na caixa abaixo.', '');
@@ -121,6 +131,14 @@ const UserPanel = ({ user }) => {
             setOrdersReverse(orders.slice().reverse());
         }
     }, [orders]);
+
+    const activeMain = () => {
+
+            setVisibleMain(true);
+        setActiveAddress('');
+        
+    }
+
 
     return (
         <div className='user-panel__wrapper'>
@@ -212,38 +230,73 @@ const UserPanel = ({ user }) => {
                                 ''
                             }
                             {
-                                !createAddressMode && addresses
+                                !createAddressMode && restAddresses
                                     ?
-                                    addresses.map((address, aIndex) =>
-                                        <div key={address.id} className={styles.addressItem}>
+                                    <>
+                                        {mainAddress
+                                            ?
+                                            <div className={styles.addressItem}>
                                             <ul className={styles.userInfoTop}>
                                                 <li className={styles.infoLine}>
-                                                    {address.firstName + ' ' + address.lastName} {address.mainAddress ? <span className={styles.colorGold}>(primário)</span> : ''}
+                                                    {mainAddress.firstName + ' ' + mainAddress.lastName} <span className={styles.colorGold}>(primário)</span>
                                                 </li>
-                                                <li className={styles.infoLine}>Código postal/ZIP: {address.postalCode}</li>
+                                                <li className={styles.infoLine}>Código postal/ZIP: {mainAddress.postalCode}</li>
                                             </ul>
                                             <div className={styles.userAddress}>
-                                                <h3 onClick={() => setActiveAddress(aIndex)} className={styles.addressTitle}>
+                                                <h3 onClick={activeMain} className={styles.addressTitle}>
                                                     Endereço:
-                                                    <svg className={aIndex === activeAddress ? styles.rotate : ''} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                                    <svg className={visibleMain ? styles.rotate : ''} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                                         <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
                                                     </svg>
                                                 </h3>
-                                                <div className={aIndex === activeAddress ? styles.paragraphs : styles.hidden}>
-                                                    <p className={styles.addressLine}>{address.firstName} {address.lastName}</p>
-                                                    <p className={styles.addressLine}>{address.email}</p>
-                                                    <p className={styles.addressLine}>{address.phone}</p>
-                                                    <p className={styles.addressLine}>{address.company}</p>
+                                                <div className={visibleMain ? styles.paragraphs : styles.hidden}>
+                                                    <p className={styles.addressLine}>{mainAddress.firstName} {mainAddress.lastName}</p>
+                                                    <p className={styles.addressLine}>{mainAddress.email}</p>
+                                                    <p className={styles.addressLine}>{mainAddress.phone}</p>
+                                                    <p className={styles.addressLine}>{mainAddress.company}</p>
                                                     <p
                                                         className={styles.addressLine}>
-                                                        {address.firstAddress}, {address.secondAddress ? address.secondAddress + ',' : ''} {address.city}, {address.region}, {address.country}, {address.postalCode}
+                                                        {mainAddress.firstAddress}, {mainAddress.secondAddress ? mainAddress.secondAddress + ',' : ''} {mainAddress.city}, {mainAddress.region}, {mainAddress.country}, {mainAddress.postalCode}
                                                     </p>
                                                 </div>
                                             </div>
-                                            <button onClick={() => editAddress(address.id)} className={styles.updateAddressBtn}>Editar</button>
-                                            <button onClick={() => removeAddress(address.id)} className={styles.deleteAddressBtn}>Deletar</button>
-                                        </div>
-                                    )
+                                            <button onClick={() => editAddress(mainAddress.id)} className={styles.updateAddressBtn}>Editar</button>
+                                            <button onClick={() => removeAddress(mainAddress.id)} className={styles.deleteAddressBtn}>Deletar</button>
+                                            </div>
+                                            :
+                                            ''
+                                        }
+                                        {restAddresses.map((address, aIndex) =>
+                                            <div key={address.id} className={styles.addressItem}>
+                                                <ul className={styles.userInfoTop}>
+                                                    <li className={styles.infoLine}>
+                                                        {address.firstName + ' ' + address.lastName} {address.mainAddress ? <span className={styles.colorGold}>(primário)</span> : ''}
+                                                    </li>
+                                                    <li className={styles.infoLine}>Código postal/ZIP: {address.postalCode}</li>
+                                                </ul>
+                                                <div className={styles.userAddress}>
+                                                    <h3 onClick={() => setActiveAddress(aIndex)} className={styles.addressTitle}>
+                                                        Endereço:
+                                                        <svg className={aIndex === activeAddress ? styles.rotate : ''} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
+                                                            <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
+                                                        </svg>
+                                                    </h3>
+                                                    <div className={aIndex === activeAddress ? styles.paragraphs : styles.hidden}>
+                                                        <p className={styles.addressLine}>{address.firstName} {address.lastName}</p>
+                                                        <p className={styles.addressLine}>{address.email}</p>
+                                                        <p className={styles.addressLine}>{address.phone}</p>
+                                                        <p className={styles.addressLine}>{address.company}</p>
+                                                        <p
+                                                            className={styles.addressLine}>
+                                                            {address.firstAddress}, {address.secondAddress ? address.secondAddress + ',' : ''} {address.city}, {address.region}, {address.country}, {address.postalCode}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <button onClick={() => editAddress(address.id)} className={styles.updateAddressBtn}>Editar</button>
+                                                <button onClick={() => removeAddress(address.id)} className={styles.deleteAddressBtn}>Deletar</button>
+                                            </div>
+                                        )}
+                                    </>
                                     :
                                     !createAddressMode && !addresses ? 'Ainda não há endereços salvos.' : ''
                             }
