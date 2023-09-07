@@ -98,7 +98,7 @@ const CreateAddress = ({userId}) => {
     
     return (
         <div className={styles.body}>     
-            <form onSubmit={createNewAddress} id="addressForm" className={styles.addressForm}>
+            <form onSubmit={createNewAddress} id="createAddressForm" className={styles.addressForm}>
                 <div className={styles.formLine}>
                     <label htmlFor="user-name-input" className={styles.formLabel}>Primeiro Nome</label>
                     <input required id="user-name-input" tabIndex="1" autoComplete="off" type="text" name="name" data-error="Error" placeholder='Nome' className={styles.formInput}

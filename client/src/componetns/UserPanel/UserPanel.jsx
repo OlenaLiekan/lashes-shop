@@ -7,31 +7,44 @@ import CreateAddress from '../CreateAddress/CreateAddress';
 import UpdateAddress from '../UpdateAddress/UpdateAddress';
 import { updateUser } from '../../http/userAPI';
 import UpdateUser from '../UpdateUser/UpdateUser';
+import UpdatePassword from '../UpdatePassword/UpdatePassword';
 
 const UserPanel = ({ user }) => {
-    const { setIsAuth } = React.useContext(AuthContext);
+
     const navigate = useNavigate();
+
     const [currentUser, setCurrentUser] = React.useState({});
     const [activeIndex, setActiveIndex] = React.useState('');
     const [activeOption, setActiveOption] = React.useState(0);
     const [activeAddress, setActiveAddress] = React.useState(0);
-    const { updateUserMode, setUpdateUserMode } = React.useContext(AuthContext);
-    const { updateAddressMode, setUpdateAddressMode } = React.useContext(AuthContext);
-    const { createAddressMode, setCreateAddressMode } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(true);
-    const [orders, setOrders] = React.useState(null);
+    const [orders, setOrders] = React.useState([]);
+    const [ordersReverse, setOrdersReverse] = React.useState([]);
     const [addresses, setAddresses] = React.useState([]);
     const [editAddressId, setEditAddressId] = React.useState('');
     const [deletedAddressId, setDeletedAddressId] = React.useState('');
 
     const menuItems = ['Histórico de pedidos', 'Endereços', 'Gerenciamento de contas'];
 
+    const {
+        setIsAuth, 
+        updateUserMode,
+        setUpdateUserMode,
+        updateAddressMode,
+        setUpdateAddressMode,
+        createAddressMode,
+        setCreateAddressMode,
+        updatePassMode,
+        setUpdatePassMode
+    } = React.useContext(AuthContext);
+
+
     React.useEffect(() => {
         setIsLoading(true);
         axios.get(`http://localhost:3001/api/user/${user.id}`)
             .then((res) => {
                 setCurrentUser(res.data);
-                setOrders(res.data.order);
+                setOrders(res.data.order);                    
                 setAddresses(res.data.address);
                 setIsLoading(false);
             });
@@ -70,7 +83,12 @@ const UserPanel = ({ user }) => {
     }
 
     const cancelEditData = () => {
-        setUpdateUserMode(false);
+        if (updateUserMode) {
+            setUpdateUserMode(false);            
+        }
+        if (updatePassMode) {
+            setUpdatePassMode(false);            
+        }
         window.scrollTo(0, 0);
     }
 
@@ -94,6 +112,16 @@ const UserPanel = ({ user }) => {
         setUpdateUserMode(true);
     }
 
+    const updatePass = () => {
+        setUpdatePassMode(true);
+    }
+
+    React.useEffect(() => {
+        if (orders) {
+            setOrdersReverse(orders.slice().reverse());
+        }
+    }, [orders]);
+
     return (
         <div className='user-panel__wrapper'>
             <div className="user-panel__container">
@@ -116,7 +144,9 @@ const UserPanel = ({ user }) => {
                     <div className={styles.body}>
                         <div className={activeOption === 0 ? styles.orders : styles.hidden}>
                             <ul className={styles.ordersList}>
-                                {orders && !isLoading ? orders.map((order, index) =>  
+                                {ordersReverse.length
+                                    ?
+                                    ordersReverse.map((order, index) =>  
                                  <li key={order.id} className={styles.ordersItem}>
                                     <div className={styles.orderInfo}>
                                         <h4 onClick={() => setActiveIndex(index)} className={activeIndex === index ? styles.orderTitleGold : styles.orderTitle}>
@@ -153,19 +183,20 @@ const UserPanel = ({ user }) => {
                                 </li>
                                 )
                                 :
-                                    isLoading
-                                        ?
+                                <>
+                                    <span className={isLoading ? styles.orderTitle : styles.hidden}>
+                                        Por favor, aguarde. Informações do pedido carregando...
+                                    </span>
+                                    <h4 className={!isLoading ? styles.orderTitle : styles.hidden}>
                                         <span>
-                                            Por favor, aguarde. Informações do pedido carregando...                                            
+                                            Você ainda não fez nenhum pedido.
                                         </span>
-                                        :
-                                        <h4 className={styles.orderTitle}>
-                                            <span>
-                                                Você ainda não fez nenhum pedido.
-                                            </span>
-                                        </h4>}  
+                                    </h4>
+                                </>  
+                                }  
                             </ul>
                         </div>
+                        {createAddressMode && activeOption === 1 ? <CreateAddress userId={currentUser.id} /> : ''}
                         <div className={activeOption === 1 && !updateAddressMode ? styles.userInfo : styles.hidden}>
                             {!createAddressMode
                                 ? 
@@ -180,7 +211,6 @@ const UserPanel = ({ user }) => {
                                 :
                                 ''
                             }
-                            {createAddressMode ? <CreateAddress userId={currentUser.id} /> : ''}
                             {
                                 !createAddressMode && addresses
                                     ?
@@ -222,7 +252,7 @@ const UserPanel = ({ user }) => {
                         <button onClick={cancelAction} className={activeOption === 1 && updateAddressMode ? styles.cancelBtn : styles.hidden}>Сancelar</button>
                         <button onClick={cancelCreating} className={activeOption === 1 && createAddressMode ? styles.cancelBtn : styles.hidden}>Cancelar</button>            
                                     
-                        <div className={!updateUserMode && activeOption === 2 ? styles.actions : styles.hidden}>
+                        <div className={!updateUserMode && activeOption === 2 && !updatePassMode && activeOption === 2 ? styles.actions : styles.hidden}>
                             <ul className={styles.userInfoTop}>
                                 <li className={styles.infoLine}>
                                     {currentUser.firstName + ' ' + currentUser.lastName}
@@ -231,11 +261,22 @@ const UserPanel = ({ user }) => {
                                 <li className={styles.infoLine}>{currentUser.phone}</li>
                             </ul>
                             <button onClick={editData} className={styles.changeData}>Alterar dados</button>
-                            <button className={styles.changePassword}>Alterar a senha</button>
+                            <button onClick={updatePass} className={styles.changePassword}>Alterar a senha</button>
                             <button onClick={removeUser} className={styles.deleteAccount}>Deletar conta</button>
                         </div>
-                        {updateUserMode && activeOption === 2 ? <UpdateUser userId={currentUser.id}/> : '' }
-                        <button onClick={cancelEditData} className={activeOption === 2 && updateUserMode ? styles.cancelBtn : styles.hidden}>Сancelar</button>
+                        {updateUserMode && activeOption === 2 ? <UpdateUser userId={currentUser.id} /> : ''}
+                        {updatePassMode && activeOption === 2 ? <UpdatePassword userId={currentUser.id}/> : '' }
+                        <button
+                            onClick={cancelEditData}
+                            className={activeOption === 2 && updateUserMode || activeOption === 2 && updatePassMode
+                                ?
+                                styles.cancelBtn
+                                :
+                                styles.hidden
+                            }
+                        >
+                            Сancelar
+                        </button>
                     </div>
                 </div>
             </div>

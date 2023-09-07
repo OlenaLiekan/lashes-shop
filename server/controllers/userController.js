@@ -123,6 +123,7 @@ class UserController {
       lastName,
       email,
       phone,
+      password,
       company,
       firstAddress,
       secondAddress,
@@ -155,6 +156,11 @@ class UserController {
 
     if (phone) {
       props = { ...props, phone };
+    }
+
+    if (password) {
+      const hashPassword = await bcrypt.hash(password, 5);
+      props = { ...props, password: hashPassword };
     }
 
     const user = await User.update(props, options);

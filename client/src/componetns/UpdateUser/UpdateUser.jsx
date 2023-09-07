@@ -3,6 +3,8 @@ import styles from './UpdateUser.module.scss';
 import { updateUser } from '../../http/userAPI';
 import { AuthContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import debounce from 'lodash.debounce';
 
 const UpdateUser = ({userId}) => {
 
@@ -14,6 +16,8 @@ const UpdateUser = ({userId}) => {
     const [surname, setSurname] = React.useState('');    
     const [phone, setPhone] = React.useState('');
     const [email, setEmail] = React.useState('');
+    const [emailValue, setEmailValue] = React.useState('');
+    const [existingUser, setExistingUser] = React.useState('');
 
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
@@ -27,6 +31,15 @@ const UpdateUser = ({userId}) => {
         }
     }, []);
 
+    React.useEffect(() => {
+        if (emailValue !== user.email) {
+            axios.get(`http://localhost:3001/api/user?email=${emailValue}`)
+                .then((res) => {
+                    setExistingUser(...res.data);                        
+                });            
+        }
+    }, [emailValue]);
+
     const onChangeUsername = (event) => { 
         setUsername(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');            
     };
@@ -39,8 +52,16 @@ const UpdateUser = ({userId}) => {
         setPhone(event.target.value);
     };
 
+    const updateEmailValue = React.useCallback(
+        debounce((str) => {
+            setEmailValue(str);
+        }, 600),
+        [],
+    );
+
     const onChangeEmail = (event) => { 
         setEmail(event.target.value);
+        updateEmailValue(event.target.value);
     };
 
     const success = () => {
@@ -54,15 +75,22 @@ const UpdateUser = ({userId}) => {
 
     const updateUserData = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        const id = userId;
-        formData.set('id', id);
-        formData.set('firstName', username);
-        formData.set('lastName', surname);
-        formData.set('email', email);
-        formData.set('phone', phone);
-        updateUser(formData, id).then((data) => success());
+        if (!existingUser || existingUser.email !== emailValue) {
+            const formData = new FormData();
+            const id = userId;
+            formData.set('id', id);
+            formData.set('firstName', username);
+            formData.set('lastName', surname);
+            formData.set('email', email);
+            formData.set('phone', phone);
+            updateUser(formData, id).then((data) => success());            
+        }
     }
+
+    React.useEffect(() => {
+        console.log(emailValue);
+        console.log(existingUser);
+    }, [emailValue]);
     
     return (
         <div className={styles.body}>     
@@ -95,6 +123,7 @@ const UpdateUser = ({userId}) => {
                         value={email}
                         onChange={onChangeEmail}/>
                 </div>
+                <div className={existingUser && emailValue.length ? styles.error : styles.hidden}>Já existe usuário com este endereço de email!</div>
                 <button type='submit' tabIndex="5" className={styles.formBtnSubmit}>
                     Atualizar
                 </button>
