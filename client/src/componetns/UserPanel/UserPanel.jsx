@@ -25,7 +25,8 @@ const UserPanel = ({ user }) => {
     const [deletedAddressId, setDeletedAddressId] = React.useState('');
     const [mainAddress, setMainAddress] = React.useState('');
     const [restAddresses, setRestAddresses] = React.useState([]);
-    const [visibleMain, setVisibleMain] = React.useState(false);
+    const [visibleMain, setVisibleMain] = React.useState(true);
+    const [allOrders, setAllOrders] = React.useState(false);
 
     const menuItems = ['Histórico de pedidos', 'Endereços', 'Gerenciamento de contas'];
 
@@ -51,7 +52,7 @@ const UserPanel = ({ user }) => {
                 setAddresses(res.data.address);
                 setIsLoading(false);
             });
-    }, [deletedAddressId]);
+    }, [deletedAddressId, updateAddressMode, createAddressMode]);
 
     React.useEffect(() => {
         if (addresses.length) {
@@ -127,18 +128,32 @@ const UserPanel = ({ user }) => {
     }
 
     React.useEffect(() => {
-        if (orders) {
+        if (orders && allOrders) {
             setOrdersReverse(orders.slice().reverse());
+        } else if (orders && !allOrders) {
+            setOrdersReverse(orders.slice(-10).reverse());  
         }
-    }, [orders]);
+    }, [orders, allOrders]);
 
     const activeMain = () => {
-
-            setVisibleMain(true);
+        setVisibleMain(true);
         setActiveAddress('');
-        
     }
 
+    const showAddress = (id) => {
+        setActiveAddress(id);
+        setVisibleMain(false);
+    }
+
+    const showAll = () => {
+        if (!allOrders) {
+            setAllOrders(true);   
+        } else if (allOrders) {
+            setAllOrders(false);
+            window.scrollTo(0, 0);
+        }
+
+    }
 
     return (
         <div className='user-panel__wrapper'>
@@ -213,6 +228,9 @@ const UserPanel = ({ user }) => {
                                 </>  
                                 }  
                             </ul>
+                            <button onClick={showAll} className={orders.length > 10 ? styles.showOrders : styles.hidden}>
+                                {allOrders ? 'Ocultar arquivo' : 'Mostre tudo'}
+                            </button>
                         </div>
                         {createAddressMode && activeOption === 1 ? <CreateAddress userId={currentUser.id} /> : ''}
                         <div className={activeOption === 1 && !updateAddressMode ? styles.userInfo : styles.hidden}>
@@ -264,7 +282,7 @@ const UserPanel = ({ user }) => {
                                             <button onClick={() => removeAddress(mainAddress.id)} className={styles.deleteAddressBtn}>Deletar</button>
                                             </div>
                                             :
-                                            ''
+                                            <div className={!addresses.length ? styles.hidden : styles.alert}>Nenhum dos endereços é primário!</div>
                                         }
                                         {restAddresses.map((address, aIndex) =>
                                             <div key={address.id} className={styles.addressItem}>
@@ -275,7 +293,7 @@ const UserPanel = ({ user }) => {
                                                     <li className={styles.infoLine}>Código postal/ZIP: {address.postalCode}</li>
                                                 </ul>
                                                 <div className={styles.userAddress}>
-                                                    <h3 onClick={() => setActiveAddress(aIndex)} className={styles.addressTitle}>
+                                                    <h3 onClick={() => showAddress(aIndex)} className={styles.addressTitle}>
                                                         Endereço:
                                                         <svg className={aIndex === activeAddress ? styles.rotate : ''} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
                                                             <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
@@ -296,12 +314,13 @@ const UserPanel = ({ user }) => {
                                                 <button onClick={() => removeAddress(address.id)} className={styles.deleteAddressBtn}>Deletar</button>
                                             </div>
                                         )}
+                                        {!createAddressMode && !addresses.length ? <div className={styles.alert}>Ainda não há endereços salvos.</div> : ''}
                                     </>
                                     :
-                                    !createAddressMode && !addresses ? 'Ainda não há endereços salvos.' : ''
+                                    ''
                             }
                         </div>
-                        {updateAddressMode && activeOption === 1 ? <UpdateAddress addresses={addresses} addressId={editAddressId} userId={currentUser.id} /> : ''}
+                        {updateAddressMode && activeOption === 1 ? <UpdateAddress existingMainAddress={mainAddress} addresses={addresses} addressId={editAddressId} userId={currentUser.id} /> : ''}
                         <button onClick={cancelAction} className={activeOption === 1 && updateAddressMode ? styles.cancelBtn : styles.hidden}>Сancelar</button>
                         <button onClick={cancelCreating} className={activeOption === 1 && createAddressMode ? styles.cancelBtn : styles.hidden}>Cancelar</button>            
                                     
@@ -318,7 +337,7 @@ const UserPanel = ({ user }) => {
                             <button onClick={removeUser} className={styles.deleteAccount}>Deletar conta</button>
                         </div>
                         {updateUserMode && activeOption === 2 ? <UpdateUser userId={currentUser.id} /> : ''}
-                        {updatePassMode && activeOption === 2 ? <UpdatePassword userId={currentUser.id}/> : '' }
+                        {updatePassMode && activeOption === 2 ? <UpdatePassword userId={currentUser.id} /> : '' }
                         <button
                             onClick={cancelEditData}
                             className={activeOption === 2 && updateUserMode || activeOption === 2 && updatePassMode

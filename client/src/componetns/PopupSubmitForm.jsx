@@ -27,19 +27,53 @@ const PopupSubmitForm = ({totalCount}) => {
     const [country, setCountry] = React.useState('');
     const [postalCode, setPostalCode] = React.useState('');
     const [company, setCompany] = React.useState('');
+    const [addresses, setAddresses] = React.useState([]);
+    const [mainData, setMainData] = React.useState({});
+
+    const data = localStorage.getItem('user');
+    const user = JSON.parse(data);
 
     React.useEffect(() => {
-        if (user) {
+        if (user && !mainData) {
             setUsername(user.firstName);
             setSurname(user.lastName);
             setPhone(user.phone);
             setEmail(user.email);
         }
+        if (user && mainData) {
+            setUsername(mainData.firstName);
+            setSurname(mainData.lastName);
+            setPhone(mainData.phone);
+            setEmail(mainData.email);
+            setCompany(mainData.company ? mainData.company : company);
+            setFirstAddress(mainData.firstAddress);
+            setSecondAddress(mainData.secondAddress ? mainData.secondAddress : secondAddress);
+            setCity(mainData.city);
+            setCountry(mainData.country);
+            setRegion(mainData.region);
+            setPostalCode(mainData.postalCode);
+        }
+    }, [mainData]);
+
+    React.useEffect(() => {
         axios.get(`http://localhost:3001/api/user?role=USER`)
             .then((res) => {
                 setUsers(res.data);
-        });
+            });
     }, []);
+
+    React.useEffect(() => {
+        axios.get(`http://localhost:3001/api/user/${user.id}`)
+            .then((res) => {
+                setAddresses(res.data.address);
+            });        
+    }, []);
+
+    React.useEffect(() => {
+        if (addresses.length) {
+            setMainData(addresses.find((address) => address.mainAddress));
+        }
+    }, [addresses]);
 
     const onChangeCompany = (event) => { 
         setCompany(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');            
@@ -85,9 +119,6 @@ const PopupSubmitForm = ({totalCount}) => {
         setPostalCode(event.target.value);            
     };
 
-    const data = localStorage.getItem('user');
-    const user = JSON.parse(data);
-
     const { items, totalPrice } = useSelector((state) => state.cart);
 
     const order = items.map((item, index) => (
@@ -116,11 +147,13 @@ const PopupSubmitForm = ({totalCount}) => {
     
     React.useEffect(() => {
         if (users.length) {
-            setOrderNumber(users.map((user) => user.order[user.order.length - 1].id));    
+            const prevOrder = users.map((user) => user.order[user.order.length - 1]); 
+            if (prevOrder) {
+                setOrderNumber(prevOrder[0].id);           
+            } 
         }
 
-        console.log(+orderNumber + 1);
-    }, [users]);
+    }, [users, orderNumber]);
 
     const submitForm = () => {
         const formData = new FormData();
@@ -135,7 +168,7 @@ const PopupSubmitForm = ({totalCount}) => {
             clearItems()
         ); 
         navigate('/success');
-        scrollTop();            
+        window.scrollTo(0, 0);            
     } 
 
     const [state, handleSubmit] = useForm("xqkoljrq");

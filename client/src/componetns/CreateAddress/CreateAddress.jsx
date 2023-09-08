@@ -76,6 +76,11 @@ const CreateAddress = ({userId}) => {
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
 
+    const success = () => {
+        setCreateAddressMode(false);
+        window.scrollTo(0, 0);
+    }
+
     const createNewAddress = (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -93,7 +98,7 @@ const CreateAddress = ({userId}) => {
         formData.append('region', region);
         formData.append('postalCode', postalCode);
         formData.append('mainAddress', checked);
-        updateUser(formData, id).then(() => setCreateAddressMode(false));
+        updateUser(formData, id).then(() => success());
     }
     
     return (

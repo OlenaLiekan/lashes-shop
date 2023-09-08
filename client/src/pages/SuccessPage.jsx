@@ -8,6 +8,10 @@ const SuccessPage = () => {
 
     const orderId = localStorage.getItem('orderId');
 
+    if (!orderId) {
+        console.log(orderId);
+    }
+
     return (
         <div className="main__success success-main">
             <div className="success-main__container">

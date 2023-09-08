@@ -99,10 +99,15 @@
     display: none;
 }
 
+.orders {
+    
+}
+
 .ordersList {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-bottom: 30px;
     @media(max-width: 767.98px) {
         gap: 20px;
     }
@@ -261,7 +266,8 @@
 .updateAddressBtn,
 .changeData,
 .deleteAddressBtn,
-.cancelBtn {
+.cancelBtn,
+.showOrders {
     display: flex;
     width: 100%;
     justify-content: center;
@@ -288,7 +294,8 @@
 
 .changePassword,
 .updateAddressBtn,
-.changeData {
+.changeData,
+.showOrders {
     color: #7f766a;
     border: 2px solid #7f766a;
     box-shadow: 3px 3px 3px #4848481b;
@@ -400,4 +407,10 @@
         fill: #fff;
         background-color: #7f766a;
     }
+}
+
+.alert {
+    font-size: 14px;
+    font-weight: 500;
+    color: #AD912B;
 }

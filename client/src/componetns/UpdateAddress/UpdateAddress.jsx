@@ -3,7 +3,7 @@ import styles from './UpdateAddress.module.scss';
 import { updateUser } from '../../http/userAPI';
 import { AuthContext } from '../../context';
 
-const UpdateAddress = ({userId, addressId, addresses}) => {
+const UpdateAddress = ({userId, addressId, addresses, existingMainAddress}) => {
 
     const inputRef = React.useRef();
 
@@ -21,6 +21,10 @@ const UpdateAddress = ({userId, addressId, addresses}) => {
     const [company, setCompany] = React.useState('');
     const [checked, setChecked] = React.useState(false);
 
+    if (!existingMainAddress) {
+        existingMainAddress = { id: addressId };
+    }
+
     React.useEffect(() => {
         const currentAddress = addresses.find((address) => address.id === addressId);
         if (currentAddress) {
@@ -37,7 +41,7 @@ const UpdateAddress = ({userId, addressId, addresses}) => {
             setPostalCode(currentAddress.postalCode);
             setChecked(currentAddress.mainAddress);            
         }
-    }, []);
+    }, [addressId]);
 
     const onChangeCompany = (event) => { 
         setCompany(event.target.value ? event.target.value[0].toUpperCase() + event.target.value.slice(1) : '');            
@@ -84,15 +88,22 @@ const UpdateAddress = ({userId, addressId, addresses}) => {
     };
 
     const checkedCheckbox = () => {
-        if (!checked) {
+        if (!checked && existingMainAddress.id === addressId) {
             setChecked(true);
+        } else if (!checked && existingMainAddress.id !== addressId) {
+            window.alert('Você já tem um endereço principal. Edite-o, limpe a propriedade de prioridade para selecionar outro endereço como principal.');
         } else {
-            setChecked(false);
+            setChecked(false);            
         }
     }
 
     const data = localStorage.getItem('user');
     const user = JSON.parse(data);
+
+    const success = () => {
+        setUpdateAddressMode(false);
+        window.scrollTo(0, 0);
+    }
 
     const updateAddress = (e) => {
         e.preventDefault();
@@ -111,7 +122,7 @@ const UpdateAddress = ({userId, addressId, addresses}) => {
         formData.set('region', region);
         formData.set('postalCode', postalCode);
         formData.set('mainAddress', checked);
-        updateUser(formData, id).then(() => setUpdateAddressMode(false));
+        updateUser(formData, id).then(data => success());
     }
     
     return (
@@ -199,7 +210,7 @@ const UpdateAddress = ({userId, addressId, addresses}) => {
                         Selecione principal
                     </label>
                     <input id="userCheckBox" type="checkbox" name="agree" tabIndex="12" className={styles.formInputCheckbox} /> 
-                </div>
+                </div>     
                 <button type='submit' tabIndex="13" className={styles.formBtnSubmit}>
                     Atualizar
                 </button>
