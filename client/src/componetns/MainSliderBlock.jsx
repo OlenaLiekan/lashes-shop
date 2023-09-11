@@ -15,7 +15,7 @@ import SliderSkeleton from "./SliderSkeleton";
 
 const MainSliderBlock = () => {
 
-  const { isAuth, adminMode, createMode, setCreateMode } = React.useContext(AuthContext);
+  const { isAuth, adminMode, createSlideMode, setCreateSlideMode } = React.useContext(AuthContext);
   const [slides, setSlides] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
@@ -32,11 +32,11 @@ const MainSliderBlock = () => {
     if (window.confirm('Tem certeza de que deseja excluir o slide?')) {
       axios.delete(`http://localhost:3001/api/slide?id=${id}`)
         .then(() => {
-          alert('O slide foi excluído com sucesso!');
+          window.alert('O slide foi excluído com sucesso!');
 
       })      
     } else {
-      alert('Cancelar exclusão.');
+      window.alert('Cancelar exclusão.');
     }
   }
 
@@ -44,9 +44,9 @@ const MainSliderBlock = () => {
       <section className="main__block block-main">
         <div className="block-main__container">
         <div className="block-main__body">
-          {isAuth && adminMode && createMode ? <CreateSlide /> : ""}
-            {isAuth && adminMode && !createMode ? 
-              <button className="block-main__create" onClick={setCreateMode}>Create new slide</button>
+          {isAuth && adminMode && createSlideMode ? <CreateSlide /> : ""}
+            {isAuth && adminMode && !createSlideMode ? 
+              <button className="block-main__create" onClick={setCreateSlideMode}>Criar novo slide</button>
               : ''
             }
           <div className="block-main__slider">

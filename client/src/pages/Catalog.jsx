@@ -17,15 +17,15 @@ const Catalog = () => {
     const [catalogItems, setCatalogItems] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [typeItem, setTypeItem] = React.useState({});
-    const [typeId, setTypeId] = React.useState();
+    const [typeId, setTypeId] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(true); 
     const {
         isAuth,
         adminMode,
-        createMode,
-        setCreateMode,
-        updateMode,
-        setUpdateMode
+        createTypeMode,
+        setCreateTypeMode,
+        updateTypeMode,
+        setUpdateTypeMode
     } = React.useContext(AuthContext);
 
     const onChangeBrand = (id) => {
@@ -62,10 +62,10 @@ const Catalog = () => {
         if (window.confirm('Tem certeza de que deseja excluir o tipo?')) {
             axios.delete(`http://localhost:3001/api/type?id=${id}`)
                 .then(() => {
-                    alert('O tipo foi excluído com sucesso!');
+                    window.alert('O tipo foi excluído com sucesso!');
                 });      
         } else {
-            alert('Cancelar exclusão.');
+            window.alert('Cancelar exclusão.');
         }
     }
 
@@ -76,28 +76,34 @@ const Catalog = () => {
                     setTypeItem(res.data);
                 }); 
             if (typeItem) {
-                setUpdateMode(true);
-                setCreateMode(false);
+                setUpdateTypeMode(true);
+                setCreateTypeMode(false);
                 window.scrollTo(0, 0);
             }                 
         }
     }, [typeId]);
 
     const createModeOn = () => {
-        setCreateMode(true);
-        setUpdateMode(false);
+        setCreateTypeMode(true);
+        setUpdateTypeMode(false);
     }
+
+    React.useEffect(() => {
+        if (!updateTypeMode) {
+            setTypeId('');
+        }
+    }, [updateTypeMode]);
 
 
     return (
         <div className="main__catalog catalog">
             <div className="catalog__container">
                 <div className="catalog__content">
-                    {isAuth && adminMode && createMode ? <CreateType /> : ''}      
-                    { isAuth && adminMode && updateMode ? <UpdateType typeItem={typeItem} /> : ''}  
+                    {isAuth && adminMode && createTypeMode ? <CreateType /> : ''}      
+                    { isAuth && adminMode && updateTypeMode ? <UpdateType typeItem={typeItem} /> : ''}  
                     {isLoading ? <Loader /> : 
                         <div className="catalog__items">  
-                            <div className={isAuth && adminMode && !createMode ? "catalog__item item-catalog" : 'item-catalog_hidden'}>
+                            <div className={isAuth && adminMode && !createTypeMode ? "catalog__item item-catalog" : 'item-catalog_hidden'}>
                                 <div className="item-catalog__content">
                                     <div className='item-catalog__add' onClick={createModeOn}>
                                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">

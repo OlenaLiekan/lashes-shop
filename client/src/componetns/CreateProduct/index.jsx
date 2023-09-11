@@ -14,14 +14,14 @@ const CreateProduct = () => {
     const [types, setTypes] = React.useState([]);
     const [typeId, setTypeId] = React.useState(1);
     const [brandId, setBrandId] = React.useState(1);
-    const [typeName, setTypeName] = React.useState('Select type');
-    const [brandName, setBrandName] = React.useState('Select brand');
+    const [typeName, setTypeName] = React.useState('Selecione o tipo');
+    const [brandName, setBrandName] = React.useState('Selecione a marca');
     const [typesVisibility, setTypesVisibility] = React.useState(false);
     const [brandsVisibility, setBrandsVisibility] = React.useState(false);
     const [name, setName] = React.useState('');
     const [code, setCode] = React.useState('');
     const [price, setPrice] = React.useState('');
-    const { setCreateMode } = React.useContext(AuthContext);
+    const { setCreateProductMode } = React.useContext(AuthContext);
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
     const [img, setImg] = React.useState(null);
@@ -30,8 +30,8 @@ const CreateProduct = () => {
     const [text, setText] = React.useState('');
 
     const success = () => {
-        alert('Novo produtos adicionado com sucesso!');
-        setCreateMode(false);  
+        window.alert('Novo produtos adicionado com sucesso!');
+        setCreateProductMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);  
     }
@@ -89,7 +89,7 @@ const CreateProduct = () => {
     }, [slide]);
 
     const closeCreatePopup = () => {
-        setCreateMode(false);
+        setCreateProductMode(false);
     }
 
     React.useEffect(() => {
@@ -169,7 +169,7 @@ const CreateProduct = () => {
             </svg>
             <form onSubmit={pushProduct} className={styles.formProduct}>
                 <div className={styles.line}>
-                    <label htmlFor="product-name" className={styles.label} placeholder='Name'>Name:</label>
+                    <label htmlFor="product-name" className={styles.label} placeholder='Name'>Nome:</label>
                     <input id="product-name" required tabIndex="1" type='text' className={styles.formInput}
                         ref={inputRef}
                         value={name}
@@ -177,13 +177,13 @@ const CreateProduct = () => {
                     />                    
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-code" className={styles.label}>Code:</label>
+                    <label htmlFor="product-code" className={styles.label}>Código:</label>
                     <input id="product-code" required tabIndex="2" type='text' className={styles.formInputSmall}
                         ref={inputRef}
                         value={code}
                         onChange={onChangeCode}
                     /> 
-                    <label htmlFor="product-price" className={styles.label}>Price:</label>                    
+                    <label htmlFor="product-price" className={styles.label}>Preço:</label>                    
                     <input id="product-price" required tabIndex="3" type='text' className={styles.formInputSmall} placeholder='0.00'
                         ref={inputRef}
                         value={price}
@@ -191,7 +191,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-brand" className={styles.label}>Brand:</label>
+                    <label htmlFor="product-brand" className={styles.label}>Marca:</label>
                     <div onClick={toggleBrandOptions} id="product-brand" required tabIndex="4" className={styles.formSelectBrands}>
                         {brandName}
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
@@ -206,7 +206,7 @@ const CreateProduct = () => {
                         </div>                        
                         : ''
                     }
-                    <label htmlFor="product-type" className={styles.label}>Type:</label>
+                    <label htmlFor="product-type" className={styles.label}>Tipo:</label>
                     <div onClick={toggleTypeOptions} id="product-type" required tabIndex="5" className={styles.formSelectTypes}>
                         {typeName}
                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512">
@@ -223,19 +223,19 @@ const CreateProduct = () => {
                     }
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="product-file" className={styles.label}>Photo:</label>
+                    <label htmlFor="product-file" className={styles.label}>Foto:</label>
                     <input id="product-file" required tabIndex="6" type='file' name='image' className={styles.formFile}
                         onChange={selectFile}
                     />                    
                 </div>
                 {info.map((i) => 
                     <div className={styles.line} key={i.number}>
-                        <label htmlFor="info-product_title" className={styles.label}>Info title:</label>
+                        <label htmlFor="info-product_title" className={styles.label}>Propriedade:</label>
                         <input id="info-product_title" tabIndex="7" type='text' className={styles.formInputSmall}
                             value={i.title}
                             onChange={(e) => changeInfo('title', e.target.value, i.number)}
                         /> 
-                        <label htmlFor="info-product_description" className={styles.label}>Info description:</label>
+                        <label htmlFor="info-product_description" className={styles.label}>Significado:</label>
                         <input id="info-product_description" tabIndex="8" type='text' className={styles.formInputSmall}
                             value={i.description}
                             onChange={(e) => changeInfo('description', e.target.value, i.number)}
@@ -247,7 +247,7 @@ const CreateProduct = () => {
                         </button>
                     </div>                    
                 )}
-                <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Add new info</button>
+                <button type='button' className={styles.infoButton} tabIndex="10" onClick={addInfo}>Adicionar informações</button>
                 {slide.map((i) => 
                     <div className={styles.line} key={i.number}>
                         <label htmlFor="product-slide" className={styles.label}>Slide:</label>
@@ -261,13 +261,13 @@ const CreateProduct = () => {
                         </button>
                     </div>                
                 )}
-                <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Add new slide</button>
-                <label htmlFor="product-about" className={styles.label}>Description:</label>
+                <button type='button' className={styles.slideButton} tabIndex="13" onClick={addSlide}>Adicionar novo slide</button>
+                <label htmlFor="product-about" className={styles.label}>Descrição:</label>
                 <textarea required id="product-about" tabIndex='14' className={styles.textarea}
                     ref={inputRef}
                     value={text}
                     onChange={onChangeText}/>
-                <button type='submit' tabIndex='15' className={styles.button}>Create product</button>
+                <button type='submit' tabIndex='15' className={styles.button}>Criar produto</button>
             </form>            
         </div>
     );

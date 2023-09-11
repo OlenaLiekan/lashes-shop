@@ -1,6 +1,6 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import { setBrandId } from '../redux/slices/filterSlice';
@@ -17,10 +17,10 @@ const BrandsBlock = () => {
   const {
     isAuth,
     adminMode,
-    createMode,
-    updateMode,
-    setCreateMode,
-    setUpdateMode
+    createCompanyMode,
+    updateCompanyMode,
+    setCreateCompanyMode,
+    setUpdateCompanyMode
   } = React.useContext(AuthContext);
 
   const [brands, setBrands] = React.useState([]);
@@ -45,8 +45,8 @@ const BrandsBlock = () => {
               setBrandItem(res.data);
           }); 
       if (brandItem) {
-          setUpdateMode(true);
-          setCreateMode(false);
+          setUpdateCompanyMode(true);
+          setCreateCompanyMode(false);
       }                 
     }
   }, [id]);
@@ -58,30 +58,35 @@ const BrandsBlock = () => {
 
 
   const removeBrand = (id) => {
-    if (window.confirm('Tem certeza de que deseja excluir a marca')) {
+    if (window.confirm('Tem certeza de que deseja excluir a marca?')) {
       axios.delete(`http://localhost:3001/api/brand?id=${id}`)
         .then(() => {
-          alert('A marca foi excluído com sucesso!');
+          window.alert('A marca foi excluído com sucesso!');
       })      
     } else {
-      alert('Cancelar exclusão.');
+      window.alert('Cancelar exclusão.');
     }
   }
 
-
   const createModeOn = () => {
-    setCreateMode(true);
-    setUpdateMode(false);
+    setCreateCompanyMode(true);
+    setUpdateCompanyMode(false);
   }
+
+  React.useEffect(() => {
+    if (!updateCompanyMode) {
+      setId('');
+    }
+  }, [updateCompanyMode]);
 
     return (
         <section className="companies__block block-companies">
           <div className="block-companies__container">
           <div className="block-companies__body">
-            {isAuth && adminMode && updateMode ? <UpdateBrand brandItem={brandItem} /> : ''}
-            {isAuth && adminMode && createMode ? <CreateBrand /> : ''}
-            {isAuth && adminMode && !createMode ? 
-              <button className="block-companies__create" onClick={createModeOn}>Create new brand</button>
+            {isAuth && adminMode && updateCompanyMode ? <UpdateBrand brandItem={brandItem} /> : ''}
+            {isAuth && adminMode && createCompanyMode ? <CreateBrand /> : ''}
+            {isAuth && adminMode && !createCompanyMode ? 
+              <button className="block-companies__create" onClick={createModeOn}>Criar nova marca</button>
               : ''
             }
             <div className="block-companies__slider">

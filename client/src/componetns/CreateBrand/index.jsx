@@ -8,14 +8,14 @@ const CreateBrand = () => {
 
     const inputRef = React.useRef();
     const navigate = useNavigate();
-    const { setCreateMode } = React.useContext(AuthContext);
+    const { setCreateCompanyMode } = React.useContext(AuthContext);
 
     const [img, setImg] = React.useState(null);
     const [name, setName] = React.useState('');
 
     const success = () => {
-        alert('Novo marca adicionado com sucesso!');
-        setCreateMode(false);  
+        window.alert('Novo marca adicionado com sucesso!');
+        setCreateCompanyMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);
     }
@@ -29,7 +29,7 @@ const CreateBrand = () => {
     };
 
     const closeCreatePopup = () => {
-        setCreateMode(false);
+        setCreateCompanyMode(false);
     }
 
     const pushBrand = (e) => {
@@ -47,19 +47,19 @@ const CreateBrand = () => {
             </svg>
             <form onSubmit={pushBrand} className={styles.formBrand}>
                 <div className={styles.line}>
-                    <label htmlFor="brand-name" className={styles.label} placeholder='Name'>Name:</label>
+                    <label htmlFor="brand-name" className={styles.label} placeholder='Name'>Nome:</label>
                     <input id="brand-name" required tabIndex="1" type='text' className={styles.formInput}
                         ref={inputRef}    
                         value={name}
                         onChange={onChangeName} />                   
                 </div>
                 <div className={styles.line}>
-                    <label htmlFor="brand-file" className={styles.label}>Image:</label>
-                    <input id="brand-file" required tabIndex="6" type='file' className={styles.formFile}
+                    <label htmlFor="brand-file" className={styles.label}>Imagem:</label>
+                    <input id="brand-file" required tabIndex="2" type='file' className={styles.formFile}
                         onChange={selectFile}
                     />                   
                 </div>
-                <button type='submit'tabIndex='13' className={styles.button}>Create brand</button>
+                <button type='submit'tabIndex='3' className={styles.button}>Criar marca</button>
             </form>            
         </div>
     );

@@ -7,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 const CreateSlide = () => {
 
     const navigate = useNavigate();
-    const { setCreateMode } = React.useContext(AuthContext);
+    const { setCreateSlideMode } = React.useContext(AuthContext);
     const [img, setImg] = React.useState(null);
 
     const success = () => {
-        alert('Novo slide adicionado com sucesso!');
-        setCreateMode(false);  
+        window.alert('Novo slide adicionado com sucesso!');
+        setCreateSlideMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);
     }
@@ -22,7 +22,7 @@ const CreateSlide = () => {
     }
 
     const closeCreatePopup = () => {
-        setCreateMode(false);
+        setCreateSlideMode(false);
     }
 
     const pushSlide = (e) => {
@@ -39,11 +39,11 @@ const CreateSlide = () => {
             </svg>
             <form onSubmit={pushSlide} className={styles.formSlide}>
                 <div className={styles.line}>
-                    <label htmlFor="slide-file" className={styles.label}>Image:</label>
-                    <input id="slide-file" required tabIndex="6" type='file' className={styles.formFile}
+                    <label htmlFor="slide-file" className={styles.label}>Imagem:</label>
+                    <input id="slide-file" required tabIndex="1" type='file' className={styles.formFile}
                         onChange={selectFile}/>                    
                 </div>
-                <button type='submit' tabIndex='13' className={styles.button}>Create slide</button>
+                <button type='submit' tabIndex='2' className={styles.button}>Criar slide</button>
             </form>            
         </div>
     );

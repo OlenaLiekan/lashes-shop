@@ -21,7 +21,7 @@ const UpdateProduct = ({id, obj}) => {
     const [name, setName] = React.useState('');
     const [code, setCode] = React.useState('');
     const [price, setPrice] = React.useState(0);
-    const { setUpdateMode } = React.useContext(AuthContext);
+    const { setUpdateProductMode } = React.useContext(AuthContext);
     const [info, setInfo] = React.useState([]);
     const [slide, setSlide] = React.useState([]);
     const [objSlides, setObjSlides] = React.useState([]);
@@ -53,8 +53,8 @@ const UpdateProduct = ({id, obj}) => {
     }, [obj, brands, types]);
 
     const success = () => {
-        alert('Novo produtos adicionado com sucesso!');
-        setUpdateMode(false);  
+        window.alert('Novo produtos adicionado com sucesso!');
+        setUpdateProductMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);  
     }
@@ -109,7 +109,7 @@ const UpdateProduct = ({id, obj}) => {
     }, [slide]);
 
     const closeUpdatePopup = () => {
-        setUpdateMode(false);
+        setUpdateProductMode(false);
     }
 
     React.useEffect(() => {

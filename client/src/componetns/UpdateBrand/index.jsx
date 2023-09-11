@@ -8,7 +8,7 @@ const UpdateBrand = ({brandItem}) => {
 
     const inputRef = React.useRef();
     const navigate = useNavigate();
-    const { setUpdateMode } = React.useContext(AuthContext);
+    const { setUpdateCompanyMode } = React.useContext(AuthContext);
 
     const [img, setImg] = React.useState(null);
     const [name, setName] = React.useState('');
@@ -18,8 +18,8 @@ const UpdateBrand = ({brandItem}) => {
     }, [brandItem]);
 
     const success = () => {
-        alert('A marca foi atualizada com sucesso!');
-        setUpdateMode(false);  
+        window.alert('A marca foi atualizada com sucesso!');
+        setUpdateCompanyMode(false);  
         navigate('/auth');
         window.scrollTo(0, 0);
     }
@@ -33,7 +33,7 @@ const UpdateBrand = ({brandItem}) => {
     };
 
     const closeUpdatePopup = () => {
-        setUpdateMode(false);
+        setUpdateCompanyMode(false);
     }
 
     const pushBrand = (e) => {

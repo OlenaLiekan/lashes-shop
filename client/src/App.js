@@ -7,14 +7,25 @@ export const SearchContext = React.createContext();
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
+
   const [isAuth, setIsAuth] = React.useState(false);
   const [adminMode, setAdminMode] = React.useState(false);
-  const [createMode, setCreateMode] = React.useState(false);
-  const [updateMode, setUpdateMode] = React.useState(false);
+
+  const [createSlideMode, setCreateSlideMode] = React.useState(false);
+  const [createProductMode, setCreateProductMode] = React.useState(false);
+  const [createCompanyMode, setCreateCompanyMode] = React.useState(false);
+  const [createTypeMode, setCreateTypeMode] = React.useState(false);
+
+  const [updateProductMode, setUpdateProductMode] = React.useState(false);
+  const [updateCompanyMode, setUpdateCompanyMode] = React.useState(false);
+  const [updateTypeMode, setUpdateTypeMode] = React.useState(false);
+
   const [createAddressMode, setCreateAddressMode] = React.useState(false);
   const [updateAddressMode, setUpdateAddressMode] = React.useState(false);
+
   const [updateUserMode, setUpdateUserMode] = React.useState(false);
   const [updatePassMode, setUpdatePassMode] = React.useState(false);
+  
   const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -40,10 +51,20 @@ function App() {
           adminMode,
           setAdminMode,
           isLoading,
-          createMode,
-          setCreateMode,
-          updateMode,
-          setUpdateMode,
+          createSlideMode,
+          setCreateSlideMode,
+          createProductMode,
+          setCreateProductMode,
+          createCompanyMode,
+          setCreateCompanyMode,
+          createTypeMode,
+          setCreateTypeMode,
+          updateProductMode,
+          setUpdateProductMode,
+          updateCompanyMode,
+          setUpdateCompanyMode,
+          updateTypeMode,
+          setUpdateTypeMode,
           createAddressMode,
           setCreateAddressMode,
           updateAddressMode,

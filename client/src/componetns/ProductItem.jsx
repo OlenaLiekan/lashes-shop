@@ -32,7 +32,7 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
     const [productRatings, setProductRatings] = React.useState([]);
     const [index, setIndex] = React.useState('');
 
-    const { isAuth, adminMode, updateMode, setUpdateMode } = React.useContext(AuthContext);
+    const { isAuth, adminMode, updateProductMode } = React.useContext(AuthContext);
 
     const data = localStorage.getItem("user");
     const user = JSON.parse(data);
@@ -94,7 +94,6 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
                 price,
                 company,
                 img,
-                //obj,
                 path,
                 isLashes,
                 curlArr: curlArr[activeCurl],
@@ -149,7 +148,7 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
                 </Link>
             </div>
             <div className="product-card__body">
-                {isAuth && adminMode && updateMode ? <UpdateProduct obj={obj} id={id} /> : ''}
+                {isAuth && adminMode && updateProductMode ? <UpdateProduct obj={obj} id={id} /> : ''}
                 <div className="images-product__wrapper">
                     <div className="product-card__images images-product">
                         <ProductCardSlider img={img} slides={slide} />                                
@@ -188,10 +187,8 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
                                 <>
                                     <div className="info-product__curl">
                                         <label htmlFor="curlList" className="label-bold">{curl.title}:</label>
-                                        <div className="curl__select select-curl">
-                                            
+                                        <div className="curl__select select-curl">   
                                             <ul id="curlList" className="curl__list list-curl">
-    
                                                 {curlArr.map((itemCurl, curlIndex) =>
                                                     <li key={curlIndex}
                                                         onClick={() => setActiveCurl(curlIndex)}

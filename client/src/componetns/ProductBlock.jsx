@@ -9,7 +9,7 @@ const ProductBlock = ({path, id, info, name, rating, isLashes, typeId, price, br
     const navigate = useNavigate();
 
     const [brands, setBrands] = React.useState([]);
-    const { isAuth, adminMode, setUpdateMode } = React.useContext(AuthContext);
+    const { isAuth, adminMode, setUpdateProductMode } = React.useContext(AuthContext);
 
     React.useEffect(() => {
         axios.get('http://localhost:3001/api/brand')
@@ -22,16 +22,16 @@ const ProductBlock = ({path, id, info, name, rating, isLashes, typeId, price, br
         if (window.confirm('Tem certeza de que deseja excluir o produto?')) {
         axios.delete(`http://localhost:3001/api/product?id=${id}`)
             .then(() => {
-                alert('O produto foi excluído com sucesso!');
+                window.alert('O produto foi excluído com sucesso!');
                 navigate('/auth');
         })      
         } else {
-        alert('Cancelar exclusão.');
+        window.alert('Cancelar exclusão.');
         }
     }
 
     const updateProductOn = () => {
-        setUpdateMode(true);
+        setUpdateProductMode(true);
         navigate(`${path}`);
     }
 

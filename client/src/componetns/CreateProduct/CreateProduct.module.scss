@@ -107,14 +107,17 @@
 }
 
 .textarea {
+    font-size: 13px;
     overflow: auto;
     resize: none;
     outline: none;
     border: 2px solid #dcdcdc;
     padding: 15px;
-    border-radius: 20px;
     min-height: 100px;
     width: 100%;
+    @media(max-width: 579px) {
+        font-size: 12px;
+    }
 }
 
 .button {

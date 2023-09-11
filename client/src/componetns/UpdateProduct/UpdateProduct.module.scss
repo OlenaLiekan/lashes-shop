@@ -54,7 +54,10 @@
 }
 
 .formInput {
-    max-width: 240px;
+    width: 360px;
+    @media(max-width: 579.98px) {
+        width: 240px;
+    }
 }
 
 .formInputSmall {
@@ -153,14 +156,17 @@
 }
 
 .textarea {
+    font-size: 13px;
     overflow: auto;
     resize: none;
     outline: none;
     border: 2px solid #dcdcdc;
     padding: 15px;
-    border-radius: 20px;
-    min-height: 100px;
+    min-height: 140px;
     width: 100%;
+    @media(max-width: 579.98px) {
+        font-size: 12px;
+    }
 }
 
 .button {

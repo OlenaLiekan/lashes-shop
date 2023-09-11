@@ -3,13 +3,12 @@ import React from 'react';
 import { camelize } from '../js/script';
 import qs from 'qs';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Pagination from '../componetns/Pagination';
 import Brands from '../componetns/Brands';
 import Sort from '../componetns/Sort';
-import { SearchContext } from '../App';
 import { AuthContext } from '../context';
 
 import ProductBlock from "../componetns/ProductBlock";
@@ -25,8 +24,7 @@ const ProductPage = ({type}) => {
     const dispatch = useDispatch();
     const { brandId, sort, currentPage } = useSelector((state) => state.filter);
 
-    const { searchValue } = React.useContext(SearchContext);
-    const { isAuth, adminMode, createMode, setCreateMode, updateMode } = React.useContext(AuthContext);
+    const { searchValue, isAuth, adminMode, createProductMode, setCreateProductMode } = React.useContext(AuthContext);
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
@@ -40,7 +38,7 @@ const ProductPage = ({type}) => {
     };
 
     const showPopupCreate = () => {
-        setCreateMode(true);
+        setCreateProductMode(true);
     } 
 
     React.useEffect(() => {
@@ -77,9 +75,9 @@ const ProductPage = ({type}) => {
                 <div className="product-main__content">
                     <Brands type={type} brandId={brandId} products={items} onChangeBrand={onChangeBrand}/>
                     <Sort arrItem={type} />
-                    {isAuth && adminMode && createMode ? <CreateProduct /> : ''}
+                    {isAuth && adminMode && createProductMode ? <CreateProduct /> : ''}
                     <div className="product-main__items">
-                        <div className={isAuth && adminMode && !createMode ? "item-product" : "item-product_hidden"}>
+                        <div className={isAuth && adminMode && !createProductMode ? "item-product" : "item-product_hidden"}>
                         <div className='item-product__add'>
                             <svg onClick={showPopupCreate} xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                                 <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z" />
