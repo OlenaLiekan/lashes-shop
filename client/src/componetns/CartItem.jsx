@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch} from 'react-redux';
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
-const CartItem = ({ obj, typeId, path, info, isLashes, name, img, id, index, title, subtitle, code, price, company, imageUrl, lengthArr, thicknessArr, curlArr, volume, count }) => { 
+const CartItem = ({ path, info, isLashes, name, img, id, index, code, price, company, lengthArr, thicknessArr, curlArr, count }) => { 
 
     const navigate = useNavigate();
 

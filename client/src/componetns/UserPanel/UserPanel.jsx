@@ -62,7 +62,7 @@ const UserPanel = ({ user }) => {
     }, [addresses]);
 
     const removeUser = () => {
-        const access = prompt('Tem certeza de que deseja excluir sua conta? Depois de excluído, você não poderá restaurá-lo. Para excluir, escreva SIM na caixa abaixo.', '');
+        const access = window.prompt('Tem certeza de que deseja excluir sua conta? Depois de excluído, você não poderá restaurá-lo. Para excluir, escreva SIM na caixa abaixo.', '');
         if (access && access.toLowerCase() === 'sim') {
             axios.delete(`http://localhost:3001/api/user?id=${user.id}`)
                 .then(() => {

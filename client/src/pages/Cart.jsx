@@ -29,7 +29,6 @@ const Cart = () => {
             localStorage.setItem('cart', cartData);
         //}
         //isMounted.current = true;
-        console.log(items);
     }, [items]);
 
     if (!totalPrice) {

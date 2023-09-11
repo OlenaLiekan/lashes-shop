@@ -58,10 +58,6 @@ const UpdatePassword = ({userId}) => {
             setError(true);
         }    
     }
-
-    React.useEffect(() => {
-
-    }, []);
     
     return (
         <div className={styles.body}>     

@@ -31,7 +31,6 @@ const Registration = () => {
                     setUser(data);
                 }
             } catch (error) {
-
             }
         }
         window.scrollTo(0, 0);
@@ -44,9 +43,9 @@ const Registration = () => {
             await registration(email, password, firstName, lastName, phone); 
             navigate('/login');
             window.scrollTo(0, 0);
-            alert('Parabéns! Sua conta foi criada com sucesso.');
+            window.alert('Parabéns! Sua conta foi criada com sucesso.');
         } catch (error) {
-            alert('error');
+            window.alert('error');
         }
     }
 

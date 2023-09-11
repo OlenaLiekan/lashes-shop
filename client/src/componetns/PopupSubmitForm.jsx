@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { scrollTop } from '../js/script';
 
 import { useForm, ValidationError } from '@formspree/react';
 import { clearItems } from '../redux/slices/cartSlice';

@@ -86,11 +86,6 @@ const UpdateUser = ({userId}) => {
             updateUser(formData, id).then((data) => success());            
         }
     }
-
-    React.useEffect(() => {
-        console.log(emailValue);
-        console.log(existingUser);
-    }, [emailValue]);
     
     return (
         <div className={styles.body}>     

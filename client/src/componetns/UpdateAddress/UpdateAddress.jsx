@@ -97,9 +97,6 @@ const UpdateAddress = ({userId, addressId, addresses, existingMainAddress}) => {
         }
     }
 
-    const data = localStorage.getItem('user');
-    const user = JSON.parse(data);
-
     const success = () => {
         setUpdateAddressMode(false);
         window.scrollTo(0, 0);

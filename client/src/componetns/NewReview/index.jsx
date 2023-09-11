@@ -2,7 +2,6 @@ import React from 'react';
 
 import styles from "./NewReview.module.scss";
 import { createRating, createReview, updateProduct } from '../../http/productAPI';
-import { useNavigate } from 'react-router-dom';
 
 const NewReview = ({ userId, userName, productId, rating }) => {
 
@@ -18,7 +17,7 @@ const NewReview = ({ userId, userName, productId, rating }) => {
     }
     
     const success = () => {
-        alert('Thank you for your review!');
+        window.alert('Thank you for your review!');
         setCurrentRate(0);
         setReviewText('');
         rating = +rating;

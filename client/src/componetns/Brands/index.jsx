@@ -21,7 +21,6 @@ function Brands({ type, brandId, onChangeBrand }) {
   }, [type]);
   
   return (
-    <>
       <ul className="product-main__categories">
         <li onClick={() => onChangeBrand(0)} className={brandId === 0 ? "active" : ""}>
           <button className={styles.brandProducts}>
@@ -36,8 +35,7 @@ function Brands({ type, brandId, onChangeBrand }) {
             </li>
         ))
         }
-      </ul>
-    </>    
+      </ul>  
   );
 }
 

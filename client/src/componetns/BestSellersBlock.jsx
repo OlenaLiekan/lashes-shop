@@ -6,11 +6,11 @@ import { scrollTop } from "../js/script";
 import ProductBlock from "./ProductBlock";
 import Skeleton from "./Skeleton";
 
-const BestSellersBlock = ({ types }) => {
+const BestSellersBlock = () => {
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [path, setPath] = React.useState('produtos');
+  const path = 'produtos';
 
   React.useEffect(() => {
     setIsLoading(true);

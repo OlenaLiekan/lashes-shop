@@ -12,7 +12,7 @@ import ReviewItem from './ReviewItem';
 import NewReview from './NewReview';
 import { setCurrentPage } from '../redux/slices/filterSlice';
 
-const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, brandId, name, code, price, brand, img}) => {
+const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, brandId, name, code, price, img}) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -228,7 +228,7 @@ const ProductItem = ({ obj, id, info, text, slide, typeId, rating, isLashes, bra
                             }          
                             <div className="info-product__price">
                                 <span className="label-bold">Preço:</span>
-                                {price != 0
+                                {price !== 0
                                 ?
                                 <div className="price__value">
                                     {price} €                                    

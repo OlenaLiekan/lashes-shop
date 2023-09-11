@@ -16,11 +16,11 @@ const Pagination = ({type, onChangePage }) => {
 
   React.useEffect(() => {
     const company = brandId > 0 ? `brandId=${brandId}` : '';
-    const search = searchValue ? `&search=${searchValue}` : '';
+    const search = searchValue ? `&name=${searchValue}` : '';
     const typeId = type.id ? `&typeId=${type.id}` : '';
     axios
       .get(
-          `http://localhost:3001/api/product?${company}${typeId}`,
+          `http://localhost:3001/api/product?${company}${typeId}${search}`,
       )
       .then((res) => {
         setItemsCount(res.data.count);          

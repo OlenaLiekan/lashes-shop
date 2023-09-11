@@ -14,8 +14,8 @@ const UpdateProduct = ({id, obj}) => {
     const [types, setTypes] = React.useState([]);
     const [typeId, setTypeId] = React.useState(1);
     const [brandId, setBrandId] = React.useState(1);
-    const [typeName, setTypeName] = React.useState('Select type');
-    const [brandName, setBrandName] = React.useState('Select brand');
+    const [typeName, setTypeName] = React.useState('Selecione o tipo');
+    const [brandName, setBrandName] = React.useState('Selecione a marca');
     const [typesVisibility, setTypesVisibility] = React.useState(false);
     const [brandsVisibility, setBrandsVisibility] = React.useState(false);
     const [name, setName] = React.useState('');

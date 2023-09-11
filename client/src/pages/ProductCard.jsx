@@ -23,7 +23,7 @@ const ProductCard = ({type}) => {
                 setItem(data);
                 setIsLoading(false);                    
             } else {
-                alert('Produto não encontrado!');
+                window.alert('Produto não encontrado!');
                 navigate('/');
             }
         }

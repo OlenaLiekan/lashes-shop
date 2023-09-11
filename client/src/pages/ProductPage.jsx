@@ -17,6 +17,7 @@ import Skeleton from "../componetns/Skeleton";
 import { setBrandId, setCurrentPage } from '../redux/slices/filterSlice';
 import NotFoundProduct from '../componetns/NotFoundProduct';
 import CreateProduct from '../componetns/CreateProduct';
+import { SearchContext } from '../App';
 
 const ProductPage = ({type}) => {
 
@@ -24,7 +25,8 @@ const ProductPage = ({type}) => {
     const dispatch = useDispatch();
     const { brandId, sort, currentPage } = useSelector((state) => state.filter);
 
-    const { searchValue, isAuth, adminMode, createProductMode, setCreateProductMode } = React.useContext(AuthContext);
+    const { searchValue } = React.useContext(SearchContext);
+    const { isAuth, adminMode, createProductMode, setCreateProductMode } = React.useContext(AuthContext);
 
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true); 
@@ -42,19 +44,19 @@ const ProductPage = ({type}) => {
     } 
 
     React.useEffect(() => {
-        setIsLoading(true);
-        const sortBy = sort.sortProperty.replace('-', '');        
-        const order = sort.sortProperty.includes('-') ? 'ASC' : 'DESC';
-        const brandCategory = brandId === 0 ? '' : `&brandId=${brandId}`;
-        const typeId = type.id ? `&typeId=${type.id}` : '';
+            setIsLoading(true);
+            const sortBy = sort.sortProperty.replace('-', '');        
+            const order = sort.sortProperty.includes('-') ? 'ASC' : 'DESC';
+            const brandCategory = brandId === 0 ? '' : `&brandId=${brandId}`;
+            const typeId = type.id ? `&typeId=${type.id}` : '';
 
-        const search = searchValue ? `&name=${searchValue}` : '';
-        axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sort=${sortBy}&order=${order}${search}`)
-        .then((res) => {
-            setItems(res.data.rows);
-        });
-        setIsLoading(false);
-        window.scrollTo(0, 0);
+            const search = searchValue ? `&name=${searchValue}` : '';
+            axios.get(`http://localhost:3001/api/product?info&page=${currentPage}&limit=12${typeId}${brandCategory}&sort=${sortBy}&order=${order}${search}`)
+            .then((res) => {
+                setItems(res.data.rows);
+            });
+            setIsLoading(false);
+            window.scrollTo(0, 0);
     }, [brandId, sort, currentPage, searchValue, type.id]);
 
     React.useEffect(() => {

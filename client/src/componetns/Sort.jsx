@@ -8,9 +8,6 @@ function Sort({arrItem}) {
   const sort = useSelector(state => state.filter.sort);
   const sortRef = React.useRef();
 
-  //const ascTitle = arrItem === 'pestanas' ? 'shortest' : 'name A - Z';
-  //const asc = arrItem === 'pestanas' ? '-length' : '-title';
-
   const [open, setOpen] = React.useState(false);
   const list = [
     { name: 'popularidade', sortProperty: 'rating' },

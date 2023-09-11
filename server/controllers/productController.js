@@ -214,10 +214,7 @@ class ProductController {
     }
 
     if (name) {
-      options.where = {
-        ...options.where,
-        name: { [Op.iLike]: `%${name}%` },
-      };
+      options.where = { ...options.where, name: { [Op.iLike]: `%${name}%` } };
     }
 
     if (price) {

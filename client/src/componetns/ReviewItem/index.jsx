@@ -5,7 +5,6 @@ import axios from 'axios';
 const ReviewItem = ({ name, userId, userName, productId, createdAt }) => {
 
     const [productReviews, setProductReviews] = React.useState([]);
-    const [user, setUser] = React.useState({});
 
     React.useEffect(() => {
         if (productId) {
@@ -17,7 +16,7 @@ const ReviewItem = ({ name, userId, userName, productId, createdAt }) => {
     }, [productId]);
 
     const productReview = productReviews ? productReviews.find((review) => userId === review.userId && productId === review.productId) : '';
-    if (user)
+
     return (
             <div className={styles.item}>
                 <div className={styles.top}>

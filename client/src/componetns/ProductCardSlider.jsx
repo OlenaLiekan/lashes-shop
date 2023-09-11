@@ -35,7 +35,6 @@ const ProductCardSlider = ({ img, slides }) => {
                                     </div>          
                                 </SwiperSlide>                            
                             )
-
                             : 
                             ''
                         }

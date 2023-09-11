@@ -184,8 +184,4 @@ export function camelize(str) {
     .split(' ')
     .map((word, index) => (index === 0 ? word : word[0].toUpperCase() + word.slice(1)))
     .join('');
-  /*.replace('ç', 'c')
-        .replace('ã', 'a')
-        .replace('ó', 'o')
-        .replace('í', 'i');*/
 }

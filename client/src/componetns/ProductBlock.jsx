@@ -4,7 +4,7 @@ import { AuthContext } from '../context';
 import { useNavigate } from 'react-router-dom';
 
 
-const ProductBlock = ({path, id, info, name, rating, isLashes, typeId, price, brandId, img}) => {
+const ProductBlock = ({path, id, info, name, rating, isLashes, price, brandId, img}) => {
 
     const navigate = useNavigate();
 

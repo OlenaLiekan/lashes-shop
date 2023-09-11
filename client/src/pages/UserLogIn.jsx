@@ -27,7 +27,7 @@ const UserLogIn = () => {
                         );
                     setUser(data[0]);
                 } catch (error) {
-                    alert('User não encontrado!');
+                    window.alert('User não encontrado!');
                     navigate('/login');
                 }
             }

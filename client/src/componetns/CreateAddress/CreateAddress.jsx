@@ -73,9 +73,6 @@ const CreateAddress = ({userId}) => {
         }
     }
 
-    const data = localStorage.getItem('user');
-    const user = JSON.parse(data);
-
     const success = () => {
         setCreateAddressMode(false);
         window.scrollTo(0, 0);
